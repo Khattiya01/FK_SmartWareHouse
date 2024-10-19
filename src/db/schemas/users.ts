@@ -1,0 +1,55 @@
+import { boolean, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+import { v4 as uuidv4 } from "uuid";
+import { z } from "zod";
+
+export const usersTable = pgTable("users", {
+  id: uuid("id").default(uuidv4()).primaryKey(),
+  username: varchar("username").notNull().unique(),
+  password: varchar("password").notNull(),
+  is_active: boolean("is_active").default(true),
+  role: varchar("role").notNull(), // 'admin' หรือ 'user'
+  created_at: timestamp("created_at").defaultNow(),
+  updated_at: timestamp("updated_at").$onUpdate(() => new Date()),
+});
+
+export type InsertUser = typeof usersTable.$inferInsert;
+export type SelectUser = typeof usersTable.$inferSelect;
+export type DeleteUser = {
+  id: string;
+};
+export type UpdateUser = {
+  username?: string;
+  password?: string;
+  role?: string;
+  id: string;
+  is_active?: boolean;
+  created_at?: Date | null | undefined;
+  updated_at?: Date | null | undefined;
+};
+
+export const insertUserSchema = createInsertSchema(usersTable, {
+  role: z.string().min(1, { message: "Role is required" }),
+  password: z
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .max(10, "Password must not exceed 10 characters"),
+  username: z.string().min(1, { message: "Username is required" }),
+  is_active: z.boolean().optional(),
+});
+
+export const updateUserSchema = createInsertSchema(usersTable, {
+  id: z.string().min(1, { message: "User ID is required" }),
+  username: z.string().optional(),
+  password: z.string().optional(),
+  role: z.string().optional(),
+  is_active: z.boolean().optional(),
+});
+
+export const deleteUserSchema = createInsertSchema(usersTable, {
+  id: z.string().min(1, { message: "User ID is required" }),
+  username: z.string().optional(),
+  password: z.string().optional(),
+  role: z.string().optional(),
+  is_active: z.boolean().optional(),
+});
