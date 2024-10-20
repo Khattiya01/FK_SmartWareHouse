@@ -9,6 +9,7 @@ export const categoryTable = pgTable("category", {
   id: uuid("id").default(uuidv4()).primaryKey(),
   image_url: text("image_url").notNull(),
   name: varchar("name").unique().notNull(),
+  abbreviation: varchar("abbreviation").unique().notNull(),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").$onUpdate(() => new Date()),
 });
@@ -29,6 +30,7 @@ export type Updatecategory = {
   id: string;
   image_url?: string;
   name?: string;
+  abbreviation?: string;
   created_at?: Date | null | undefined;
   updated_at?: Date | null | undefined;
 };
@@ -36,16 +38,19 @@ export type Updatecategory = {
 export const insertCategorySchema = createInsertSchema(categoryTable, {
   image_url: z.string().min(1, { message: "File URL is required" }),
   name: z.string().min(1, { message: "Category name is required" }),
+  abbreviation: z.string().min(1, { message: "Abbreviation is required" }),
 });
 
 export const updateCategorySchema = createInsertSchema(categoryTable, {
   id: z.string().min(1, { message: "Category ID is required" }),
   image_url: z.string().optional(),
   name: z.string().min(1, { message: "Category name is required" }),
+  abbreviation: z.string().min(1, { message: "Abbreviation is required" }),
 });
 
 export const deleteCategorySchema = createInsertSchema(categoryTable, {
   id: z.string().min(1, { message: "Category ID is required" }),
   image_url: z.string().optional(),
   name: z.string().optional(),
+  abbreviation: z.string().optional(),
 });

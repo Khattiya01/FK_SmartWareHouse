@@ -1,6 +1,12 @@
 import { IoHomeOutline } from "react-icons/io5";
 import { SidebarItem } from "./sidebarItem";
 import { SidebarItemLogout } from "./sidebarItemLogout";
+import { RiContactsBook3Line, RiProductHuntLine } from "react-icons/ri";
+import { FaWpforms } from "react-icons/fa";
+import { PiGooglePhotosLogo } from "react-icons/pi";
+import { BiCategory } from "react-icons/bi";
+import { HiOutlineUsers } from "react-icons/hi2";
+import { MdOutlinePrivacyTip } from "react-icons/md";
 
 const AdminSidebar = () => {
   // states
@@ -16,46 +22,40 @@ const AdminSidebar = () => {
       path: `/admin/manage-home-detail`,
     },
     {
-      icon: <></>,
+      icon: <PiGooglePhotosLogo style={{ width: "24px", height: "24px" }} />,
       name: "จัดการโลโก้",
       path: `/admin/manage-logo`,
     },
     {
-      icon: <></>,
+      icon: <BiCategory style={{ width: "24px", height: "24px" }} />,
       name: "จัดการหมวดหมู่",
       path: `/admin/manage-category`,
     },
     {
-      icon: <></>,
+      icon: <RiProductHuntLine style={{ width: "24px", height: "24px" }} />,
       name: "จัดการผลิตภัณฑ์",
       path: `/admin/manage-product`,
     },
     {
-      icon: <></>,
+      icon: <RiContactsBook3Line style={{ width: "24px", height: "24px" }} />,
       name: "จัดการการติดต่อ",
       path: `/admin/manage-contact`,
     },
     {
-      icon: <></>,
+      icon: <FaWpforms style={{ width: "24px", height: "24px" }} />,
       name: "จัดการแบบฟอร์มการติดต่อ",
-      path: `/admin/manage-contact-form`,
+      path: `/admin/manage-form-contact`,
     },
     {
-      icon: <></>,
+      icon: <HiOutlineUsers style={{ width: "24px", height: "24px" }} />,
       name: "จัดการผู้ใช้",
       path: `/admin/manage-users`,
     },
     {
-      icon: <></>,
+      icon: <MdOutlinePrivacyTip style={{ width: "24px", height: "24px" }} />,
       name: "จัดการนโยบายและความเป็นส่วนตัว",
       path: `/admin/manage-privacy-policy`,
     },
-    // {
-    //   icon: <></>,
-    //   name: 'Chat',
-    //   path: `/chat`,
-    //   disabled: true,
-    // },
   ];
 
   return (

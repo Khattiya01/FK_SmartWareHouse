@@ -3,7 +3,6 @@
 import {
   deleteProductSchema,
   insertContactSchema,
-  insertProductSchema,
   updatelogoSchema,
 } from "@/db/schemas";
 import { contactException } from "@/exceptions/contact";

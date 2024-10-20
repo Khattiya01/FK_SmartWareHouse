@@ -94,6 +94,7 @@ export const addCategory = async (data: InsertCategory) => {
     id: uuidv4(),
     name: data.name,
     image_url: data.image_url,
+    abbreviation: data.abbreviation
   });
 };
 

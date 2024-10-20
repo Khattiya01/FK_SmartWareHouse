@@ -52,14 +52,14 @@ const AdminNavbar = async () => {
         }}
       >
         <Link href={"/"}>
-          <Box className=" overflow-hidden sm:w-[277px] w-[120px]">
+          <Box className=" overflow-hidden sm:w-[277px] w-[88px]">
             <Box className="relative w-[277px] h-[80px] ">
               <Image
                 src={logoURL}
                 alt="logo-main-website"
                 layout="fill"
                 objectFit="cover"
-                className="hover:cursor-pointer hover:opacity-60 opacity-100 transition ease-in-out duration-300 ml-8"
+                className="hover:cursor-pointer hover:opacity-60 opacity-100 transition ease-in-out duration-300 "
               />
             </Box>
           </Box>

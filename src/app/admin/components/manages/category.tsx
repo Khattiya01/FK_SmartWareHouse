@@ -1,43 +1,39 @@
 "use client";
 
-import { useHomeDetail } from "@/app/hooks/useHomeDetail";
-
 import { useState } from "react";
-import DialogHomeDetail from "../dialogs/dialogAddHomeDetail";
-import { SelectHomePageDetail } from "@/db/schemas";
 import DialogDelete from "@/components/dialogs/dialogDelete";
-import {
-  deleteHomePageDetailAction,
-  updateIsActiveHomePageDetailAction,
-} from "@/actions/homePageDetail";
+import { updateIsActiveHomePageDetailAction } from "@/actions/homePageDetail";
 import useToastStore, { typeStatusTaost } from "@/hooks/useToastStore";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { Box, Text } from "@radix-ui/themes";
-import { TableHomeDetail } from "../tables/tableHomeDetail";
 import ButtonDefault from "@/components/buttons/buttonDefault";
 import { IoMdAdd } from "react-icons/io";
+import { TableCategory } from "../tables/tableCategory";
+import { useCategory } from "@/app/hooks/useCategory";
+import { SelectCategory } from "@/db/schemas";
+import { deleteCategoryAction } from "@/actions/category";
 
-export function ManageHomeDetail() {
+export function ManageCategory() {
   // states
   const [openDialogCreateHomeDetail, setOpenDialogCreateHomeDetail] =
     useState<boolean>(false);
   const [activeHomeDetailData, setActiveHomeDetailData] = useState<
-    SelectHomePageDetail | undefined
+    SelectCategory | undefined
   >(undefined);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
   // hooks
   const {
-    data: dataHomeDetail,
-    refetch: refetchHomeDetail,
+    data: dataCategory,
+    refetch: refetchCategory,
     isLoading,
-  } = useHomeDetail();
+  } = useCategory();
   const showToast = useToastStore((state) => state.show);
 
   // functions
 
   const onSuccessDailogHomeDetail = () => {
-    refetchHomeDetail();
+    refetchCategory();
     setOpenDialogCreateHomeDetail(false);
     setActiveHomeDetailData(undefined);
   };
@@ -51,38 +47,30 @@ export function ManageHomeDetail() {
     setOpenDialogCreateHomeDetail(true);
   };
 
-  const handleOpenDailogEdit = (data: SelectHomePageDetail) => {
+  const handleOpenDailogEdit = (data: SelectCategory) => {
     setActiveHomeDetailData(data);
     setOpenDialogCreateHomeDetail(true);
   };
 
   const handleSubmitDelete = async () => {
     if (activeHomeDetailData) {
-      await deleteHomePageDetailAction({
+      await deleteCategoryAction({
         id: activeHomeDetailData.id,
-        file_url:
-          activeHomeDetailData.banner_image_url +
-          "," +
-          activeHomeDetailData.contact_image_url +
-          "," +
-          activeHomeDetailData.content_02_image_url,
+        file_url: activeHomeDetailData.image_url,
       })
         .then((res) => {
           if (res.success) {
-            refetchHomeDetail();
+            refetchCategory();
             showToast(
-              "ลบรายละเอียดหน้าแรกสำเร็จ",
+              "ลบหมวดหมู่สำเร็จ",
               "",
               new Date(),
               typeStatusTaost.success
             );
           } else {
-            console.error(
-              "Error delete deleteHomePageDetailAction:",
-              res.message
-            );
+            console.error("Error delete delete category:", res.message);
             showToast(
-              "ลบรายละเอียดหน้าแรกไม่สำเร็จ",
+              "ลบหมวดหมู่ไม่สำเร็จ",
               "",
               new Date(),
               typeStatusTaost.error
@@ -90,10 +78,7 @@ export function ManageHomeDetail() {
           }
         })
         .catch((err) => {
-          console.error(
-            "Error delete deleteHomePageDetailAction:",
-            err.message
-          );
+          console.error("Error delete delete category:", err.message);
         })
         .finally(() => {
           handleCloseDialogDelete();
@@ -107,7 +92,7 @@ export function ManageHomeDetail() {
     setOpenDialogDelete(false);
     setActiveHomeDetailData(undefined);
   };
-  const handleOpenDialogDelete = (data: SelectHomePageDetail) => {
+  const handleOpenDialogDelete = (data: SelectCategory) => {
     setActiveHomeDetailData(data);
     setOpenDialogDelete(true);
   };
@@ -121,7 +106,7 @@ export function ManageHomeDetail() {
     await updateIsActiveHomePageDetailAction({ formData, id })
       .then((res) => {
         console.log(res?.message);
-        refetchHomeDetail();
+        refetchCategory();
       })
       .catch((err) => {
         console.error("Error create logo:", err?.message);
@@ -135,7 +120,7 @@ export function ManageHomeDetail() {
       <Box style={{ width: "100%", display: "flex", justifyContent: "end" }}>
         <ButtonDefault onClick={handleOpenDailogCreate}>
           <IoMdAdd size={"20px"} />
-          <Text>เพิ่ม รายละเอียดหน้าแรก</Text>
+          <Text>เพิ่ม หมวดหมู่</Text>
         </ButtonDefault>
       </Box>
 
@@ -148,23 +133,22 @@ export function ManageHomeDetail() {
         }}
       >
         {!isLoading ? (
-          <TableHomeDetail
-            rows={dataHomeDetail?.result}
+          <TableCategory
+            rows={dataCategory?.result}
             handleClickEdit={handleOpenDailogEdit}
             handleOpenDialogDelete={handleOpenDialogDelete}
-            handleClickIsActive={handleClickIsActive}
           />
         ) : (
           <BoxLoadingData height="300px" />
         )}
 
-        <DialogHomeDetail
+        {/* <DialogHomeDetail
           dialogType={activeHomeDetailData ? "edit" : "create"}
           data={activeHomeDetailData}
           onSuccess={onSuccessDailogHomeDetail}
           onCancel={onCancelDailogHomeDetail}
           isOpen={openDialogCreateHomeDetail}
-        />
+        /> */}
 
         <DialogDelete
           handleClose={handleCloseDialogDelete}

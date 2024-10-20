@@ -187,7 +187,6 @@ export async function deleteHomePageDetailAction({
 
     if (id) {
       const allFilesURL = file_url.split(",");
-      console.log("allFilesURL", allFilesURL);
       await deleteHomePageDetail(id).then(async () => {
         for (const file of allFilesURL) {
           await deleteFileAction({ file_url: file });

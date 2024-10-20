@@ -10,7 +10,6 @@ import { categoryException } from "@/exceptions/category";
 import { homePageDetailException } from "@/exceptions/homePageDetail";
 import { logoException } from "@/exceptions/logos";
 import { addCategory, deleteCategory } from "@/services/category";
-import { deleteFiles } from "@/services/files";
 import {
   editHomePageDetailOtherIsActiveFalse,
   editIsActiveHomePageDetail,
@@ -18,25 +17,29 @@ import {
 } from "@/services/homeDetail";
 import { editLogos } from "@/services/logo";
 import { revalidatePath } from "next/cache";
+import { deleteFileAction } from "./files";
 
 export async function createCategoryAction(formData: FormData) {
   try {
     const name = formData.get("name")?.toString();
     const image_url = formData.get("image_url")?.toString();
+    const abbreviation = formData.get("abbreviation")?.toString();
 
     const validatedFields = insertCategorySchema.safeParse({
       name: name,
       image_url: image_url,
+      abbreviation: abbreviation,
     });
 
     if (!validatedFields.success) {
       return categoryException.misMatchData();
     }
 
-    if (name && image_url) {
+    if (name && image_url && abbreviation) {
       await addCategory({
         name: name,
         image_url: image_url,
+        abbreviation: abbreviation,
       });
 
       revalidatePath("/admin");
@@ -47,7 +50,7 @@ export async function createCategoryAction(formData: FormData) {
       };
     } else {
       return categoryException.createError(
-        "Category name or file url is required."
+        "Category name or file url or abbreviation is required."
       );
     }
   } catch (error: unknown) {
@@ -181,7 +184,7 @@ export async function deleteCategoryAction({
 
       await deleteCategory(id).then(async () => {
         for (const file of allFilesURL) {
-          await deleteFiles(file);
+          await deleteFileAction({ file_url: file });
         }
       });
 
@@ -194,7 +197,7 @@ export async function deleteCategoryAction({
     } else {
       return categoryException.createError("id is required.");
     }
-  }  catch (error: unknown) {
+  } catch (error: unknown) {
     if (error instanceof Error) {
       return categoryException.createError(error?.message);
     }
