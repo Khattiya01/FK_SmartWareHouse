@@ -20,14 +20,15 @@ const ContentContact = (props: ContentContactProps) => {
       align={"center"}
       gap={"4"}
       width={"100%"}
-      className=" relative overflow-hidden bg-slate-400 p-4"
-      style={{
-        backgroundImage: `url(${contact?.bg_image ?? "/images/city.png)"}`,
-        backgroundRepeat: "",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className=" relative overflow-hidden p-4"
     >
+      <Image
+        src={contact?.bg_image ?? "/images/city.png)"}
+        alt="bg-contact"
+        layout="fill"
+        objectFit="cover"
+        className=" absolute z-[-1]"
+      />
       <Text className=" text-6xl font-bold  text-white mt-[94px] mb-6">
         ติดต่อเรา
       </Text>

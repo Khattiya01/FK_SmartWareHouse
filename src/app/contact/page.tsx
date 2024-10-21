@@ -4,7 +4,7 @@ import { getContactIsActive } from "@/services/contact";
 
 const ContactPage = async () => {
   const contact = await getContactIsActive();
-  if(!contact) return <></>
+  if(!contact?.bg_image) return <></>
   return <ContentContact contact={contact} />;
 };
 
