@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { db } from "@/db";
 import {
   categoryTable,
@@ -7,8 +7,7 @@ import {
   SelectCategory,
   SelectCategoryIncludeProduct,
   SelectProduct,
-  UpdateUser,
-  usersTable,
+  Updatecategory,
 } from "@/db/schemas";
 import { v4 as uuidv4 } from "uuid";
 import { homePageDetailTable } from "@/db/schemas/homeDetail";
@@ -18,7 +17,8 @@ export const getCategory = async () => {
     const categories = await db
       .select()
       .from(categoryTable)
-      .fullJoin(productsTable, eq(categoryTable.id, productsTable.category_id));
+      .fullJoin(productsTable, eq(categoryTable.id, productsTable.category_id))
+      .orderBy(desc(categoryTable.created_at));
 
     const groupedCategoriesResult = categories.reduce(
       (
@@ -128,15 +128,17 @@ export const addCategory = async (data: InsertCategory) => {
   });
 };
 
-export const editUser = async (data: UpdateUser) => {
+export const editCategory = async (data: Updatecategory) => {
   await db
-    .update(usersTable)
+    .update(categoryTable)
     .set({
-      username: data.username,
-      role: data.role,
+      id: data.id,
+      name: data.name,
+      image_url: data.image_url,
+      abbreviation: data.abbreviation,
     })
-    .where(eq(usersTable.id, data.id))
-    .returning({ id: usersTable.id });
+    .where(eq(categoryTable.id, data.id))
+    .returning({ id: categoryTable.id });
 };
 
 export const editHomePageDetailOtherIsActiveFalse = async (

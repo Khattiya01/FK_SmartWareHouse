@@ -5,6 +5,7 @@ import { ManageHomeDetail } from "../components/manages/homeDetail";
 import { ManageFormContact } from "../components/manages/formContact";
 import { ManageCategory } from "../components/manages/category";
 import { ManageProduct } from "../components/manages/product";
+import { ManageLogo } from "../components/manages/logo";
 
 export default async function AdminManagePage({
   params,
@@ -17,7 +18,7 @@ export default async function AdminManagePage({
   return (
     <Flex width={"100%"} direction={"column"} gap={"4"} p={"4"}>
       {manageName === "manage-home-detail" && <ManageHomeDetail />}
-      {/* {manageName === "manage-logo" && <ManageHomeDetail />} */}
+      {manageName === "manage-logo" && <ManageLogo />}
       {manageName === "manage-category" && <ManageCategory />}
       {manageName === "manage-product" && <ManageProduct />}
       {manageName === "manage-form-contact" && <ManageFormContact />}

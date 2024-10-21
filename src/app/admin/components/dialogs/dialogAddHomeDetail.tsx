@@ -4,8 +4,11 @@ import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import InputFormManage from "@/components/inputs/inputFormManage";
 import ButtonDefault from "@/components/buttons/buttonDefault";
-import { createHomePageDetailAction } from "@/actions/homePageDetail";
-import { createFileAction } from "@/actions/files";
+import {
+  createHomePageDetailAction,
+  updateHomePageDetailAction,
+} from "@/actions/homePageDetail";
+import { createFileAction, deleteFileAction } from "@/actions/files";
 import { CreatHomePageDetailType } from "@/types/requests/createHomeDetail";
 import { CreateHomePageDetail } from "@/schemas/createHomePageDetail";
 import { SelectHomePageDetail } from "@/db/schemas";
@@ -146,19 +149,19 @@ const DialogHomeDetail = ({
     setValue("contact_image_url", newFile);
   };
 
-  const onSubmitHandler = async (data: CreatHomePageDetailType) => {
-    console.log("data", data);
+  const onSubmitHandler = async (payload: CreatHomePageDetailType) => {
+    console.log("payload", payload);
 
     const formData1 = new FormData();
     const formData2 = new FormData();
     const formData3 = new FormData();
-    Array.from(data.banner_image_url).forEach((file) => {
+    Array.from(payload.banner_image_url).forEach((file) => {
       formData1.append("file", file);
     });
-    Array.from(data.contact_image_url).map((file) => {
+    Array.from(payload.contact_image_url).map((file) => {
       formData2.append("file", file);
     });
-    Array.from(data.content_02_image_url).map((file) => {
+    Array.from(payload.content_02_image_url).map((file) => {
       formData3.append("file", file);
     });
     const resbanner_image_url = await createFileAction(formData1);
@@ -166,9 +169,9 @@ const DialogHomeDetail = ({
     const rescontent_02_image_url = await createFileAction(formData3);
 
     const fd = new FormData();
-    fd.append("content_01_title", data.content_01_title);
-    fd.append("content_01_detail", data.content_01_detail);
-    fd.append("content_02_detail", data.content_02_detail);
+    fd.append("content_01_title", payload.content_01_title);
+    fd.append("content_01_detail", payload.content_01_detail);
+    fd.append("content_02_detail", payload.content_02_detail);
 
     if (rescontent_02_image_url.result?.file_url) {
       fd.append(
@@ -183,7 +186,39 @@ const DialogHomeDetail = ({
       fd.append("contact_image_url", rescontact_image_url.result?.file_url);
     }
     setIsLoadingSubmit(true);
-    if (dialogType === "edit") {
+    if (dialogType === "edit" && data?.id) {
+      const All_file_url =
+        data.banner_image_url +
+        "," +
+        data.contact_image_url +
+        "," +
+        data.content_02_image_url;
+      for (const file of All_file_url.split(",")) {
+        await deleteFileAction({ file_url: file });
+      }
+      await updateHomePageDetailAction({ formData: fd, id: data.id })
+        .then((res) => {
+          console.log(res?.message);
+          setIsLoadingSubmit(false);
+          onSuccess();
+          showToast(
+            "เพิ่มรายละเอียดหน้าแรกสำเร็จ",
+            "",
+            new Date(),
+            typeStatusTaost.success
+          );
+          clearData();
+        })
+        .catch((err) => {
+          console.error("Error create logo:", err?.message);
+          setIsLoadingSubmit(false);
+          showToast(
+            "เพิ่มรายละเอียดหน้าแรกไม่สำเร็จ",
+            "",
+            new Date(),
+            typeStatusTaost.error
+          );
+        });
     }
 
     if (dialogType === "create") {
@@ -281,8 +316,6 @@ const DialogHomeDetail = ({
     preData.contact_image_url.push(
       responseFullContact_image_url ? responseFullContact_image_url[0] : []
     );
-
-    console.log("preData", preData);
 
     // Set the values after all data is fetched
     setValue("content_01_title", data.content_01_title);

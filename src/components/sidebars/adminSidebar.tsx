@@ -25,7 +25,6 @@ const AdminSidebar = () => {
       icon: <PiGooglePhotosLogo style={{ width: "24px", height: "24px" }} />,
       name: "จัดการโลโก้",
       path: `/admin/manage-logo`,
-      disabled: true,
     },
     {
       icon: <BiCategory style={{ width: "24px", height: "24px" }} />,

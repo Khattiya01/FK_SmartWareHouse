@@ -17,6 +17,7 @@ const FormContact = () => {
     register,
     handleSubmit,
     reset,
+    formState: { errors },
   } = useForm<InsertContactForm>({
     defaultValues: {},
     resolver: zodResolver(insertContactFormSchema),
@@ -58,16 +59,31 @@ const FormContact = () => {
       <Text className=" font-bold text-2xl text-white text-center">
         กรอกข้อมูลติดต่อ
       </Text>
-      <InputForm placeholder={"ชื่อ"} register={{ ...register("name") }} />
-      <InputForm placeholder={"อีเมล"} register={{ ...register("email") }} />
+      <InputForm
+        placeholder={"ชื่อ"}
+        register={{ ...register("name") }}
+        msgError={errors.name?.message}
+      />
+      <InputForm
+        placeholder={"อีเมล"}
+        register={{ ...register("email") }}
+        type="email"
+        msgError={errors.email?.message}
+      />
       <InputForm
         placeholder={"เบอร์โทรศัพท์"}
         register={{ ...register("phone") }}
+        msgError={errors.phone?.message}
       />
-      <InputForm placeholder={"หัวข้อ"} register={{ ...register("title") }} />
+      <InputForm
+        placeholder={"หัวข้อ"}
+        register={{ ...register("title") }}
+        msgError={errors.title?.message}
+      />
       <TextAreaForm
         placeholder={"ข้อความ"}
         register={{ ...register("message") }}
+        msgError={errors.message?.message}
       />
       <Button variant="solid">ส่งข้อความ</Button>
     </form>

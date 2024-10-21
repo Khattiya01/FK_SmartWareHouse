@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute } from "react";
+import { FormEvent, HTMLInputTypeAttribute } from "react";
 
 type InputFormManageProps = {
   register?: React.DetailedHTMLProps<
@@ -24,6 +24,14 @@ const InputFormManage = ({
   required,
   showLabel = true,
 }: InputFormManageProps) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    if (/^\d*$/.test(value)) {
+      event.target.value = value;
+    } else if(type === "number" ){
+      event.target.value = value.replace(/[^0-9]/g, "");
+    }
+  };
   return (
     <div className=" w-full">
       {showLabel && (
@@ -47,6 +55,7 @@ const InputFormManage = ({
           {...register}
           maxLength={type === "to" || type === "tel" ? 10 : undefined}
           placeholder={placeholder}
+          onInput={handleInputChange}
           className={`no-spinners border rounded-lg text-black  p-4 w-full h-[44px] focus:border-gray focus:outline-none `}
         />
       </div>

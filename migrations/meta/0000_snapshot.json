@@ -1,5 +1,5 @@
 {
-  "id": "92cbc453-3218-4a10-b769-86ea8eb429eb",
+  "id": "639b141a-8168-4760-8c2f-efa1817d13ce",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -13,7 +13,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'11d871f1-0a34-4a69-82ee-73f152911d3f'"
+          "default": "'359134e8-208e-48a8-8136-2c7290a18c32'"
         },
         "username": {
           "name": "username",
@@ -76,7 +76,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'6e35e276-0a64-4918-82aa-f381541c9ca1'"
+          "default": "'5a55a7e9-c30d-486e-86f1-4596cfc0c827'"
         },
         "file_url": {
           "name": "file_url",
@@ -130,13 +130,13 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'3c033b87-48e0-458f-9732-8f5ade86b7c0'"
+          "default": "'6fe36035-d7a4-461d-89c2-0662fc7ccc82'"
         },
         "image_url": {
           "name": "image_url",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "is_active": {
           "name": "is_active",
@@ -173,7 +173,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'5c317f16-4a65-4272-ad78-8ac154b2d484'"
+          "default": "'2954ace0-6719-4092-ab50-3dbd4d5f970d'"
         },
         "banner_image_url": {
           "name": "banner_image_url",
@@ -247,7 +247,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'19ea0d81-c60a-41bc-8d53-06b94d4dec60'"
+          "default": "'a22eb306-c4c9-4d44-b5c8-1053f8805487'"
         },
         "product_id": {
           "name": "product_id",
@@ -394,7 +394,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'8b5af338-f455-404d-9df0-301995f259a7'"
+          "default": "'78562e24-8269-4ee7-a608-d82bc822de3c'"
         },
         "image_url": {
           "name": "image_url",
@@ -457,7 +457,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'e55daa1c-8003-412b-8086-a86b8549669d'"
+          "default": "'1c829523-bbcc-4b0e-bc3f-dd496332d3a3'"
         },
         "address": {
           "name": "address",
@@ -584,7 +584,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'03ea4056-7b1c-4a51-bd53-849c6aa01b12'"
+          "default": "'ee2c6cfb-6958-473a-b405-bd23384aa181'"
         },
         "name": {
           "name": "name",

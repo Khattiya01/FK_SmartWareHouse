@@ -2,10 +2,9 @@ import { useForm } from "react-hook-form";
 
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import InputFormManage from "@/components/inputs/inputFormManage";
 import ButtonDefault from "@/components/buttons/buttonDefault";
 import { createFileAction, deleteFileAction } from "@/actions/files";
-import { SelectCategory } from "@/db/schemas";
+import { Selectlogo } from "@/db/schemas";
 import { Box, Spinner, Text } from "@radix-ui/themes";
 import ButtonOutline from "@/components/buttons/buttonOutline";
 import UploadField from "@/components/uploadFIle/uploadField";
@@ -16,24 +15,24 @@ import { DialogComponent } from "@/components/alertDialogs/dialog.component";
 import AlertDialogComponent from "@/components/alertDialogs/alertDialog";
 import { fetchFileByURL, fetchImages } from "@/api/file";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
-import { CreatCategoryType } from "@/types/requests/createCategory";
-import { CreateCategory } from "@/schemas/createCategory";
-import { createCategoryAction, updateCategoryAction } from "@/actions/category";
+import { CreateLogoType } from "@/types/requests/createLogo";
+import { CreateLogo } from "@/schemas/createLogo";
+import { createLogoAction, updateLogoAction } from "@/actions/logos";
 
-type DialogAddCategoryProps = {
+type DialogAddLogoProps = {
   dialogType?: "create" | "edit";
-  data: SelectCategory | undefined;
+  data: Selectlogo | undefined;
   onSuccess: () => void;
   onCancel: () => void;
   isOpen: boolean;
 };
-const DialogAddCategory = ({
+const DialogAddLogo = ({
   onSuccess,
   onCancel,
   isOpen,
   data,
   dialogType = "create",
-}: DialogAddCategoryProps) => {
+}: DialogAddLogoProps) => {
   // hooks
   const showToast = useToastStore((state) => state.show);
 
@@ -52,17 +51,16 @@ const DialogAddCategory = ({
   // function
 
   const {
-    register,
     handleSubmit,
     formState: { errors },
     reset,
     watch,
     setValue,
-  } = useForm<CreatCategoryType>({
+  } = useForm<CreateLogoType>({
     defaultValues: {
       image_url: [],
     },
-    resolver: zodResolver(CreateCategory),
+    resolver: zodResolver(CreateLogo),
   });
 
   const onCheckFileUpload = async (
@@ -107,7 +105,7 @@ const DialogAddCategory = ({
       return [...currentFile, ...mockFiles];
     }
   };
-  const handleDeleteFileBanner = (file: blobToFile) => {
+  const handleDeleteFile = (file: blobToFile) => {
     const oldFile: blobToFile[] = watch("image_url");
     const oldFileDelete = fileDelete;
     const newFile = oldFile.filter((f) => {
@@ -120,7 +118,7 @@ const DialogAddCategory = ({
     setValue("image_url", newFile);
   };
 
-  const onSubmitHandler = async (payload: CreatCategoryType) => {
+  const onSubmitHandler = async (payload: CreateLogoType) => {
     console.log("payload", payload);
 
     const formData = new FormData();
@@ -132,8 +130,6 @@ const DialogAddCategory = ({
     const resImage_url = await createFileAction(formData);
 
     const fd = new FormData();
-    fd.append("name", payload.name);
-    fd.append("abbreviation", payload.abbreviation);
 
     if (resImage_url.result?.file_url) {
       fd.append("image_url", resImage_url.result?.file_url);
@@ -145,13 +141,13 @@ const DialogAddCategory = ({
       for (const file of All_file_url.split(",")) {
         await deleteFileAction({ file_url: file });
       }
-      await updateCategoryAction({ formData: fd, id: data.id })
+      await updateLogoAction({ formData: fd, id: data.id })
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
           onSuccess();
           showToast(
-            "แก้ไขหมวดหมู่สำเร็จ",
+            "แก้ไขโลโก้สำเร็จ",
             "",
             new Date(),
             typeStatusTaost.success
@@ -162,7 +158,7 @@ const DialogAddCategory = ({
           console.error("Error create logo:", err?.message);
           setIsLoadingSubmit(false);
           showToast(
-            "แก้ไขหมวดหมู่ไม่สำเร็จ",
+            "แก้ไขโลโก้ไม่สำเร็จ",
             "",
             new Date(),
             typeStatusTaost.error
@@ -171,13 +167,13 @@ const DialogAddCategory = ({
     }
 
     if (dialogType === "create") {
-      await createCategoryAction(fd)
+      await createLogoAction(fd)
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
           onSuccess();
           showToast(
-            "เพิ่มหมวดหมู่สำเร็จ",
+            "เพิ่มโลโก้สำเร็จ",
             "",
             new Date(),
             typeStatusTaost.success
@@ -188,7 +184,7 @@ const DialogAddCategory = ({
           console.error("Error create logo:", err?.message);
           setIsLoadingSubmit(false);
           showToast(
-            "เพิ่มหมวดหมู่ไม่สำเร็จ",
+            "เพิ่มโลโก้ไม่สำเร็จ",
             "",
             new Date(),
             typeStatusTaost.error
@@ -210,13 +206,11 @@ const DialogAddCategory = ({
     reset();
   };
 
-  const fetchFileData = async (data: SelectCategory) => {
+  const fetchFileData = async (data: Selectlogo) => {
     setIsLoadingData(true);
     const preData: any = {
       id: data.id,
       image_url: [],
-      name: data.name,
-      abbreviation: data.abbreviation,
       created_at: data.created_at,
       updated_at: data.updated_at,
     };
@@ -229,8 +223,6 @@ const DialogAddCategory = ({
 
     console.log("preData", preData);
 
-    setValue("name", data.name);
-    setValue("abbreviation", data.abbreviation);
     setValue("image_url", preData.image_url);
     setIsLoadingData(false);
   };
@@ -246,7 +238,7 @@ const DialogAddCategory = ({
       <DialogComponent
         isOpen={isOpen}
         className=" lg:max-w-5xl sm:max-w-lg"
-        title={data ? "แก้ไขหมวดหมู่" : "เพิ่มหมวดหมู่"}
+        title={data ? "แก้ไขโลโก้" : "เพิ่มโลโก้"}
         content={
           dialogType === "edit" && isLoadingData ? (
             <BoxLoadingData minHeight="666px" />
@@ -257,22 +249,6 @@ const DialogAddCategory = ({
             >
               <div className=" flex flex-col w-full max-h-[600px] pl-1 pr-1 overflow-y-auto ">
                 <div className=" flex gap-6 flex-col ">
-                  <InputFormManage
-                    name={"ชื่อหมวดหมู่ (คำย่อ)"}
-                    placeholder="ชื่อหมวดหมู่ (คำย่อ)"
-                    register={{ ...register("abbreviation") }}
-                    msgError={errors.abbreviation?.message}
-                    showLabel
-                    required
-                  />
-                  <InputFormManage
-                    name={"ชื่อหมวดหมู่"}
-                    placeholder="ชื่อหมวดหมู่"
-                    register={{ ...register("name") }}
-                    msgError={errors.name?.message}
-                    showLabel
-                    required
-                  />
                   <Box
                     style={{ gap: 1, display: "flex", flexDirection: "column" }}
                   >
@@ -285,7 +261,7 @@ const DialogAddCategory = ({
                         lineHeight: "28px",
                       }}
                     >
-                      อัปโหลดรูปภาพ หมวดหมู่
+                      อัปโหลดรูปภาพ โลโก้
                       <div className=" text-red-500">*</div>
                     </label>
                     {isLoadingUploadFile ? (
@@ -296,7 +272,6 @@ const DialogAddCategory = ({
                           display: "flex",
                           gap: "8px",
                           overflowX: "auto",
-                          height: "242px",
                           marginTop: "-10px",
                         }}
                         className=" lg:max-w-[976px] max-w-[464px]"
@@ -344,7 +319,8 @@ const DialogAddCategory = ({
                             <ListFileCardDragField
                               files={watch("image_url")}
                               setFiles={(f) => setValue("image_url", f)}
-                              onClickDelete={(f) => handleDeleteFileBanner(f)}
+                              onClickDelete={(f) => handleDeleteFile(f)}
+                              type="logo"
                             />
                           )}
                       </Box>
@@ -411,4 +387,4 @@ const DialogAddCategory = ({
   );
 };
 
-export default DialogAddCategory;
+export default DialogAddLogo;

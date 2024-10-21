@@ -43,7 +43,7 @@ export function TableProduct({
           <TableHead className="text-white font-bold text-base w-40">
             หมายเหตุ
           </TableHead>
-          <TableHead className="text-white font-bold text-base"></TableHead>
+          <TableHead className="text-white font-bold text-base w-16"></TableHead>
           <TableHead className="text-right w-20"></TableHead>
         </TableRow>
       </TableHeader>

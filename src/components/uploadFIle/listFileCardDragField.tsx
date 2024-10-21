@@ -7,14 +7,16 @@ import { Box } from "@radix-ui/themes";
 import { IoIosClose } from "react-icons/io";
 import ErrorField from "./errorField";
 import { blobToFile } from "@/types/file";
+import Image from "next/image";
 
 type ListFileCardFieldProps = {
   files: blobToFile[];
   setFiles: (files: blobToFile[]) => void;
   onClickDelete: (file: blobToFile) => void;
+  type?: "logo" | undefined;
 };
 const ListFileCardDragField = (props: ListFileCardFieldProps) => {
-  const { files, setFiles, onClickDelete } = props;
+  const { files, setFiles, onClickDelete, type } = props;
 
   return (
     <Box>
@@ -39,16 +41,22 @@ const ListFileCardDragField = (props: ListFileCardFieldProps) => {
                     cursor: "pointer",
                     borderRadius: "8px",
                     padding: "0px",
-                    width: "168px",
-                    height: "225px",
-                    maxHeight: "225px",
+                    width: type ? "auto" : "168px",
+                    height: type ? "auto" : "225px",
+                    maxHeight: type ? "auto" : "225px",
                     overflow: "hidden",
                   }}
                 >
                   {file?.error ? (
                     <ErrorField />
                   ) : (
-                    <CardImage imageURL={file?.imageURL} />
+                    <>
+                      {type === "logo" ? (
+                        <CardLogo imageURL={file?.imageURL} />
+                      ) : (
+                        <CardImage imageURL={file?.imageURL} />
+                      )}
+                    </>
                   )}
                   <Box
                     onClick={() => {
@@ -175,6 +183,20 @@ const CardImage = ({ imageURL }: { imageURL: string }) => {
         }}
         className=" h-[225px] rounded-8 min-w-[168px] max-h-[225px]"
       />
+    </Box>
+  );
+};
+const CardLogo = ({ imageURL }: { imageURL: string }) => {
+  return (
+    <Box
+      style={{
+        borderRadius: "8px",
+        padding: "0px",
+        overflow: "hidden",
+      }}
+      className=" relative w-[300px] h-[80px] "
+    >
+      <Image src={imageURL} alt="logo" layout="fill" objectFit="cover" />
     </Box>
   );
 };

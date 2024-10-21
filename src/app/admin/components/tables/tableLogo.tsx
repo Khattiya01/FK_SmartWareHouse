@@ -9,35 +9,31 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SelectHomePageDetail } from "@/db/schemas";
+import { Selectlogo } from "@/db/schemas";
+import { Box } from "@radix-ui/themes";
+import Image from "next/image";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-export function TableHomeDetail({
+export function TableLogo({
   rows,
   handleClickEdit,
   handleOpenDialogDelete,
   handleClickIsActive,
 }: {
-  rows: SelectHomePageDetail[] | undefined;
-  handleClickEdit: (item: SelectHomePageDetail) => void;
-  handleOpenDialogDelete: (item: SelectHomePageDetail) => void;
+  rows: Selectlogo[] | undefined;
+  handleClickEdit: (item: Selectlogo) => void;
+  handleOpenDialogDelete: (item: Selectlogo) => void;
   handleClickIsActive: (item: boolean, id: string) => void;
 }) {
   return (
-    <Table className=" min-w-[900px]">
+    <Table className=" min-w-[400px]">
       <TableHeader>
         <TableRow className=" bg-main hover:bg-main ">
           <TableHead className="text-white font-bold text-base">
-            หัวข้อเนื้อหาที่ 1
+            รูปโลโก้
           </TableHead>
-          <TableHead className="text-white font-bold text-base">
-            รายละเอียดเนื้อหาที่ 1
-          </TableHead>
-          <TableHead className="text-white font-bold text-base">
-            รายละเอียดเนื้อหาที่ 2
-          </TableHead>
-          <TableHead className="text-white font-bold text-base w-10"></TableHead>
+          <TableHead className="text-white font-bold text-base w-16"></TableHead>
           <TableHead className="text-right w-20"></TableHead>
         </TableRow>
       </TableHeader>
@@ -47,15 +43,23 @@ export function TableHomeDetail({
           rows.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="font-medium">
-                {item.content_01_title}
+                <Box
+                  style={{
+                    borderRadius: "8px",
+                    padding: "0px",
+                    overflow: "hidden",
+                  }}
+                  className=" relative max-w-[300px] w-full h-[80px] "
+                >
+                  <Image
+                    src={item.image_url}
+                    alt="logo"
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </Box>
               </TableCell>
               <TableCell className="font-medium">
-                {item.content_01_detail}
-              </TableCell>
-              <TableCell className="font-medium">
-                {item.content_02_detail}
-              </TableCell>
-              <TableCell className="font-medium w-16">
                 <ToggleAdmin
                   disabled={item.is_active ? true : false}
                   checked={item.is_active ? true : false}

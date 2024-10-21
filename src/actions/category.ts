@@ -3,13 +3,19 @@
 import {
   deleteCategorySchema,
   insertCategorySchema,
+  updateCategorySchema,
   updateIsActivelogoSchema,
   updatelogoSchema,
 } from "@/db/schemas";
 import { categoryException } from "@/exceptions/category";
 import { homePageDetailException } from "@/exceptions/homePageDetail";
 import { logoException } from "@/exceptions/logos";
-import { addCategory, deleteCategory } from "@/services/category";
+import {
+  addCategory,
+  deleteCategory,
+  editCategory,
+  getCategoryById,
+} from "@/services/category";
 import {
   editHomePageDetailOtherIsActiveFalse,
   editIsActiveHomePageDetail,
@@ -61,7 +67,7 @@ export async function createCategoryAction(formData: FormData) {
   }
 }
 
-export async function updateLogoAction({
+export async function updateCategoryAction({
   formData,
   id,
 }: {
@@ -69,37 +75,51 @@ export async function updateLogoAction({
   id: string;
 }) {
   try {
+    const name = formData.get("name")?.toString();
     const image_url = formData.get("image_url")?.toString();
+    const abbreviation = formData.get("abbreviation")?.toString();
 
-    const validatedFields = updatelogoSchema.safeParse({
-      id,
-      image_url,
+    const validatedFields = updateCategorySchema.safeParse({
+      id: id,
+      name: name,
+      image_url: image_url,
+      abbreviation: abbreviation,
     });
     if (!validatedFields.success) {
-      return logoException.updateFail();
+      return categoryException.updateFail();
     }
 
-    if (image_url && id) {
+    if (name && image_url && abbreviation) {
+      const responseCategoryById = await getCategoryById(id);
+
+      if (!responseCategoryById) {
+        return categoryException.createError("ID not found");
+      }
+
       const payload = {
         id: id,
-        image_url,
+        name: name,
+        image_url: image_url,
+        abbreviation: abbreviation,
       };
-      await editLogos(payload);
+      await editCategory(payload);
 
       revalidatePath("/admin");
       return {
         success: true,
-        message: "update logo successfully",
+        message: "update category successfully",
         result: null,
       };
     } else {
-      return logoException.createError("Image URL or id are required.");
+      return categoryException.createError(
+        "id or name or image_url or abbreviation are required."
+      );
     }
   } catch (error: unknown) {
     if (error instanceof Error) {
-      return logoException.createError(error?.message);
+      return categoryException.createError(error?.message);
     }
-    return logoException.createError("An unknown error occurred.");
+    return categoryException.createError("An unknown error occurred.");
   }
 }
 

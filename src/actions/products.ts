@@ -109,7 +109,7 @@ export async function createProductAction(formData: FormData) {
           product_id: generateProductId,
         });
 
-        revalidatePath("/admin");
+        revalidatePath("/", "layout");
         return {
           success: true,
           message: "Create product successfully",
@@ -172,7 +172,6 @@ export async function updateProductAction({
       remark: remark,
     });
 
-    console.log("validatedFields", validatedFields.error);
     if (!validatedFields.success) {
       return productException.updateFail();
     }
@@ -239,7 +238,7 @@ export async function updateProductAction({
           product_id: generateProductId,
         });
 
-        revalidatePath("/admin");
+        revalidatePath("/", "layout");
         return {
           success: true,
           message: "update product successfully",
@@ -323,7 +322,7 @@ export async function deleteProductAction({
         }
       });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete product successfully",

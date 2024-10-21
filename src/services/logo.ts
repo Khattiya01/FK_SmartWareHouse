@@ -29,6 +29,19 @@ export const getLogosIsActived = async () => {
   }
 };
 
+export const getLogoById = async (id: string) => {
+  try {
+    const data = await db
+      .select()
+      .from(logosTable)
+      .where(eq(logosTable.id, id));
+    return data && data?.length > 0 ? data[0] : undefined;
+  } catch (error) {
+    console.error("Error fetching logos:", error);
+    throw new Error("Could not fetch logos");
+  }
+};
+
 export const addLogos = async (data: Insertlogo) => {
   await db.insert(logosTable).values({
     id: uuidv4(),

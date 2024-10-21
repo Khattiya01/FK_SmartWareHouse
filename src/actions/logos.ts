@@ -15,6 +15,7 @@ import {
   editIsActiveLogos,
   editLogos,
   editLogosOtherIsActiveFalse,
+  getLogoById,
   getLogosIsActived,
 } from "@/services/logo";
 import { revalidatePath } from "next/cache";
@@ -67,6 +68,12 @@ export async function updateLogoAction({
     }
 
     if (image_url && id) {
+      const responseLogoById = await getLogoById(id);
+
+      if (!responseLogoById) {
+        return logoException.createError("ID not found");
+      }
+
       const payload = {
         id: id,
         image_url,
@@ -107,21 +114,20 @@ export async function updateIsActiveLogoAction({
 
     if ((is_active === "true" || is_active === "false") && id) {
       const responseGetLogosIsActived = await getLogosIsActived();
-      console.log("responseGetLogosIsActived", responseGetLogosIsActived)
       if (is_active === "true") {
         if (
           responseGetLogosIsActived &&
-          responseGetLogosIsActived?.length > 0 && (responseGetLogosIsActived[0].id !== id)
+          responseGetLogosIsActived?.length > 0 &&
+          responseGetLogosIsActived[0].id !== id
         ) {
           editLogosOtherIsActiveFalse(responseGetLogosIsActived[0].id);
         }
-      } else {
-        console.log("responseGetLogosIsActived", responseGetLogosIsActived)
-        if (
-          (responseGetLogosIsActived && responseGetLogosIsActived?.length > 0) && responseGetLogosIsActived[0].id === id
-        ) {
-          return logoException.createError("There are no other logos active.");
-        }
+      } else if (
+        responseGetLogosIsActived &&
+        responseGetLogosIsActived?.length > 0 &&
+        responseGetLogosIsActived[0].id === id
+      ) {
+        return logoException.createError("There are no other logos active.");
       }
 
       await editIsActiveLogos({
@@ -129,7 +135,7 @@ export async function updateIsActiveLogoAction({
         is_active: is_active === "true" ? true : false,
       });
 
-      revalidatePath('/', 'layout')
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "update logo successfully",

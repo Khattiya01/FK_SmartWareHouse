@@ -5,7 +5,7 @@ import { z } from "zod";
 
 export const logosTable = pgTable("logos", {
   id: uuid("id").default(uuidv4()).primaryKey(),
-  image_url: text("image_url"),
+  image_url: text("image_url").notNull(),
   is_active: boolean("is_active").default(false),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").$onUpdate(() => new Date()),
@@ -18,7 +18,7 @@ export type Deletelogo = {
 };
 export type Updatelogo = {
   id: string;
-  image_url?: string;
+  image_url: string;
   is_active?: boolean;
   created_at?: Date | null | undefined;
   updated_at?: Date | null | undefined;

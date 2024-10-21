@@ -440,6 +440,7 @@ const DialogAddProduct = ({
                     msgError={errors.price?.message}
                     showLabel
                     required
+                    type="number"
                   />
                   <InputFormManage
                     name={"ที่อยู่"}
@@ -478,6 +479,7 @@ const DialogAddProduct = ({
                     placeholder="รหัสไปรษณีย์"
                     register={{ ...register("postal_code") }}
                     msgError={errors.postal_code?.message}
+                    type="number"
                     showLabel
                     required
                   />
@@ -486,16 +488,16 @@ const DialogAddProduct = ({
                     placeholder="เบอร์โทรศัพท์"
                     register={{ ...register("tel") }}
                     msgError={errors.tel?.message}
+                    type="number"
                     showLabel
-                    required
                   />
                   <InputFormManage
                     name={"เบอร์มือถือ"}
                     placeholder="เบอร์มือถือ"
                     register={{ ...register("phone") }}
                     msgError={errors.phone?.message}
+                    type="number"
                     showLabel
-                    required
                   />
 
                   <Box

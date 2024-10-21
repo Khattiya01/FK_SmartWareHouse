@@ -1,11 +1,9 @@
 "use server";
 
-import {
-  deletelogoSchema,
-  updatelogoSchema,
-} from "@/db/schemas";
+import { deletelogoSchema } from "@/db/schemas";
 import {
   insertHomePageDetailSchema,
+  updateHomePageDetailSchema,
   updateIsActiveHomePageDetailSchema,
 } from "@/db/schemas/homeDetail";
 import { homePageDetailException } from "@/exceptions/homePageDetail";
@@ -13,11 +11,12 @@ import { logoException } from "@/exceptions/logos";
 import {
   addHomePageDetail,
   deleteHomePageDetail,
+  editHomePageDetail,
   editHomePageDetailOtherIsActiveFalse,
   editIsActiveHomePageDetail,
+  getHomeDetailById,
   getHomeDetailIsActive,
 } from "@/services/homeDetail";
-import { editLogos } from "@/services/logo";
 import { revalidatePath } from "next/cache";
 import { deleteFileAction } from "./files";
 
@@ -76,7 +75,7 @@ export async function createHomePageDetailAction(formData: FormData) {
   }
 }
 
-export async function updateLogoAction({
+export async function updateHomePageDetailAction({
   formData,
   id,
 }: {
@@ -84,34 +83,64 @@ export async function updateLogoAction({
   id: string;
 }) {
   try {
-    const image_url = formData.get("image_url")?.toString();
+    const content_01_title = formData.get("content_01_title")?.toString();
+    const content_01_detail = formData.get("content_01_detail")?.toString();
+    const content_02_detail = formData.get("content_02_detail")?.toString();
+    const content_02_image_url = formData
+      .get("content_02_image_url")
+      ?.toString();
+    const banner_image_url = formData.get("banner_image_url")?.toString();
+    const contact_image_url = formData.get("contact_image_url")?.toString();
 
-    const validatedFields = updatelogoSchema.safeParse({
-      id,
-      image_url,
+    const validatedFields = updateHomePageDetailSchema.safeParse({
+      id: id,
+      content_01_title: content_01_title,
+      content_01_detail: content_01_detail,
+      content_02_detail: content_02_detail,
+      content_02_image_url: content_02_image_url,
+      banner_image_url: banner_image_url,
+      contact_image_url: contact_image_url,
     });
+
     if (!validatedFields.success) {
-      return logoException.updateFail();
+      return homePageDetailException.updateFail();
     }
+    if (
+      id &&
+      content_01_title &&
+      content_01_detail &&
+      content_02_detail &&
+      content_02_image_url &&
+      banner_image_url &&
+      contact_image_url
+    ) {
+      const responseHomeDetailById = await getHomeDetailById(id);
 
-    if (image_url && id) {
-      const payload = {
+      if (!responseHomeDetailById) {
+        return homePageDetailException.createError("ID not found");
+      }
+
+      await editHomePageDetail({
         id: id,
-        image_url,
-      };
-      await editLogos(payload);
+        banner_image_url: banner_image_url,
+        content_01_title: content_01_title,
+        content_01_detail: content_01_detail,
+        content_02_image_url: content_02_image_url,
+        content_02_detail: content_02_detail,
+        contact_image_url: contact_image_url,
+      });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "update logo successfully",
         result: null,
       };
     } else {
-      return logoException.createError("Image URL or id are required.");
+      return homePageDetailException.createError("id are required.");
     }
   } catch (error: any) {
-    return logoException.createError(error?.message);
+    return homePageDetailException.createError(error?.message);
   }
 }
 
