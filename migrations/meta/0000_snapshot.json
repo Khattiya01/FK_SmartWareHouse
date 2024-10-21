@@ -1,5 +1,5 @@
 {
-  "id": "380cee90-107d-4e3f-9acb-218ecad99c11",
+  "id": "92cbc453-3218-4a10-b769-86ea8eb429eb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -13,7 +13,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'93d987b1-06e5-4957-b549-d50b9a0eb150'"
+          "default": "'11d871f1-0a34-4a69-82ee-73f152911d3f'"
         },
         "username": {
           "name": "username",
@@ -76,7 +76,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'80e5252a-03f7-4030-9389-6414eec4fddf'"
+          "default": "'6e35e276-0a64-4918-82aa-f381541c9ca1'"
         },
         "file_url": {
           "name": "file_url",
@@ -130,7 +130,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'d28980f4-6db9-4415-89cf-e3a3c9eecfec'"
+          "default": "'3c033b87-48e0-458f-9732-8f5ade86b7c0'"
         },
         "image_url": {
           "name": "image_url",
@@ -173,7 +173,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'ba8be3ee-41de-4258-9e1a-9b73c212425e'"
+          "default": "'5c317f16-4a65-4272-ad78-8ac154b2d484'"
         },
         "banner_image_url": {
           "name": "banner_image_url",
@@ -247,7 +247,13 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'3e5f7c23-4139-443c-a7ac-7a9748843888'"
+          "default": "'19ea0d81-c60a-41bc-8d53-06b94d4dec60'"
+        },
+        "product_id": {
+          "name": "product_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
         },
         "category_id": {
           "name": "category_id",
@@ -275,12 +281,6 @@
         },
         "main_image": {
           "name": "main_image",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "sub_image_1": {
-          "name": "sub_image_1",
           "type": "text",
           "primaryKey": false,
           "notNull": false
@@ -339,6 +339,19 @@
           "primaryKey": false,
           "notNull": false
         },
+        "remark": {
+          "name": "remark",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
         "created_at": {
           "name": "created_at",
           "type": "timestamp",
@@ -381,7 +394,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'c1006234-cb0f-4fa1-aec0-c379e8cb678f'"
+          "default": "'8b5af338-f455-404d-9df0-301995f259a7'"
         },
         "image_url": {
           "name": "image_url",
@@ -444,7 +457,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'b8a34431-c063-43ce-b19d-b06c1b85af48'"
+          "default": "'e55daa1c-8003-412b-8086-a86b8549669d'"
         },
         "address": {
           "name": "address",
@@ -571,7 +584,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'126d8b04-9962-4994-9bbf-e905299244d3'"
+          "default": "'03ea4056-7b1c-4a51-bd53-849c6aa01b12'"
         },
         "name": {
           "name": "name",

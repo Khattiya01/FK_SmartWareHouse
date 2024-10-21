@@ -8,7 +8,7 @@ const ToastProvider: React.FC = () => {
   const { open, title, message, hide, status } = useToastStore();
 
   return (
-    <Toast.Provider swipeDirection="up">
+    <Toast.Provider swipeDirection="up" duration={3000}>
       <Toast.Root
         className={`  ${
           status === typeStatusTaost.success ? "ToastRoot" : "ToastRoot-error"

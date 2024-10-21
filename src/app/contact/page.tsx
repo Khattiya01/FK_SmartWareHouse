@@ -4,6 +4,7 @@ import { getContactIsActive } from "@/services/contact";
 
 const ContactPage = async () => {
   const contact = await getContactIsActive();
+  if(!contact) return <></>
   return <ContentContact contact={contact} />;
 };
 

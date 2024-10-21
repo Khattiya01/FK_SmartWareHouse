@@ -2,10 +2,12 @@
 
 import {
   deletelogoSchema,
-  updateIsActivelogoSchema,
   updatelogoSchema,
 } from "@/db/schemas";
-import { insertHomePageDetailSchema } from "@/db/schemas/homeDetail";
+import {
+  insertHomePageDetailSchema,
+  updateIsActiveHomePageDetailSchema,
+} from "@/db/schemas/homeDetail";
 import { homePageDetailException } from "@/exceptions/homePageDetail";
 import { logoException } from "@/exceptions/logos";
 import {
@@ -123,7 +125,7 @@ export async function updateIsActiveHomePageDetailAction({
   try {
     const is_active = formData.get("is_active")?.toString();
 
-    const validatedFields = updateIsActivelogoSchema.safeParse({
+    const validatedFields = updateIsActiveHomePageDetailSchema.safeParse({
       id,
       is_active: is_active === "true" ? true : false,
     });

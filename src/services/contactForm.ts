@@ -4,12 +4,12 @@ import {
   InsertContactForm,
   UpdateContactForm,
 } from "@/db/schemas";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 export const getContactForm = async () => {
   try {
-    const data = await db.select().from(contactFormTable);
+    const data = await db.select().from(contactFormTable).orderBy(desc(contactFormTable.created_at));
     return data;
   } catch (error) {
     console.error("Error fetching contact form:", error);

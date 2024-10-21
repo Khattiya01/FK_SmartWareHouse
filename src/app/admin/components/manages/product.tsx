@@ -1,90 +1,83 @@
 "use client";
 
-import { useHomeDetail } from "@/app/hooks/useHomeDetail";
-
 import { useState } from "react";
-import DialogHomeDetail from "../dialogs/dialogAddHomeDetail";
-import { SelectHomePageDetail } from "@/db/schemas";
 import DialogDelete from "@/components/dialogs/dialogDelete";
-import {
-  deleteHomePageDetailAction,
-  updateIsActiveHomePageDetailAction,
-} from "@/actions/homePageDetail";
 import useToastStore, { typeStatusTaost } from "@/hooks/useToastStore";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { Box, Text } from "@radix-ui/themes";
-import { TableHomeDetail } from "../tables/tableHomeDetail";
 import ButtonDefault from "@/components/buttons/buttonDefault";
 import { IoMdAdd } from "react-icons/io";
+import { TableProduct } from "../tables/tableProduct";
+import { SelectProduct } from "@/db/schemas";
+import { useProduct } from "@/app/hooks/useProduct";
+import DialogAddProduct from "../dialogs/dialogAddProduct";
+import { deleteProductAction, updateIsActiveProductAction } from "@/actions/products";
 
-export function ManageHomeDetail() {
+export function ManageProduct() {
   // states
   const [openDialogCreateHomeDetail, setOpenDialogCreateHomeDetail] =
     useState<boolean>(false);
-  const [activeHomeDetailData, setActiveHomeDetailData] = useState<
-    SelectHomePageDetail | undefined
+  const [activeProductData, setActiveProductData] = useState<
+    SelectProduct | undefined
   >(undefined);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
   // hooks
   const {
-    data: dataHomeDetail,
-    refetch: refetchHomeDetail,
+    data: dataProduct,
+    refetch: refetchProduct,
     isLoading,
-  } = useHomeDetail();
+  } = useProduct();
   const showToast = useToastStore((state) => state.show);
 
   // functions
 
   const onSuccessDailogHomeDetail = () => {
-    refetchHomeDetail();
+    refetchProduct();
     setOpenDialogCreateHomeDetail(false);
-    setActiveHomeDetailData(undefined);
+    setActiveProductData(undefined);
   };
 
   const onCancelDailogHomeDetail = () => {
     setOpenDialogCreateHomeDetail(false);
-    setActiveHomeDetailData(undefined);
+    setActiveProductData(undefined);
   };
 
   const handleOpenDailogCreate = () => {
     setOpenDialogCreateHomeDetail(true);
   };
 
-  const handleOpenDailogEdit = (data: SelectHomePageDetail) => {
-    setActiveHomeDetailData(data);
+  const handleOpenDailogEdit = (data: SelectProduct) => {
+    setActiveProductData(data);
     setOpenDialogCreateHomeDetail(true);
   };
 
   const handleSubmitDelete = async () => {
-    if (activeHomeDetailData) {
+    if (activeProductData) {
       handleCloseDialogDelete();
-      setActiveHomeDetailData(undefined);
-      await deleteHomePageDetailAction({
-        id: activeHomeDetailData.id,
+      setActiveProductData(undefined);
+      await deleteProductAction({
+        id: activeProductData.id,
         file_url:
-          activeHomeDetailData.banner_image_url +
+          activeProductData.main_image +
           "," +
-          activeHomeDetailData.contact_image_url +
+          activeProductData.map_image +
           "," +
-          activeHomeDetailData.content_02_image_url,
+          activeProductData.others_image,
       })
         .then((res) => {
           if (res.success) {
-            refetchHomeDetail();
+            refetchProduct();
             showToast(
-              "ลบรายละเอียดหน้าแรกสำเร็จ",
+              "ลบผลิตภัณฑ์สำเร็จ",
               "",
               new Date(),
               typeStatusTaost.success
             );
           } else {
-            console.error(
-              "Error delete deleteHomePageDetailAction:",
-              res.message
-            );
+            console.error("Error delete product:", res.message);
             showToast(
-              "ลบรายละเอียดหน้าแรกไม่สำเร็จ",
+              "ลบผลิตภัณฑ์ไม่สำเร็จ",
               "",
               new Date(),
               typeStatusTaost.error
@@ -92,31 +85,28 @@ export function ManageHomeDetail() {
           }
         })
         .catch((err) => {
-          console.error(
-            "Error delete deleteHomePageDetailAction:",
-            err.message
-          );
+          console.error("Error delete product:", err.message);
         });
     } else {
-      console.log("error deleting: activeHomeDetailData is undefined");
+      console.log("error deleting: activeProductData is undefined");
     }
   };
   const handleCloseDialogDelete = () => {
     setOpenDialogDelete(false);
-    setActiveHomeDetailData(undefined);
+    setActiveProductData(undefined);
   };
-  const handleOpenDialogDelete = (data: SelectHomePageDetail) => {
-    setActiveHomeDetailData(data);
+  const handleOpenDialogDelete = (data: SelectProduct) => {
+    setActiveProductData(data);
     setOpenDialogDelete(true);
   };
 
   const handleClickIsActive = async (isActive: boolean, id: string) => {
     const formData = new FormData();
     formData.append("is_active", isActive ? "true" : "false");
-    await updateIsActiveHomePageDetailAction({ formData, id })
+    await updateIsActiveProductAction({ formData, id })
       .then((res) => {
         console.log(res?.message);
-        refetchHomeDetail();
+        refetchProduct();
       })
       .catch((err) => {
         console.error("Error create logo:", err?.message);
@@ -128,9 +118,17 @@ export function ManageHomeDetail() {
   return (
     <>
       <Box style={{ width: "100%", display: "flex", justifyContent: "end" }}>
+        {/* <Box className=" w-[400px]">
+          <InputFormManage
+            name={"Search"}
+            placeholder="Search"
+            required
+            showLabel={false}
+          />
+        </Box> */}
         <ButtonDefault onClick={handleOpenDailogCreate}>
           <IoMdAdd size={"20px"} />
-          <Text>เพิ่ม รายละเอียดหน้าแรก</Text>
+          <Text>เพิ่ม ผลิตภัณฑ์</Text>
         </ButtonDefault>
       </Box>
 
@@ -143,8 +141,8 @@ export function ManageHomeDetail() {
         }}
       >
         {!isLoading ? (
-          <TableHomeDetail
-            rows={dataHomeDetail?.result}
+          <TableProduct
+            rows={dataProduct?.result}
             handleClickEdit={handleOpenDailogEdit}
             handleOpenDialogDelete={handleOpenDialogDelete}
             handleClickIsActive={handleClickIsActive}
@@ -153,9 +151,9 @@ export function ManageHomeDetail() {
           <BoxLoadingData height="300px" />
         )}
 
-        <DialogHomeDetail
-          dialogType={activeHomeDetailData ? "edit" : "create"}
-          data={activeHomeDetailData}
+        <DialogAddProduct
+          dialogType={activeProductData ? "edit" : "create"}
+          data={activeProductData}
           onSuccess={onSuccessDailogHomeDetail}
           onCancel={onCancelDailogHomeDetail}
           isOpen={openDialogCreateHomeDetail}

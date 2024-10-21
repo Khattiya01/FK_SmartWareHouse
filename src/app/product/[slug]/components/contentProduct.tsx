@@ -1,6 +1,6 @@
 import ProductDetail from "@/app/(homepage)/components/productDetail";
 import { ContactItem } from "@/components/footers/ContactInfo";
-import { SelectProduct } from "@/db/schemas";
+import { SelectProduct, SelectProductIncludeCategory } from "@/db/schemas";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import React from "react";
@@ -9,7 +9,7 @@ import { FiPhone } from "react-icons/fi";
 
 const ContentProduct = (props: {
   product: SelectProduct;
-  otherProducts: SelectProduct[];
+  otherProducts: SelectProductIncludeCategory[];
 }) => {
   const { product, otherProducts } = props;
   return (
@@ -17,7 +17,7 @@ const ContentProduct = (props: {
       <Text className=" text-[22px] font-bold">รายละเอียดประกาศ</Text>
       <div className=" grid grid-cols-3 gap-3">
         <Text className=" custom-pre col-span-3 sm:col-span-2">
-          {product.description?? "-"}
+          {product.description ?? "-"}
         </Text>
         <Box className="col-span-3 sm:col-span-1">
           <Flex
@@ -29,7 +29,10 @@ const ContentProduct = (props: {
             }}
           >
             <Text className=" text-[18px] font-bold ">ติดต่อผู้ขาย</Text>
-            <ContactItem icon={<FiPhone size={"18px"} />} desc={product?.tel ?? "-"} />
+            <ContactItem
+              icon={<FiPhone size={"18px"} />}
+              desc={product?.tel ?? "-"}
+            />
             <ContactItem
               icon={<CiMobile3 size={"18px"} />}
               desc={product?.phone ?? "-"}

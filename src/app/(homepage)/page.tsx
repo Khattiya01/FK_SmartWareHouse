@@ -7,12 +7,12 @@ import ContentProduct from "./components/contentProduct";
 import ContentDetail1 from "./components/contentDetail1";
 import ContentDetail2 from "./components/contentDetail2";
 import { getHomeDetailIsActive } from "@/services/homeDetail";
-import { getCategory } from "@/services/category";
+import { getCategoryIsActive } from "@/services/category";
 import { getContactIsActive } from "@/services/contact";
 
 export default async function Homepage() {
   const responseGetHomeDetailIsActive = await getHomeDetailIsActive();
-  const responseGetCategory = await getCategory();
+  const responseGetCategory = await getCategoryIsActive();
   const contact = await getContactIsActive();
 
   return (

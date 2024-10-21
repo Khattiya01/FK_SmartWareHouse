@@ -1,9 +1,9 @@
 import { HTMLInputTypeAttribute } from "react";
 
-type InputFormManageProps = {
-  register?: React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
+type InputTextareaFormManageProps = {
+  register: React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLTextAreaElement>,
+    HTMLTextAreaElement
   >;
   placeholder: string;
   name: string;
@@ -14,7 +14,7 @@ type InputFormManageProps = {
   showLabel?: boolean;
 };
 
-const InputFormManage = ({
+const InputTextareaFormManage = ({
   register,
   placeholder,
   name,
@@ -23,7 +23,7 @@ const InputFormManage = ({
   disabled,
   required,
   showLabel = true,
-}: InputFormManageProps) => {
+}: InputTextareaFormManageProps) => {
   return (
     <div className=" w-full">
       {showLabel && (
@@ -40,14 +40,14 @@ const InputFormManage = ({
         </label>
       )}
       <div className=" w-full flex  items-center relative mt-1">
-        <input
+        <textarea
           disabled={disabled}
-          type={"text"}
           id={name}
           {...register}
+          rows={4}
           maxLength={type === "to" || type === "tel" ? 10 : undefined}
           placeholder={placeholder}
-          className={`no-spinners border rounded-lg text-black  p-4 w-full h-[44px] focus:border-gray focus:outline-none `}
+          className={`no-spinners border rounded-lg text-black  p-4 w-full focus:border-gray focus:outline-none `}
         />
       </div>
       {msgError && <div className="text-require">{msgError}</div>}
@@ -55,4 +55,4 @@ const InputFormManage = ({
   );
 };
 
-export default InputFormManage;
+export default InputTextareaFormManage;

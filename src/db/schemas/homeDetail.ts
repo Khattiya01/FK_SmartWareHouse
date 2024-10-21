@@ -65,7 +65,7 @@ export const insertHomePageDetailSchema = createInsertSchema(
 export const updateHomePageDetailSchema = createInsertSchema(
   homePageDetailTable,
   {
-    id: z.string().min(1, { message: "User ID is required" }),
+    id: z.string().min(1, { message: "ID is required" }),
     content_01_title: z.string().optional(),
     content_01_detail: z.string().optional(),
     content_02_image_url: z.string().optional(),
@@ -75,10 +75,23 @@ export const updateHomePageDetailSchema = createInsertSchema(
   }
 );
 
+export const updateIsActiveHomePageDetailSchema = createInsertSchema(
+  homePageDetailTable,
+  {
+    id: z.string().min(1, { message: "ID is required" }),
+    content_01_title: z.string().optional(),
+    content_01_detail: z.string().optional(),
+    content_02_image_url: z.string().optional(),
+    content_02_detail: z.string().optional(),
+    contact_image_url: z.string().optional(),
+    is_active: z.boolean(),
+  }
+);
+
 export const deleteHomePageDetailSchema = createInsertSchema(
   homePageDetailTable,
   {
-    id: z.string().min(1, { message: "User ID is required" }),
+    id: z.string().min(1, { message: "is required" }),
     content_01_title: z.string().optional(),
     content_01_detail: z.string().optional(),
     content_02_image_url: z.string().optional(),

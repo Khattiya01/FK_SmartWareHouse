@@ -25,6 +25,7 @@ const AdminSidebar = () => {
       icon: <PiGooglePhotosLogo style={{ width: "24px", height: "24px" }} />,
       name: "จัดการโลโก้",
       path: `/admin/manage-logo`,
+      disabled: true,
     },
     {
       icon: <BiCategory style={{ width: "24px", height: "24px" }} />,
@@ -40,6 +41,7 @@ const AdminSidebar = () => {
       icon: <RiContactsBook3Line style={{ width: "24px", height: "24px" }} />,
       name: "จัดการการติดต่อ",
       path: `/admin/manage-contact`,
+      disabled: true,
     },
     {
       icon: <FaWpforms style={{ width: "24px", height: "24px" }} />,
@@ -50,11 +52,13 @@ const AdminSidebar = () => {
       icon: <HiOutlineUsers style={{ width: "24px", height: "24px" }} />,
       name: "จัดการผู้ใช้",
       path: `/admin/manage-users`,
+      disabled: true,
     },
     {
       icon: <MdOutlinePrivacyTip style={{ width: "24px", height: "24px" }} />,
       name: "จัดการนโยบายและความเป็นส่วนตัว",
       path: `/admin/manage-privacy-policy`,
+      disabled: true,
     },
   ];
 

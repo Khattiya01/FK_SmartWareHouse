@@ -1,7 +1,7 @@
 import { Flex } from "@radix-ui/themes";
 import {
-  getOtherProductsByCategoryId,
-  getProductsById,
+  getOtherProductsByCategoryProductIdIsActive,
+  getProductsByProductId,
 } from "@/services/product";
 import { redirect } from "next/navigation";
 import HeaderProduct from "./components/headerProduct";
@@ -13,13 +13,12 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  const product = await getProductsById(params.slug);
+  const product = await getProductsByProductId(params.slug);
 
   if (!product) {
     redirect("/");
   }
-
-  const otherProducts = await getOtherProductsByCategoryId(
+  const otherProducts = await getOtherProductsByCategoryProductIdIsActive(
     product.category_id,
     params.slug
   );
@@ -37,6 +36,7 @@ export default async function ProductPage({
           name={product.name}
           address={product.address}
           image_url={product.main_image}
+          product_id={product.product_id}
         />
         <OtherImage otherImage={product.others_image?.split(",")} />
         <ContentProduct product={product} otherProducts={otherProducts} />

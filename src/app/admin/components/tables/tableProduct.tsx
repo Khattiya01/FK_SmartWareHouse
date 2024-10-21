@@ -9,35 +9,41 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SelectHomePageDetail } from "@/db/schemas";
+import { SelectProductIncludeCategory } from "@/db/schemas";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-export function TableHomeDetail({
+export function TableProduct({
   rows,
   handleClickEdit,
   handleOpenDialogDelete,
   handleClickIsActive,
 }: {
-  rows: SelectHomePageDetail[] | undefined;
-  handleClickEdit: (item: SelectHomePageDetail) => void;
-  handleOpenDialogDelete: (item: SelectHomePageDetail) => void;
+  rows: SelectProductIncludeCategory[] | undefined;
+  handleClickEdit: (item: SelectProductIncludeCategory) => void;
+  handleOpenDialogDelete: (item: SelectProductIncludeCategory) => void;
   handleClickIsActive: (item: boolean, id: string) => void;
 }) {
   return (
     <Table className=" min-w-[900px]">
       <TableHeader>
         <TableRow className=" bg-main hover:bg-main ">
-          <TableHead className="text-white font-bold text-base">
-            หัวข้อเนื้อหาที่ 1
+          <TableHead className="text-white font-bold text-base w-36">
+            รหัสผลิตภัณฑ์
+          </TableHead>
+          <TableHead className="text-white font-bold text-base w-52 ">
+            ชื่อผลิตภัณฑ์
+          </TableHead>
+          <TableHead className="text-white font-bold text-base w-28">
+            หมวดหมู่
           </TableHead>
           <TableHead className="text-white font-bold text-base">
-            รายละเอียดเนื้อหาที่ 1
+            รายละเอียด
           </TableHead>
-          <TableHead className="text-white font-bold text-base">
-            รายละเอียดเนื้อหาที่ 2
+          <TableHead className="text-white font-bold text-base w-40">
+            หมายเหตุ
           </TableHead>
-          <TableHead className="text-white font-bold text-base w-10"></TableHead>
+          <TableHead className="text-white font-bold text-base"></TableHead>
           <TableHead className="text-right w-20"></TableHead>
         </TableRow>
       </TableHeader>
@@ -46,18 +52,15 @@ export function TableHomeDetail({
           rows?.length > 0 &&
           rows.map((item) => (
             <TableRow key={item.id}>
+              <TableCell className="font-medium">{item.product_id}</TableCell>
+              <TableCell className="font-medium">{item.name}</TableCell>
               <TableCell className="font-medium">
-                {item.content_01_title}
+                {item?.category?.name}
               </TableCell>
-              <TableCell className="font-medium">
-                {item.content_01_detail}
-              </TableCell>
-              <TableCell className="font-medium">
-                {item.content_02_detail}
-              </TableCell>
+              <TableCell className="font-medium">{item.description}</TableCell>
+              <TableCell className="font-medium">{item.remark}</TableCell>
               <TableCell className="font-medium">
                 <ToggleAdmin
-                  disabled={item.is_active ? true : false}
                   checked={item.is_active ? true : false}
                   onCheckedChange={(c) => handleClickIsActive(c, item.id)}
                 />

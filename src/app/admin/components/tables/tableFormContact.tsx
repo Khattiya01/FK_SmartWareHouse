@@ -11,6 +11,12 @@ import {
 import { SelectContactForm } from "@/db/schemas";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 
 export function TableFormContact({
   rows,
@@ -18,13 +24,14 @@ export function TableFormContact({
 }: {
   rows: SelectContactForm[] | undefined;
   handleOpenDialogDelete: (item: SelectContactForm) => void;
-  handleClickIsActive: (item: string | boolean, id: string) => void;
 }) {
   return (
     <Table className=" min-w-[900px]">
       <TableHeader>
         <TableRow className=" bg-main hover:bg-main ">
-          <TableHead className="text-white font-bold text-base">วันที่</TableHead>
+          <TableHead className="text-white font-bold text-base">
+            วันที่
+          </TableHead>
           <TableHead className="text-white font-bold text-base">ชื่อ</TableHead>
           <TableHead className="text-white font-bold text-base">
             อีเมล
@@ -47,7 +54,7 @@ export function TableFormContact({
           rows.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="font-medium">
-                {dayjs(item.created_at).format("DD/MM/YYYY HH:mm:ss")}
+                {dayjs.utc(item.created_at).format("DD/MM/YYYY HH:mm:ss")}
               </TableCell>
               <TableCell className="font-medium">{item.name}</TableCell>
               <TableCell className="font-medium">{item.email}</TableCell>

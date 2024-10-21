@@ -15,29 +15,6 @@ import { homePageDetailTable } from "@/db/schemas/homeDetail";
 
 export const getCategory = async () => {
   try {
-    // const categories = await db
-    //   .select()
-    //   .from(categoryTable)
-    //   .orderBy(categoryTable.created_at);
-
-    // const products = await db.select().from(productsTable);
-
-    // const productsByCategory = products.reduce((acc: any, product: any) => {
-    //   const categoryId = product.category_id;
-    //   if (!acc[categoryId]) {
-    //     acc[categoryId] = [];
-    //   }
-    //   acc[categoryId].push(product);
-    //   return acc;
-    // }, {});
-
-    // const result = categories.map((category: any) => ({
-    //   ...category,
-    //   products: productsByCategory[category.id] || [],
-    // }));
-
-    // return result;
-
     const categories = await db
       .select()
       .from(categoryTable)
@@ -76,6 +53,46 @@ export const getCategory = async () => {
   }
 };
 
+export const getCategoryIsActive = async () => {
+  try {
+    const categories = await db
+      .select()
+      .from(categoryTable)
+      .fullJoin(productsTable, eq(categoryTable.id, productsTable.category_id));
+
+    const groupedCategoriesResult = categories.reduce(
+      (
+        acc: SelectCategoryIncludeProduct[],
+        row: { category: SelectCategory | null; products: SelectProduct | null }
+      ) => {
+        const { category, products } = row;
+
+        let existingCategory: any = acc.find((c) => c.id === category?.id);
+
+        if (!existingCategory) {
+          existingCategory = {
+            ...category,
+            products: [],
+          };
+          acc.push(existingCategory);
+        }
+
+        if (products?.id && products?.is_active) {
+          existingCategory?.products.push(products);
+        }
+
+        return acc;
+      },
+      []
+    );
+
+    return groupedCategoriesResult;
+  } catch (error) {
+    console.error("Error fetching category:", error);
+    throw new Error("Could not fetch ctegory");
+  }
+};
+
 export const getCategoryByName = async (name: string) => {
   try {
     const data = await db
@@ -89,12 +106,25 @@ export const getCategoryByName = async (name: string) => {
   }
 };
 
+export const getCategoryById = async (id: string) => {
+  try {
+    const data = await db
+      .select()
+      .from(categoryTable)
+      .where(eq(categoryTable.id, id));
+    return data && data?.length > 0 ? data[0] : undefined;
+  } catch (error) {
+    console.error("Error fetching category:", error);
+    throw new Error("Could not fetch category");
+  }
+};
+
 export const addCategory = async (data: InsertCategory) => {
   await db.insert(categoryTable).values({
     id: uuidv4(),
     name: data.name,
     image_url: data.image_url,
-    abbreviation: data.abbreviation
+    abbreviation: data.abbreviation,
   });
 };
 

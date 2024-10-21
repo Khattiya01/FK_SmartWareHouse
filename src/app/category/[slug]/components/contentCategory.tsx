@@ -1,10 +1,13 @@
 import CardProductItem from "@/components/cards/cardProductItem";
-import { SelectProduct } from "@/db/schemas";
+import { SelectProductIncludeCategory } from "@/db/schemas";
 import { Flex, Grid } from "@radix-ui/themes";
 import React from "react";
 
-const ContentCategory = ({ products }: { products: SelectProduct[] }) => {
-
+const ContentCategory = ({
+  products,
+}: {
+  products: SelectProductIncludeCategory[];
+}) => {
   return (
     <Flex justify={"center"} p={"4"}>
       <Grid

@@ -1,21 +1,52 @@
-import { eq, ne } from "drizzle-orm";
+import { eq, getTableColumns, ne, and } from "drizzle-orm";
 import { db } from "@/db";
 import {
+  categoryTable,
   InsertProduct,
   productsTable,
+  UpdateProduct,
   UpdateUser,
   usersTable,
 } from "@/db/schemas";
 import { v4 as uuidv4 } from "uuid";
-import { homePageDetailTable } from "@/db/schemas/homeDetail";
 import { redirect } from "next/navigation";
+import { desc } from "drizzle-orm";
 
 export const getProducts = async () => {
   try {
     const data = await db
-      .select()
+      .select({
+        ...getTableColumns(productsTable),
+        category: {
+          id: categoryTable.id,
+          name: categoryTable.name,
+        },
+      })
       .from(productsTable)
-      .orderBy(productsTable.created_at);
+      .orderBy(desc(productsTable.created_at))
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id));
+
+    return data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw new Error("Could not fetch hproducts");
+  }
+};
+
+export const getProductsIsactive = async () => {
+  try {
+    const data = await db
+      .select({
+        ...getTableColumns(productsTable),
+        category: {
+          id: categoryTable.id,
+          name: categoryTable.name,
+        },
+      })
+      .from(productsTable)
+      .orderBy(desc(productsTable.created_at))
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id));
+
     return data;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -26,9 +57,16 @@ export const getProducts = async () => {
 export const getProductsByCategoryId = async (id: string) => {
   try {
     const data = await db
-      .select()
+      .select({
+        ...getTableColumns(productsTable),
+        category: {
+          id: categoryTable.id,
+          name: categoryTable.name,
+        },
+      })
       .from(productsTable)
-      .where(eq(productsTable.category_id, id));
+      .where(eq(productsTable.category_id, id))
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id));
     return data;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -36,8 +74,49 @@ export const getProductsByCategoryId = async (id: string) => {
   }
 };
 
-export const getOtherProductsByCategoryId = async (
-  id: string,
+export const getProductsByCategoryIdIsActive = async (id: string) => {
+  try {
+    const data = await db
+      .select({
+        ...getTableColumns(productsTable),
+        category: {
+          id: categoryTable.id,
+          name: categoryTable.name,
+        },
+      })
+      .from(productsTable)
+      .where(
+        and(
+          eq(productsTable.category_id, id),
+          eq(productsTable.is_active, true)
+        )
+      )
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id));
+    return data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw new Error("Could not fetch hproducts");
+  }
+};
+
+export const getLastProductByCategoryId = async (id: string) => {
+  try {
+    const data = await db
+      .select()
+      .from(productsTable)
+      .where(eq(productsTable.category_id, id))
+      .orderBy(desc(productsTable.created_at))
+      .limit(1)
+      .execute();
+    return data && data?.length > 0 ? data[0] : undefined;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw new Error("Could not fetch hproducts");
+  }
+};
+
+export const getOtherProductsByCategoryProductId = async (
+  category_id: string,
   productId: string
 ) => {
   try {
@@ -45,8 +124,41 @@ export const getOtherProductsByCategoryId = async (
       .select()
       .from(productsTable)
       .where(
-        eq(productsTable.category_id, id) && ne(productsTable.id, productId)
+        and(
+          eq(productsTable.category_id, category_id),
+          ne(productsTable.product_id, productId)
+        )
       );
+    return data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw new Error("Could not fetch hproducts");
+  }
+};
+
+export const getOtherProductsByCategoryProductIdIsActive = async (
+  category_id: string,
+  productId: string
+) => {
+  try {
+    const data = await db
+      .select({
+        ...getTableColumns(productsTable),
+        category: {
+          id: categoryTable.id,
+          name: categoryTable.name,
+        },
+      })
+      .from(productsTable)
+      .where(
+        and(
+          eq(productsTable.category_id, category_id),
+          ne(productsTable.product_id, productId),
+          eq(productsTable.is_active, true)
+        )
+      )
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id));
+
     return data;
   } catch (error) {
     console.error("Error fetching products:", error);
@@ -68,6 +180,20 @@ export const getProductsById = async (id: string) => {
   }
 };
 
+export const getProductsByProductId = async (product_id: string) => {
+  try {
+    const data = await db
+      .select()
+      .from(productsTable)
+      .where(eq(productsTable.product_id, product_id));
+    return data && data?.length > 0 ? data[0] : undefined;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    // throw new Error("Could not fetch products");
+    redirect("/");
+  }
+};
+
 export const addProducts = async (data: InsertProduct) => {
   await db.insert(productsTable).values({
     id: uuidv4(),
@@ -76,7 +202,6 @@ export const addProducts = async (data: InsertProduct) => {
     description: data.description,
     price: data.price,
     main_image: data.main_image,
-    sub_image_1: data.sub_image_1,
     map_image: data.map_image,
     others_image: data.others_image,
     address: data.address,
@@ -85,31 +210,39 @@ export const addProducts = async (data: InsertProduct) => {
     sub_district: data.sub_district,
     postal_code: data.postal_code,
     tel: data.tel,
-    phone: data.phone
+    phone: data.phone,
+    remark: data.remark,
+    product_id: data.product_id,
   });
 };
 
-export const editUser = async (data: UpdateUser) => {
+export const editProduct = async (data: UpdateProduct) => {
   await db
-    .update(usersTable)
+    .update(productsTable)
     .set({
-      username: data.username,
-      role: data.role,
+      id: data.id,
+      category_id: data.category_id,
+      name: data.name,
+      description: data.description,
+      price: data.price,
+      main_image: data.main_image,
+      map_image: data.map_image,
+      others_image: data.others_image,
+      address: data.address,
+      province: data.province,
+      district: data.district,
+      sub_district: data.sub_district,
+      postal_code: data.postal_code,
+      tel: data.tel,
+      phone: data.phone,
+      remark: data.remark,
+      product_id: data.product_id,
     })
-    .where(eq(usersTable.id, data.id))
-    .returning({ id: usersTable.id });
+    .where(eq(productsTable.id, data.id))
+    .returning({ id: productsTable.id });
 };
 
-export const editHomePageDetailOtherIsActiveFalse = async (
-  oldHomePageDetailActivedId: string
-) => {
-  await db
-    .update(homePageDetailTable)
-    .set({ is_active: false })
-    .where(eq(homePageDetailTable.id, oldHomePageDetailActivedId));
-};
-
-export const editIsActiveHomePageDetail = async ({
+export const editIsActiveProduct = async ({
   id,
   is_active,
 }: {
@@ -117,12 +250,12 @@ export const editIsActiveHomePageDetail = async ({
   is_active: boolean;
 }) => {
   await db
-    .update(homePageDetailTable)
+    .update(productsTable)
     .set({
       is_active: is_active,
     })
-    .where(eq(homePageDetailTable.id, id))
-    .returning({ id: homePageDetailTable.id });
+    .where(eq(productsTable.id, id))
+    .returning({ id: productsTable.id });
 };
 
 export const deleteProducts = async (id: string) => {

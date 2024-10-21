@@ -14,14 +14,15 @@ const CategoryItem = (props: { name: string; src: string; href: string }) => {
         gap={"4"}
         className=" relative  w-full h-full"
       >
-        <Image
-          src={src}
-          alt="d5"
-          width={100}
-          height={100}
-          sizes="100%"
-          className=" w-full h-full max-h-full sm:max-h-[379.33px] filter brightness-50 hover:brightness-75 cursor-pointer transition-all duration-300"
-        />
+        <Box className="  relative  w-full h-[379.33px] max-h-full sm:max-h-[379.33px]">
+          <Image
+            src={src}
+            alt="d5"
+            layout="fill"
+            objectFit="cover"
+            className="filter brightness-50 hover:brightness-75 cursor-pointer transition-all duration-300"
+          />
+        </Box>
         <Flex
           className="  absolute  cursor-pointer"
           direction={"column"}

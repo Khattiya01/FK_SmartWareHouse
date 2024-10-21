@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import DialogDelete from "@/components/dialogs/dialogDelete";
-import { updateIsActiveHomePageDetailAction } from "@/actions/homePageDetail";
 import useToastStore, { typeStatusTaost } from "@/hooks/useToastStore";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { Box, Text } from "@radix-ui/themes";
@@ -12,12 +11,13 @@ import { TableCategory } from "../tables/tableCategory";
 import { useCategory } from "@/app/hooks/useCategory";
 import { SelectCategory } from "@/db/schemas";
 import { deleteCategoryAction } from "@/actions/category";
+import DialogAddCategory from "../dialogs/dialogAddCategory";
 
 export function ManageCategory() {
   // states
   const [openDialogCreateHomeDetail, setOpenDialogCreateHomeDetail] =
     useState<boolean>(false);
-  const [activeHomeDetailData, setActiveHomeDetailData] = useState<
+  const [activeCategoryData, setActiveCategoryData] = useState<
     SelectCategory | undefined
   >(undefined);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
@@ -35,12 +35,12 @@ export function ManageCategory() {
   const onSuccessDailogHomeDetail = () => {
     refetchCategory();
     setOpenDialogCreateHomeDetail(false);
-    setActiveHomeDetailData(undefined);
+    setActiveCategoryData(undefined);
   };
 
   const onCancelDailogHomeDetail = () => {
     setOpenDialogCreateHomeDetail(false);
-    setActiveHomeDetailData(undefined);
+    setActiveCategoryData(undefined);
   };
 
   const handleOpenDailogCreate = () => {
@@ -48,15 +48,17 @@ export function ManageCategory() {
   };
 
   const handleOpenDailogEdit = (data: SelectCategory) => {
-    setActiveHomeDetailData(data);
+    setActiveCategoryData(data);
     setOpenDialogCreateHomeDetail(true);
   };
 
   const handleSubmitDelete = async () => {
-    if (activeHomeDetailData) {
+    if (activeCategoryData) {
+      handleCloseDialogDelete();
+      setActiveCategoryData(undefined);
       await deleteCategoryAction({
-        id: activeHomeDetailData.id,
-        file_url: activeHomeDetailData.image_url,
+        id: activeCategoryData.id,
+        file_url: activeCategoryData.image_url,
       })
         .then((res) => {
           if (res.success) {
@@ -79,38 +81,18 @@ export function ManageCategory() {
         })
         .catch((err) => {
           console.error("Error delete delete category:", err.message);
-        })
-        .finally(() => {
-          handleCloseDialogDelete();
-          setActiveHomeDetailData(undefined);
         });
     } else {
-      console.log("error deleting: activeHomeDetailData is undefined");
+      console.log("error deleting: activeCategoryData is undefined");
     }
   };
   const handleCloseDialogDelete = () => {
     setOpenDialogDelete(false);
-    setActiveHomeDetailData(undefined);
+    setActiveCategoryData(undefined);
   };
   const handleOpenDialogDelete = (data: SelectCategory) => {
-    setActiveHomeDetailData(data);
+    setActiveCategoryData(data);
     setOpenDialogDelete(true);
-  };
-
-  const handleClickIsActive = async (
-    isActive: string | boolean,
-    id: string
-  ) => {
-    const formData = new FormData();
-    formData.append("is_active", isActive ? "true" : "false");
-    await updateIsActiveHomePageDetailAction({ formData, id })
-      .then((res) => {
-        console.log(res?.message);
-        refetchCategory();
-      })
-      .catch((err) => {
-        console.error("Error create logo:", err?.message);
-      });
   };
 
   // lifecycle
@@ -142,13 +124,13 @@ export function ManageCategory() {
           <BoxLoadingData height="300px" />
         )}
 
-        {/* <DialogHomeDetail
-          dialogType={activeHomeDetailData ? "edit" : "create"}
-          data={activeHomeDetailData}
+        <DialogAddCategory
+          dialogType={activeCategoryData ? "edit" : "create"}
+          data={activeCategoryData}
           onSuccess={onSuccessDailogHomeDetail}
           onCancel={onCancelDailogHomeDetail}
           isOpen={openDialogCreateHomeDetail}
-        /> */}
+        />
 
         <DialogDelete
           handleClose={handleCloseDialogDelete}

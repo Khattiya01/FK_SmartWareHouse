@@ -25,14 +25,13 @@ export function TableCategory({
     <Table className=" min-w-[900px]">
       <TableHeader>
         <TableRow className=" bg-main hover:bg-main ">
-          <TableHead className="text-white font-bold text-base w-10"></TableHead>
           <TableHead className="text-white font-bold text-base">
             ชื่อหมวดหมู่ (คำย่อ)
           </TableHead>
           <TableHead className="text-white font-bold text-base">
             ชื่อหมวดหมู่
           </TableHead>
-          <TableHead className="text-right"></TableHead>
+          <TableHead className="text-right w-20"></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>

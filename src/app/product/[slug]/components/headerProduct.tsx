@@ -1,4 +1,4 @@
-import { Text, Flex, Box } from "@radix-ui/themes";
+import { Text, Flex, Box, Badge } from "@radix-ui/themes";
 import Image from "next/image";
 import React from "react";
 
@@ -6,23 +6,24 @@ const HeaderProduct = (props: {
   name: string;
   address: string | null;
   image_url: string | null;
+  product_id: string | null;
 }) => {
-  const { name, address, image_url } = props;
+  const { name, address, image_url, product_id } = props;
   return (
     <Flex direction={"column"} width={"100%"} gap={"4"}>
       <Flex direction={"column"} gap={"2"}>
-        <Text className=" text-[30px] font-bold text-wrap">{name?? "-"}</Text>
+        <Text className=" text-[30px] font-bold text-wrap">{name ?? "-"}</Text>
         <Box>
-          <Text>{address?? "-"}</Text>
+          <Badge color="green" size={"3"}>
+            <Text className="  font-bold ">{product_id}</Text>
+          </Badge>
+        </Box>
+        <Box>
+          <Text>{address ?? "-"}</Text>
         </Box>
         <Box>
           <Text className=" text-blue-600 font-medium">โกดัง</Text>
         </Box>
-        {/* <Box>
-          <Badge color="green" size={"3"}>
-            <Text className="  font-bold ">เปิดขาย</Text>
-          </Badge>
-        </Box> */}
       </Flex>
       <Flex
         direction={"column"}

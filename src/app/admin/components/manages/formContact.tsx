@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { SelectContactForm } from "@/db/schemas";
 import DialogDelete from "@/components/dialogs/dialogDelete";
-import { updateIsActiveHomePageDetailAction } from "@/actions/homePageDetail";
 import useToastStore, { typeStatusTaost } from "@/hooks/useToastStore";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { Box, Text } from "@radix-ui/themes";
@@ -14,6 +13,11 @@ import ButtonOutline from "@/components/buttons/buttonOutline";
 import { fetchFormContact } from "@/api/manage/manage-form-contact";
 import ExportExcelFile from "@/utils/exportExcelFile";
 import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export function ManageFormContact() {
   // states
@@ -80,26 +84,10 @@ export function ManageFormContact() {
     setOpenDialogDelete(true);
   };
 
-  const handleClickIsActive = async (
-    isActive: string | boolean,
-    id: string
-  ) => {
-    const formData = new FormData();
-    formData.append("is_active", isActive ? "true" : "false");
-    await updateIsActiveHomePageDetailAction({ formData, id })
-      .then((res) => {
-        console.log(res?.message);
-        refetchFormContact();
-      })
-      .catch((err) => {
-        console.error("Error create logo:", err?.message);
-      });
-  };
-
   const handleExportExcelFile = async () => {
     await fetchFormContact().then((response) => {
       const dataExcel = response.result.map((item) => ({
-        CreateAt: dayjs(item.created_at).format("DD/MM/YYYY HH:mm:ss"),
+        CreateAt: dayjs.utc(item.created_at).format("DD/MM/YYYY HH:mm:ss"),
         Name: item.name,
         Email: item.email,
         Phone: item.phone,
@@ -122,6 +110,14 @@ export function ManageFormContact() {
           height: "44px",
         }}
       >
+        {/* <Box className=" w-[400px]">
+          <InputFormManage
+            name={"Search"}
+            placeholder="Search"
+            required
+            showLabel={false}
+          />
+        </Box> */}
         <ButtonOutline
           type="button"
           onClick={handleExportExcelFile}
@@ -143,7 +139,6 @@ export function ManageFormContact() {
           <TableFormContact
             rows={dataFormContact?.result}
             handleOpenDialogDelete={handleOpenDialogDelete}
-            handleClickIsActive={handleClickIsActive}
           />
         ) : (
           <BoxLoadingData height="300px" />

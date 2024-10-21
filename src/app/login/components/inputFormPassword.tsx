@@ -12,7 +12,7 @@ type InputFormPasswordProps = {
 const InputFormPassword = (props: InputFormPasswordProps) => {
   const { placeholder, onChange, value, errorMessage } = props;
 
-  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(true);
   return (
     <div>
       <TextField.Root

@@ -90,7 +90,7 @@ export async function createContactAction(formData: FormData) {
   }
 }
 
-export async function updateProductAction({
+export async function updateContactAction({
   formData,
   id,
 }: {
