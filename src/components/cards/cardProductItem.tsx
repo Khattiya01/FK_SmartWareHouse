@@ -1,10 +1,11 @@
-import { SelectProductIncludeCategory } from "@/db/schemas";
-import { Badge, Box, Flex, Text } from "@radix-ui/themes";
+import { SelectProduct } from "@/db/schemas";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import Link from "next/link";
 
-const CardProductItem = (props: { product: SelectProductIncludeCategory }) => {
+const CardProductItem = (props: { product: SelectProduct }) => {
   const { product } = props;
+  console.log("product", product);
   return (
     <Link href={`/product/${product?.product_id}`}>
       <Flex
@@ -38,19 +39,19 @@ const CardProductItem = (props: { product: SelectProductIncludeCategory }) => {
         </Box> */}
 
         <Flex direction={"column"} gap={"2"} p={"4"}>
-          <Box>
+          {/* <Text className=" text-blue-600 font-medium cursor-pointer">
+            {product.category?.name}
+          </Text> */}
+          <Text className=" font-medium cursor-pointer h-12 text-overflow-line-clamp-2">
+            {product.name ?? "-"}
+          </Text>
+          {/* <Box>
             <Badge color="green">
               <Text className="  font-bold cursor-pointer">
                 {product.product_id}
               </Text>
             </Badge>
-          </Box>
-          <Text className=" text-blue-600 font-medium cursor-pointer">
-            {product.category?.name}
-          </Text>
-          <Text className=" font-medium cursor-pointer h-12 text-overflow-line-clamp-2">
-            {product.name ?? "-"}
-          </Text>
+          </Box> */}
           <Text className="  text-xs text-overflow-line-clamp-1 ">
             {product.address ?? "-"}
           </Text>

@@ -30,14 +30,19 @@ const Banner = ({ imagesURL }: { imagesURL: string[] | undefined }) => {
             imagesURL?.length > 0 &&
             imagesURL?.map((url) => (
               <SwiperSlide key={url}>
-                <Image
-                  src={url}
-                  alt="d5"
-                  width={1000}
-                  height={1000}
-                  sizes="100vw"
-                  className=" w-full h-full brightness-75 "
-                />
+                <Box className=" relative w-full h-[270px] sm:h-[600px] max-h-[600px]">
+                  <Image
+                    src={url}
+                    alt="banner"
+                    // width={1000}
+                    // height={1000}
+                    // sizes="100vw"
+                    layout="fill"
+                    objectFit="cover"
+                    className="  brightness-75 "
+                    // className=" w-full h-full brightness-75 "
+                  />
+                </Box>
               </SwiperSlide>
             ))}
         </Swiper>

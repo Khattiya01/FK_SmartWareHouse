@@ -25,6 +25,16 @@ interface InputFormProps {
 
 const InputForm = (props: InputFormProps) => {
   const { register, placeholder, type, msgError } = props;
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    if (/^\d*$/.test(value)) {
+      event.target.value = value;
+    } else if (type === "number") {
+      event.target.value = value.replace(/[^0-9]/g, "");
+    }
+  };
+
   return (
     <>
       <TextField.Root
@@ -32,6 +42,7 @@ const InputForm = (props: InputFormProps) => {
         type={type ?? "text"}
         autoComplete="off"
         variant="soft"
+        onInput={handleInputChange}
         placeholder={placeholder}
         className="[&>*]:!text-white  [&>*]:!border-[1px] [&>*]:!border-solid [&>*]:!outline-main [&>*]:!placeholder-white"
       />

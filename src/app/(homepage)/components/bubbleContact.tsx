@@ -34,7 +34,7 @@ const BubbleChat = ({
             height={28}
           />
         }
-        href={contact?.tiktok_url ?? "https://facebook.com"}
+        href={contact?.tiktok_url ?? "https://www.tiktok.com/th-TH/"}
       />
       <BubbleChatItems
         name={"Line"}

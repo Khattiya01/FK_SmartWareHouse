@@ -7,8 +7,9 @@ const HeaderProduct = (props: {
   address: string | null;
   image_url: string | null;
   product_id: string | null;
+  categoryName: string | undefined;
 }) => {
-  const { name, address, image_url, product_id } = props;
+  const { name, address, image_url, product_id, categoryName } = props;
   return (
     <Flex direction={"column"} width={"100%"} gap={"4"}>
       <Flex direction={"column"} gap={"2"}>
@@ -22,7 +23,7 @@ const HeaderProduct = (props: {
           <Text>{address ?? "-"}</Text>
         </Box>
         <Box>
-          <Text className=" text-blue-600 font-medium">โกดัง</Text>
+          <Text className=" text-blue-600 font-medium">{categoryName}</Text>
         </Box>
       </Flex>
       <Flex

@@ -334,6 +334,7 @@ const DialogAddCategory = ({
                               acceptOption={{
                                 "image/png": [".png"],
                                 "image/jpeg": [".jpeg"],
+                                "image/webp": [".webp"],
                               }}
                               multiple={false}
                             />

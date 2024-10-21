@@ -11,9 +11,9 @@ import "swiper/css/pagination";
 import { Autoplay } from "swiper/modules";
 import { FreeMode, Pagination } from "swiper/modules";
 import CardProductItem from "@/components/cards/cardProductItem";
-import { SelectProductIncludeCategory } from "@/db/schemas";
+import { SelectProduct } from "@/db/schemas";
 
-const ProductDetail = (props: { products: SelectProductIncludeCategory[] }) => {
+const ProductDetail = (props: { products: SelectProduct[] }) => {
   const { products } = props;
 
   return (

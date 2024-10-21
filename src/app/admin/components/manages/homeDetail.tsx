@@ -16,6 +16,7 @@ import { Box, Text } from "@radix-ui/themes";
 import { TableHomeDetail } from "../tables/tableHomeDetail";
 import ButtonDefault from "@/components/buttons/buttonDefault";
 import { IoMdAdd } from "react-icons/io";
+import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 
 export function ManageHomeDetail() {
   // states
@@ -143,12 +144,19 @@ export function ManageHomeDetail() {
         }}
       >
         {!isLoading ? (
-          <TableHomeDetail
-            rows={dataHomeDetail?.result}
-            handleClickEdit={handleOpenDailogEdit}
-            handleOpenDialogDelete={handleOpenDialogDelete}
-            handleClickIsActive={handleClickIsActive}
-          />
+          <>
+            <TableHomeDetail
+              rows={dataHomeDetail?.result}
+              handleClickEdit={handleOpenDailogEdit}
+              handleOpenDialogDelete={handleOpenDialogDelete}
+              handleClickIsActive={handleClickIsActive}
+            />
+            {!dataHomeDetail?.result ||
+              (dataHomeDetail?.result &&
+                dataHomeDetail?.result?.length <= 0 && (
+                  <BoxNotDataTableAdmin />
+                ))}
+          </>
         ) : (
           <BoxLoadingData height="300px" />
         )}

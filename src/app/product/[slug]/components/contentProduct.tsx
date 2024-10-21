@@ -1,6 +1,6 @@
 import ProductDetail from "@/app/(homepage)/components/productDetail";
 import { ContactItem } from "@/components/footers/ContactInfo";
-import { SelectProduct, SelectProductIncludeCategory } from "@/db/schemas";
+import { SelectProductIncludeCategory } from "@/db/schemas";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import React from "react";
@@ -8,7 +8,7 @@ import { CiMobile3 } from "react-icons/ci";
 import { FiPhone } from "react-icons/fi";
 
 const ContentProduct = (props: {
-  product: SelectProduct;
+  product: SelectProductIncludeCategory;
   otherProducts: SelectProductIncludeCategory[];
 }) => {
   const { product, otherProducts } = props;
@@ -17,7 +17,7 @@ const ContentProduct = (props: {
       <Text className=" text-[22px] font-bold">รายละเอียดประกาศ</Text>
       <div className=" grid grid-cols-3 gap-3">
         <Text className=" custom-pre col-span-3 sm:col-span-2">
-          {product.description ?? "-"}
+          {product.description && product?.description != null ? product?.description : "-"}
         </Text>
         <Box className="col-span-3 sm:col-span-1">
           <Flex
@@ -31,11 +31,11 @@ const ContentProduct = (props: {
             <Text className=" text-[18px] font-bold ">ติดต่อผู้ขาย</Text>
             <ContactItem
               icon={<FiPhone size={"18px"} />}
-              desc={product?.tel ?? "-"}
+              desc={product?.tel && product?.tel != null ? product?.tel : "-"}
             />
             <ContactItem
               icon={<CiMobile3 size={"18px"} />}
-              desc={product?.phone ?? "-"}
+              desc={product?.phone && product?.phone != null ? product?.phone : "-"}
             />
           </Flex>
         </Box>
@@ -51,7 +51,9 @@ const ContentProduct = (props: {
       </Box>
       {otherProducts && otherProducts?.length > 0 && (
         <>
-          <Text className=" text-[22px] font-bold">โกดังเพิ่มเติม</Text>
+          <Text className=" text-[22px] font-bold">
+            {product.category?.name}เพิ่มเติม
+          </Text>
           <Box p="3">
             <ProductDetail products={otherProducts} />
           </Box>{" "}

@@ -11,7 +11,11 @@ import { TableProduct } from "../tables/tableProduct";
 import { SelectProduct } from "@/db/schemas";
 import { useProduct } from "@/app/hooks/useProduct";
 import DialogAddProduct from "../dialogs/dialogAddProduct";
-import { deleteProductAction, updateIsActiveProductAction } from "@/actions/products";
+import {
+  deleteProductAction,
+  updateIsActiveProductAction,
+} from "@/actions/products";
+import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 
 export function ManageProduct() {
   // states
@@ -138,15 +142,22 @@ export function ManageProduct() {
           padding: "24px",
           gap: "16px",
           backgroundColor: "#FFFFFF",
+          width: "100%",
         }}
       >
         {!isLoading ? (
-          <TableProduct
-            rows={dataProduct?.result}
-            handleClickEdit={handleOpenDailogEdit}
-            handleOpenDialogDelete={handleOpenDialogDelete}
-            handleClickIsActive={handleClickIsActive}
-          />
+          <>
+            <TableProduct
+              rows={dataProduct?.result}
+              handleClickEdit={handleOpenDailogEdit}
+              handleOpenDialogDelete={handleOpenDialogDelete}
+              handleClickIsActive={handleClickIsActive}
+            />
+            {!dataProduct?.result ||
+              (dataProduct?.result && dataProduct?.result?.length <= 0 && (
+                <BoxNotDataTableAdmin />
+              ))}
+          </>
         ) : (
           <BoxLoadingData height="300px" />
         )}

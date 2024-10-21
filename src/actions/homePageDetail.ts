@@ -158,6 +158,7 @@ export async function updateIsActiveHomePageDetailAction({
       id,
       is_active: is_active === "true" ? true : false,
     });
+    console.log("validatedFields", validatedFields.error);
     if (!validatedFields.success) {
       return homePageDetailException.updateFail();
     }

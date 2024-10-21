@@ -1,4 +1,4 @@
-import { FormEvent, HTMLInputTypeAttribute } from "react";
+import { HTMLInputTypeAttribute } from "react";
 
 type InputFormManageProps = {
   register?: React.DetailedHTMLProps<
@@ -28,7 +28,7 @@ const InputFormManage = ({
     const { value } = event.target;
     if (/^\d*$/.test(value)) {
       event.target.value = value;
-    } else if(type === "number" ){
+    } else if (type === "number") {
       event.target.value = value.replace(/[^0-9]/g, "");
     }
   };

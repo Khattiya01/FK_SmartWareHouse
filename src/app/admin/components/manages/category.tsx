@@ -12,6 +12,7 @@ import { useCategory } from "@/app/hooks/useCategory";
 import { SelectCategory } from "@/db/schemas";
 import { deleteCategoryAction } from "@/actions/category";
 import DialogAddCategory from "../dialogs/dialogAddCategory";
+import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 
 export function ManageCategory() {
   // states
@@ -115,11 +116,17 @@ export function ManageCategory() {
         }}
       >
         {!isLoading ? (
-          <TableCategory
-            rows={dataCategory?.result}
-            handleClickEdit={handleOpenDailogEdit}
-            handleOpenDialogDelete={handleOpenDialogDelete}
-          />
+          <>
+            <TableCategory
+              rows={dataCategory?.result}
+              handleClickEdit={handleOpenDailogEdit}
+              handleOpenDialogDelete={handleOpenDialogDelete}
+            />
+            {!dataCategory?.result ||
+              (dataCategory?.result && dataCategory?.result?.length <= 0 && (
+                <BoxNotDataTableAdmin />
+              ))}
+          </>
         ) : (
           <BoxLoadingData height="300px" />
         )}

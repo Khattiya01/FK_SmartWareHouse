@@ -13,8 +13,9 @@ import ButtonOutline from "@/components/buttons/buttonOutline";
 import { fetchFormContact } from "@/api/manage/manage-form-contact";
 import ExportExcelFile from "@/utils/exportExcelFile";
 import dayjs from "dayjs";
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -136,10 +137,17 @@ export function ManageFormContact() {
         }}
       >
         {!isLoading ? (
-          <TableFormContact
-            rows={dataFormContact?.result}
-            handleOpenDialogDelete={handleOpenDialogDelete}
-          />
+          <>
+            <TableFormContact
+              rows={dataFormContact?.result}
+              handleOpenDialogDelete={handleOpenDialogDelete}
+            />
+            {!dataFormContact?.result ||
+              (dataFormContact?.result &&
+                dataFormContact?.result?.length <= 0 && (
+                  <BoxNotDataTableAdmin />
+                ))}
+          </>
         ) : (
           <BoxLoadingData height="300px" />
         )}

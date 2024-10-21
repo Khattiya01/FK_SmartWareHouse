@@ -72,6 +72,7 @@ const FormContact = () => {
       />
       <InputForm
         placeholder={"เบอร์โทรศัพท์"}
+        type="number"
         register={{ ...register("phone") }}
         msgError={errors.phone?.message}
       />

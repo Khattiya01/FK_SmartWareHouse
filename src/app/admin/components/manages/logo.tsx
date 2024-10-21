@@ -12,14 +12,15 @@ import { TableLogo } from "../tables/tableLogo";
 import { Selectlogo } from "@/db/schemas";
 import { deleteLogoAction, updateIsActiveLogoAction } from "@/actions/logos";
 import DialogAddLogo from "../dialogs/dialogAddLogo";
+import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 
 export function ManageLogo() {
   // states
   const [openDialogCreateHomeDetail, setOpenDialogCreateHomeDetail] =
     useState<boolean>(false);
-  const [activeLogoData, setActiveLogoData] = useState<
-    Selectlogo | undefined
-  >(undefined);
+  const [activeLogoData, setActiveLogoData] = useState<Selectlogo | undefined>(
+    undefined
+  );
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
   // hooks
@@ -59,12 +60,7 @@ export function ManageLogo() {
         .then((res) => {
           if (res.success) {
             refetchLogo();
-            showToast(
-              "ลบโลโก้สำเร็จ",
-              "",
-              new Date(),
-              typeStatusTaost.success
-            );
+            showToast("ลบโลโก้สำเร็จ", "", new Date(), typeStatusTaost.success);
           } else {
             console.error("Error delete delete category:", res.message);
             showToast(
@@ -123,12 +119,18 @@ export function ManageLogo() {
         }}
       >
         {!isLoading ? (
-          <TableLogo
-            rows={dataLogo?.result}
-            handleClickEdit={handleOpenDailogEdit}
-            handleOpenDialogDelete={handleOpenDialogDelete}
-            handleClickIsActive={handleClickIsActive}
-          />
+          <>
+            <TableLogo
+              rows={dataLogo?.result}
+              handleClickEdit={handleOpenDailogEdit}
+              handleOpenDialogDelete={handleOpenDialogDelete}
+              handleClickIsActive={handleClickIsActive}
+            />
+            {!dataLogo?.result ||
+              (dataLogo?.result && dataLogo?.result?.length <= 0 && (
+                <BoxNotDataTableAdmin />
+              ))}
+          </>
         ) : (
           <BoxLoadingData height="300px" />
         )}

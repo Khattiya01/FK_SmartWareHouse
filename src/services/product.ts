@@ -5,8 +5,6 @@ import {
   InsertProduct,
   productsTable,
   UpdateProduct,
-  UpdateUser,
-  usersTable,
 } from "@/db/schemas";
 import { v4 as uuidv4 } from "uuid";
 import { redirect } from "next/navigation";
@@ -183,9 +181,16 @@ export const getProductsById = async (id: string) => {
 export const getProductsByProductId = async (product_id: string) => {
   try {
     const data = await db
-      .select()
+      .select({
+        ...getTableColumns(productsTable),
+        category: {
+          id: categoryTable.id,
+          name: categoryTable.name,
+        },
+      })
       .from(productsTable)
-      .where(eq(productsTable.product_id, product_id));
+      .where(eq(productsTable.product_id, product_id))
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id));
     return data && data?.length > 0 ? data[0] : undefined;
   } catch (error) {
     console.error("Error fetching products:", error);

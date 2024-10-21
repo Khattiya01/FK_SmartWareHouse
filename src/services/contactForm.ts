@@ -23,7 +23,7 @@ export const addContactForm = async (data: InsertContactForm) => {
     name: data.name,
     email: data.email,
     phone: data.phone,
-    title: data.phone,
+    title: data.title,
     message: data.message
   });
 };

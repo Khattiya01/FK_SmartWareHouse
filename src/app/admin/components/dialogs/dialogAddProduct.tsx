@@ -560,6 +560,7 @@ const DialogAddProduct = ({
                               acceptOption={{
                                 "image/png": [".png"],
                                 "image/jpeg": [".jpeg"],
+                                "image/webp": [".webp"],
                               }}
                               multiple={false}
                             />
@@ -642,6 +643,7 @@ const DialogAddProduct = ({
                               acceptOption={{
                                 "image/png": [".png"],
                                 "image/jpeg": [".jpeg"],
+                                "image/webp": [".webp"],
                               }}
                               multiple={false}
                             />
@@ -729,6 +731,7 @@ const DialogAddProduct = ({
                               acceptOption={{
                                 "image/png": [".png"],
                                 "image/jpeg": [".jpeg"],
+                                "image/webp": [".webp"],
                               }}
                             />
                           </Box>
