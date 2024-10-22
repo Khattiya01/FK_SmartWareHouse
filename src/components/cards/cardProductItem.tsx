@@ -52,7 +52,7 @@ const CardProductItem = (props: { product: SelectProduct }) => {
               </Text>
             </Badge>
           </Box> */}
-          <Text className="  text-xs text-overflow-line-clamp-1 ">
+          <Text className=" sm:text-sm text-xs text-overflow-line-clamp-1 ">
             {product.address ?? "-"}
           </Text>
         </Flex>

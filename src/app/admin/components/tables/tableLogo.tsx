@@ -49,7 +49,7 @@ export function TableLogo({
                     padding: "0px",
                     overflow: "hidden",
                   }}
-                  className=" relative max-w-[300px] w-full h-[80px] "
+                  className=" relative max-w-[320px] w-full h-[80px] "
                 >
                   <Image
                     src={item.image_url}

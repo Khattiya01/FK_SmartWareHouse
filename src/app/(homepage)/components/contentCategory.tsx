@@ -30,7 +30,7 @@ const CategoryItem = (props: { name: string; src: string; href: string }) => {
         >
           <Text className=" text-lg font-bold  text-white">{name}</Text>
           <Box className=" p-1 px-4 border-2">
-            <Text className=" text-[12px] font-bold  text-white">
+            <Text className="sm:text-sm text-[12px] font-bold  text-white">
               ดูทั้งหมด
             </Text>
           </Box>

@@ -8,7 +8,7 @@ const ContentDetail2 = (props: {
 }) => {
   const { detail, imageURL } = props;
   return (
-    <Flex className=" bg-slate-100 " p={"4"} justify={"center"}>
+    <Flex className=" bg-slate-100 " p={"4"} justify={"center"} >
       <Flex
         className="max-w-desktop w-full"
         direction={{ initial: "column", sm: "row" }}

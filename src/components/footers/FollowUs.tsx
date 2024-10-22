@@ -46,7 +46,7 @@ const FollowUs = async ({
         </Flex>
       </Flex>
       <Link href={"/"}>
-        <Box className="relative w-[277px] h-[80px] ">
+        <Box className="relative w-[320px] h-[80px] ">
           <Image
             src={logoURL}
             alt="logo-main-website"

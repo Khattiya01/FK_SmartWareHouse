@@ -44,6 +44,7 @@ const InputForm = (props: InputFormProps) => {
         variant="soft"
         onInput={handleInputChange}
         placeholder={placeholder}
+        size={"3"}
         className="[&>*]:!text-white  [&>*]:!border-[1px] [&>*]:!border-solid [&>*]:!outline-main [&>*]:!placeholder-white"
       />
       {msgError && <div className="text-require">{msgError}</div>}

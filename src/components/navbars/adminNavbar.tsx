@@ -52,8 +52,8 @@ const AdminNavbar = async () => {
         }}
       >
         <Link href={"/"}>
-          <Box className=" overflow-hidden sm:w-[277px] w-[88px]">
-            <Box className="relative w-[277px] h-[80px] ">
+          <Box className=" overflow-hidden sm:w-[320px] w-[88px]">
+            <Box className="relative w-[320px] h-[80px] ">
               <Image
                 src={logoURL}
                 alt="logo-main-website"

@@ -35,7 +35,7 @@ const MainFooter = async () => {
         pb={"2"}
         className=" bg-[#f5f5f7] text-black"
       >
-        <Text className=" text-[12px]">© Copyright 2024 by FK-SWH.com</Text>
+        <Text className=" sm:text-sm text-[12px]">© Copyright 2024 by FK-SWH.com</Text>
       </Flex>
     </Flex>
   );

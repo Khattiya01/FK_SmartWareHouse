@@ -49,11 +49,11 @@ const BubbleChat = ({
         href={contact?.line_url ?? "https://facebook.com"}
       />
       <BubbleChatItems
-        name={"Messenger"}
+        name={"Facebook"}
         icon={
           <Image
-            src={"/images/icon-messenger.png"}
-            alt="icon-messenger.png"
+            src={"/images/facebook-icon.webp"}
+            alt="facebook-icon.webp"
             width={28}
             height={28}
           />
@@ -112,13 +112,13 @@ const BubbleContact = ({ contact }: { contact: SelectContact | undefined }) => {
         >
           <IoClose
             color="white"
-            className={`absolute w-7 h-7 transition-transform transition-opacity duration-300 ${
+            className={`absolute w-7 h-7 transition-all duration-300 ${
               open ? "scale-100 opacity-100" : "scale-0 opacity-0"
             }`}
           />
           <BsChatText
             color="white"
-            className={`absolute w-7 h-7 transition-transform transition-opacity duration-300 ${
+            className={`absolute w-7 h-7 transition-all duration-300 ${
               open ? "scale-0 opacity-0" : "scale-100 opacity-100"
             }`}
           />

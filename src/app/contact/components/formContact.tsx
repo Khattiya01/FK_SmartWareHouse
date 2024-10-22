@@ -86,7 +86,7 @@ const FormContact = () => {
         register={{ ...register("message") }}
         msgError={errors.message?.message}
       />
-      <Button variant="solid">ส่งข้อความ</Button>
+      <Button size={"3"} variant="solid">ส่งข้อความ</Button>
     </form>
   );
 };
