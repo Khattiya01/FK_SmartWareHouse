@@ -8,7 +8,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SelectCategory } from "@/db/schemas";
+import { SelectContact } from "@/db/schemas";
+import dayjs from "dayjs";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
@@ -17,9 +18,9 @@ export function TableContact({
   handleClickEdit,
   handleOpenDialogDelete,
 }: {
-  rows: SelectCategory[] | undefined;
-  handleClickEdit: (item: SelectCategory) => void;
-  handleOpenDialogDelete: (item: SelectCategory) => void;
+  rows: SelectContact[] | undefined;
+  handleClickEdit: (item: SelectContact) => void;
+  handleOpenDialogDelete: (item: SelectContact) => void;
 }) {
   return (
     <Table className=" min-w-[900px]">
@@ -43,8 +44,12 @@ export function TableContact({
           rows?.length > 0 &&
           rows.map((item) => (
             <TableRow key={item.id}>
-              <TableCell className="font-medium">{item.abbreviation}</TableCell>
-              <TableCell className="font-medium">{item.name}</TableCell>
+              <TableCell className="font-medium">{item.address}</TableCell>
+              <TableCell className="font-medium">{item.phone}</TableCell>
+              <TableCell className="font-medium">
+                {dayjs.utc(item.start_day_bs_hour).format("HH:mm")} -{" "}
+                {dayjs.utc(item.end_day_bs_hour).format("HH:mm")}
+              </TableCell>
               <TableCell className="text-right flex gap-4">
                 <MdModeEdit
                   onClick={() => {

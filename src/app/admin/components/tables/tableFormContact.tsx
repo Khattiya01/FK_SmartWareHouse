@@ -37,6 +37,9 @@ export function TableFormContact({
             อีเมล
           </TableHead>
           <TableHead className="text-white font-bold text-base">
+            ไลน์ไอดี
+          </TableHead>
+          <TableHead className="text-white font-bold text-base">
             เบอร์โทรศัพท์
           </TableHead>
           <TableHead className="text-white font-bold text-base">
@@ -58,6 +61,7 @@ export function TableFormContact({
               </TableCell>
               <TableCell className="font-medium">{item.name}</TableCell>
               <TableCell className="font-medium">{item.email}</TableCell>
+              <TableCell className="font-medium">{item.lineId}</TableCell>
               <TableCell className="font-medium">{item.phone}</TableCell>
               <TableCell className="font-medium">{item.title}</TableCell>
               <TableCell className="font-medium">{item.message}</TableCell>

@@ -16,6 +16,7 @@ export async function createContactFormAction(formData: FormData) {
     const name = formData.get("name")?.toString();
     const email = formData.get("email")?.toString();
     const phone = formData.get("phone")?.toString();
+    const lineId = formData.get("lineId")?.toString();
     const title = formData.get("title")?.toString();
     const message = formData.get("message")?.toString();
 
@@ -24,6 +25,7 @@ export async function createContactFormAction(formData: FormData) {
       phone: phone,
       email: email,
       title: title,
+      lineId: lineId,
       message: message,
     });
 
@@ -33,11 +35,12 @@ export async function createContactFormAction(formData: FormData) {
       return contactFormException.misMatchData();
     }
 
-    if (name && phone && email && title && message) {
+    if (name && phone && email && title && message && lineId) {
       const payload = {
         name: name,
         phone: phone,
         email: email,
+        lineId: lineId,
         title: title,
         message: message,
       };

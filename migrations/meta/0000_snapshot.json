@@ -1,5 +1,5 @@
 {
-  "id": "639b141a-8168-4760-8c2f-efa1817d13ce",
+  "id": "fa025745-5e6e-4106-adb5-9333259ae109",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -13,7 +13,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'359134e8-208e-48a8-8136-2c7290a18c32'"
+          "default": "'2f2c13c2-fdb4-42c8-b6de-682bccb13945'"
         },
         "username": {
           "name": "username",
@@ -76,7 +76,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'5a55a7e9-c30d-486e-86f1-4596cfc0c827'"
+          "default": "'5a9780e1-9fb0-4f7e-abd3-6eb9aa9d1291'"
         },
         "file_url": {
           "name": "file_url",
@@ -130,7 +130,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'6fe36035-d7a4-461d-89c2-0662fc7ccc82'"
+          "default": "'e7343539-a3d7-4f5f-af8d-3b5490058bc1'"
         },
         "image_url": {
           "name": "image_url",
@@ -173,7 +173,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'2954ace0-6719-4092-ab50-3dbd4d5f970d'"
+          "default": "'7976c5f0-2f8b-48d9-91d1-2fb0e530505d'"
         },
         "banner_image_url": {
           "name": "banner_image_url",
@@ -247,7 +247,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'a22eb306-c4c9-4d44-b5c8-1053f8805487'"
+          "default": "'ba111e81-a8f9-4dcf-b758-5351e900cfea'"
         },
         "product_id": {
           "name": "product_id",
@@ -394,7 +394,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'78562e24-8269-4ee7-a608-d82bc822de3c'"
+          "default": "'03f10997-7584-41cd-afaa-acdc82d4b5d2'"
         },
         "image_url": {
           "name": "image_url",
@@ -457,7 +457,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'1c829523-bbcc-4b0e-bc3f-dd496332d3a3'"
+          "default": "'486249de-215c-42c5-a38a-c5f7e888a520'"
         },
         "address": {
           "name": "address",
@@ -584,7 +584,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'ee2c6cfb-6958-473a-b405-bd23384aa181'"
+          "default": "'6940435b-fd34-4a06-8aac-a3648efb7ae3'"
         },
         "name": {
           "name": "name",
@@ -600,6 +600,12 @@
         },
         "phone": {
           "name": "phone",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lineId": {
+          "name": "lineId",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true

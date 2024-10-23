@@ -23,6 +23,7 @@ export const addContactForm = async (data: InsertContactForm) => {
     name: data.name,
     email: data.email,
     phone: data.phone,
+    lineId: data.lineId,
     title: data.title,
     message: data.message
   });
@@ -35,6 +36,7 @@ export const editContactForm = async (data: UpdateContactForm) => {
       name: data.name,
       email: data.email,
       phone: data.phone,
+      lineId: data.lineId,
       title: data.phone,
     })
     .where(eq(contactFormTable.id, data.id))

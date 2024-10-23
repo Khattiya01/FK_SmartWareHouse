@@ -14,6 +14,7 @@ export const contactFormTable = pgTable("contact_form", {
   name: varchar("name").notNull(),
   email: varchar("email").notNull(),
   phone: varchar("phone").notNull(),
+  lineId: varchar("lineId").notNull(),
   title: varchar("title").notNull(),
   message: text("message").notNull(),
   created_at: timestamp("created_at").defaultNow(),
@@ -31,6 +32,7 @@ export type UpdateContactForm = {
   email?: string;
   phone?: string;
   title?: string;
+  lineId?: string;
   message?: string;
   created_at?: Date | null | undefined;
   updated_at?: Date | null | undefined;
@@ -41,6 +43,7 @@ export const insertContactFormSchema = createInsertSchema(contactFormTable, {
   email: z.string().email().min(1, { message: "จำเป็นต้องระบุอีเมล" }),
   phone: z.string().min(1, { message: "จำเป็นต้องระบุหมายเลขโทรศัพท์" }),
   title: z.string().min(1, { message: "จำเป็นต้องระบุชื่อเรื่อง" }),
+  lineId: z.string().min(1, { message: "จำเป็นต้อง Line Id" }),
   message: z.string().min(1, { message: "จำเป็นต้องระบุข้อความ" }),
 });
 
@@ -49,6 +52,7 @@ export const updateContactFormSchema = createInsertSchema(contactFormTable, {
   name: z.string().min(1, { message: "name is required" }),
   email: z.string().min(1, { message: "email is required" }),
   phone: z.string().min(1, { message: "phone is required" }),
+  lineId: z.string().min(1, { message: "จำเป็นต้อง Line ID" }),
   title: z.string().min(1, { message: "title is required" }),
   message: z.string().min(1, { message: "message is required" }),
 });
@@ -58,6 +62,7 @@ export const deleteContactFormSchema = createInsertSchema(contactFormTable, {
   name: z.string().optional(),
   email: z.string().optional(),
   phone: z.string().optional(),
+  lineId: z.string().optional(),
   title: z.string().optional(),
   message: z.string().optional(),
 });

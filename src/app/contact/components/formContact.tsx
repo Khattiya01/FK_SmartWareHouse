@@ -29,6 +29,7 @@ const FormContact = () => {
     formData.append("name", data.name);
     formData.append("phone", data.phone);
     formData.append("title", data.title);
+    formData.append("lineId", data.lineId);
     formData.append("message", data.message);
     formData.append("email", data.email);
     console.log("data", data);
@@ -71,6 +72,11 @@ const FormContact = () => {
         msgError={errors.email?.message}
       />
       <InputForm
+        placeholder={"Line ID"}
+        register={{ ...register("lineId") }}
+        msgError={errors.lineId?.message}
+      />
+      <InputForm
         placeholder={"เบอร์โทรศัพท์"}
         type="number"
         register={{ ...register("phone") }}
@@ -86,7 +92,9 @@ const FormContact = () => {
         register={{ ...register("message") }}
         msgError={errors.message?.message}
       />
-      <Button size={"3"} variant="solid">ส่งข้อความ</Button>
+      <Button size={"3"} variant="solid">
+        ส่งข้อความ
+      </Button>
     </form>
   );
 };

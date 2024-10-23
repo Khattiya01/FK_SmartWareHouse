@@ -92,6 +92,7 @@ export function ManageFormContact() {
         Name: item.name,
         Email: item.email,
         Phone: item.phone,
+        LIneID: item.lineId,
         Title: item.title,
         Message: item.message,
       }));
