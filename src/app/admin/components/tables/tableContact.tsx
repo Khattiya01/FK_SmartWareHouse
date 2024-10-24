@@ -1,5 +1,6 @@
 "use client";
 
+import ToggleAdmin from "@/components/toggle/toggleAdmin";
 import {
   Table,
   TableBody,
@@ -17,10 +18,12 @@ export function TableContact({
   rows,
   handleClickEdit,
   handleOpenDialogDelete,
+  handleClickIsActive,
 }: {
   rows: SelectContact[] | undefined;
   handleClickEdit: (item: SelectContact) => void;
   handleOpenDialogDelete: (item: SelectContact) => void;
+  handleClickIsActive: (item: boolean, id: string) => void;
 }) {
   return (
     <Table className=" min-w-[900px]">
@@ -29,7 +32,7 @@ export function TableContact({
           <TableHead className="text-white font-bold text-base">
             ที่อยู่
           </TableHead>
-          <TableHead className="text-white font-bold text-base">
+          <TableHead className="text-white font-bold text-base w-40 ">
             หมายเลขโทรศัพท์
           </TableHead>
           <TableHead className="text-white font-bold text-base">
@@ -49,6 +52,13 @@ export function TableContact({
               <TableCell className="font-medium">
                 {dayjs.utc(item.start_day_bs_hour).format("HH:mm")} -{" "}
                 {dayjs.utc(item.end_day_bs_hour).format("HH:mm")}
+              </TableCell>
+              <TableCell className="font-medium">
+                <ToggleAdmin
+                  disabled={item.is_active ? true : false}
+                  checked={item.is_active ? true : false}
+                  onCheckedChange={(c) => handleClickIsActive(c, item.id)}
+                />
               </TableCell>
               <TableCell className="text-right flex gap-4">
                 <MdModeEdit

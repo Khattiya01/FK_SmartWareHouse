@@ -1,18 +1,16 @@
 "use server";
 
 import {
-  deleteProductSchema,
+  deleteContactSchema,
   insertContactSchema,
   updatelogoSchema,
 } from "@/db/schemas";
 import { contactException } from "@/exceptions/contact";
 import { logoException } from "@/exceptions/logos";
-import { productException } from "@/exceptions/products";
-import { addContact } from "@/services/contact";
-import { deleteFiles } from "@/services/files";
+import { addContact, deleteContact } from "@/services/contact";
 import { editLogos } from "@/services/logo";
-import { deleteProducts } from "@/services/product";
 import { revalidatePath } from "next/cache";
+import { deleteFileAction } from "./files";
 
 export async function createContactAction(formData: FormData) {
   try {
@@ -129,7 +127,7 @@ export async function updateContactAction({
   }
 }
 
-export async function deleteProductAction({
+export async function deleteContactAction({
   id,
   file_url,
 }: {
@@ -137,32 +135,32 @@ export async function deleteProductAction({
   file_url: string;
 }) {
   try {
-    const validatedFields = deleteProductSchema.safeParse({
+    const validatedFields = deleteContactSchema.safeParse({
       id: id,
     });
     if (!validatedFields.success) {
-      return productException.deleteFail();
+      return contactException.deleteFail();
     }
 
     if (id) {
       const allFilesURL = file_url.split(",");
 
-      await deleteProducts(id).then(async () => {
+      await deleteContact(id).then(async () => {
         for (const file of allFilesURL) {
-          await deleteFiles(file);
+          await deleteFileAction({ file_url: file });
         }
       });
 
       revalidatePath("/admin");
       return {
         success: true,
-        message: "delete product successfully",
+        message: "delete contact successfully",
         result: null,
       };
     } else {
-      return productException.createError("id is required.");
+      return contactException.createError("id is required.");
     }
   } catch (error: any) {
-    return productException.createError(error?.message);
+    return contactException.createError(error?.message);
   }
 }

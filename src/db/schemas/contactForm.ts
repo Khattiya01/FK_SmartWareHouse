@@ -43,7 +43,7 @@ export const insertContactFormSchema = createInsertSchema(contactFormTable, {
   email: z.string().email().min(1, { message: "จำเป็นต้องระบุอีเมล" }),
   phone: z.string().min(1, { message: "จำเป็นต้องระบุหมายเลขโทรศัพท์" }),
   title: z.string().min(1, { message: "จำเป็นต้องระบุชื่อเรื่อง" }),
-  lineId: z.string().min(1, { message: "จำเป็นต้อง Line Id" }),
+  lineId: z.string().min(1, { message: "จำเป็นต้องระบุ Line Id" }),
   message: z.string().min(1, { message: "จำเป็นต้องระบุข้อความ" }),
 });
 
@@ -52,7 +52,7 @@ export const updateContactFormSchema = createInsertSchema(contactFormTable, {
   name: z.string().min(1, { message: "name is required" }),
   email: z.string().min(1, { message: "email is required" }),
   phone: z.string().min(1, { message: "phone is required" }),
-  lineId: z.string().min(1, { message: "จำเป็นต้อง Line ID" }),
+  lineId: z.string().min(1, { message: "จำเป็นต้องระบุ Line Id" }),
   title: z.string().min(1, { message: "title is required" }),
   message: z.string().min(1, { message: "message is required" }),
 });

@@ -6,6 +6,7 @@ import { ManageFormContact } from "../components/manages/formContact";
 import { ManageCategory } from "../components/manages/category";
 import { ManageProduct } from "../components/manages/product";
 import { ManageLogo } from "../components/manages/logo";
+import { ManageContact } from "../components/manages/contact";
 
 export default async function AdminManagePage({
   params,
@@ -21,6 +22,7 @@ export default async function AdminManagePage({
       {manageName === "manage-logo" && <ManageLogo />}
       {manageName === "manage-category" && <ManageCategory />}
       {manageName === "manage-product" && <ManageProduct />}
+      {manageName === "manage-contact" && <ManageContact />}
       {manageName === "manage-form-contact" && <ManageFormContact />}
     </Flex>
   );

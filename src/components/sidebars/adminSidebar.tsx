@@ -40,7 +40,6 @@ const AdminSidebar = () => {
       icon: <RiContactsBook3Line style={{ width: "24px", height: "24px" }} />,
       name: "จัดการการติดต่อ",
       path: `/admin/manage-contact`,
-      disabled: true,
     },
     {
       icon: <FaWpforms style={{ width: "24px", height: "24px" }} />,

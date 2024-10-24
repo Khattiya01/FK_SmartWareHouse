@@ -5,10 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 export const getContact = async () => {
   try {
-    const data = await db
-      .select()
-      .from(contactTable)
-      .where(eq(contactTable.is_active, true));
+    const data = await db.select().from(contactTable);
     return data;
   } catch (error) {
     console.error("Error fetching contact:", error);
