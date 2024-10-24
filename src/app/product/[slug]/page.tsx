@@ -14,7 +14,8 @@ export default async function ProductPage({
   params: { slug: string };
 }) {
   const product = await getProductsByProductId(params.slug);
-
+  console.log("test2");
+  
   if (!product) {
     redirect("/");
   }
