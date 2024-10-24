@@ -14,6 +14,8 @@ import { homePageDetailTable } from "@/db/schemas/homeDetail";
 
 export const getCategory = async () => {
   try {
+    console.log("test");
+    
     const categories = await db
       .select()
       .from(categoryTable)
