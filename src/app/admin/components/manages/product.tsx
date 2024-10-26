@@ -79,7 +79,7 @@ export function ManageProduct() {
               typeStatusTaost.success
             );
           } else {
-            console.error("Error delete product:", res.message);
+            console.error("Error delete product:", res?.message);
             showToast(
               "ลบผลิตภัณฑ์ไม่สำเร็จ",
               "",

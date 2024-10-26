@@ -52,7 +52,7 @@ export function ManageFormContact() {
           } else {
             console.error(
               "Error delete deleteHomePageDetailAction:",
-              res.message
+              res?.message
             );
             showToast(
               "ลบแบบฟอร์มการติดต่อไม่สำเร็จ",

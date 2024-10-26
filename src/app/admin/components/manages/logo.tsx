@@ -62,7 +62,7 @@ export function ManageLogo() {
             refetchLogo();
             showToast("ลบโลโก้สำเร็จ", "", new Date(), typeStatusTaost.success);
           } else {
-            console.error("Error delete delete category:", res.message);
+            console.error("Error delete delete category:", res?.message);
             showToast(
               "ลบโลโก้ไม่สำเร็จ",
               "",
