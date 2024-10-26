@@ -1,3 +1,5 @@
+import { blobToFile } from "../file";
+
 export type CreateContactType = {
   address: string;
   province: string;
@@ -6,8 +8,8 @@ export type CreateContactType = {
   postal_code: string;
   tel: string;
   phone: string;
-  map_image: File[];
-  bg_image: File[];
+  map_image: blobToFile[];
+  bg_image: blobToFile[];
   line_id: string;
   line_url: string;
   facebook_url: string;

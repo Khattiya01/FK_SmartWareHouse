@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ButtonDefault from "@/components/buttons/buttonDefault";
-import { createFileAction, deleteFileAction } from "@/actions/files";
-import { Selectlogo } from "@/db/schemas";
+import { createFileAction } from "@/actions/files";
+import { SelectContact } from "@/db/schemas";
 import { Box, Spinner, Text } from "@radix-ui/themes";
 import ButtonOutline from "@/components/buttons/buttonOutline";
 import UploadField from "@/components/uploadFIle/uploadField";
@@ -15,13 +15,16 @@ import { DialogComponent } from "@/components/alertDialogs/dialog.component";
 import AlertDialogComponent from "@/components/alertDialogs/alertDialog";
 import { fetchFileByURL, fetchImages } from "@/api/file";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
-import { CreateLogoType } from "@/types/requests/createLogo";
-import { CreateLogo } from "@/schemas/createLogo";
-import { createLogoAction, updateLogoAction } from "@/actions/logos";
+import InputFormManage from "@/components/inputs/inputFormManage";
+import { CreateContactType } from "@/types/requests/createContact";
+import { CreateContact } from "@/schemas/createContact";
+import { createContactAction, updateContactAction } from "@/actions/contact";
+import SelectComponents from "@/components/selects/selectComponents";
+import { TIME24 } from "@/utils/optionDate";
 
 type DialogAddContactProps = {
   dialogType?: "create" | "edit";
-  data: Selectlogo | undefined;
+  data: SelectContact | undefined;
   onSuccess: () => void;
   onCancel: () => void;
   isOpen: boolean;
@@ -56,11 +59,13 @@ const DialogAddContact = ({
     reset,
     watch,
     setValue,
-  } = useForm<CreateLogoType>({
+    register,
+  } = useForm<CreateContactType>({
     defaultValues: {
-      image_url: [],
+      map_image: [],
+      bg_image: [],
     },
-    resolver: zodResolver(CreateLogo),
+    resolver: zodResolver(CreateContact),
   });
 
   const onCheckFileUpload = async (
@@ -105,8 +110,8 @@ const DialogAddContact = ({
       return [...currentFile, ...mockFiles];
     }
   };
-  const handleDeleteFile = (file: blobToFile) => {
-    const oldFile: blobToFile[] = watch("image_url");
+  const handleDeleteFilebg_image = (file: blobToFile) => {
+    const oldFile: blobToFile[] = watch("bg_image");
     const oldFileDelete = fileDelete;
     const newFile = oldFile.filter((f) => {
       if (f?.id !== file?.id) {
@@ -115,39 +120,68 @@ const DialogAddContact = ({
         setFileDelete([...oldFileDelete, f]);
       }
     });
-    setValue("image_url", newFile);
+    setValue("bg_image", newFile);
+  };
+  const handleDeleteFilemap_image = (file: blobToFile) => {
+    const oldFile: blobToFile[] = watch("map_image");
+    const oldFileDelete = fileDelete;
+    const newFile = oldFile.filter((f) => {
+      if (f?.id !== file?.id) {
+        return f?.id !== file?.id;
+      } else if (file?.status !== "new") {
+        setFileDelete([...oldFileDelete, f]);
+      }
+    });
+    setValue("map_image", newFile);
   };
 
-  const onSubmitHandler = async (payload: CreateLogoType) => {
+  const onSubmitHandler = async (payload: CreateContactType) => {
     console.log("payload", payload);
 
     const formData = new FormData();
+    const formData2 = new FormData();
 
-    Array.from(payload.image_url).map((file) => {
+    Array.from(payload.bg_image).map((file) => {
       formData.append("file", file);
     });
+    Array.from(payload.map_image).map((file) => {
+      formData2.append("file", file);
+    });
 
-    const resImage_url = await createFileAction(formData);
+    const resbg_image = await createFileAction(formData);
+    const resmap_imagel = await createFileAction(formData2);
 
     const fd = new FormData();
+    fd.append("address", payload.address);
+    fd.append("province", payload.province);
+    fd.append("district", payload.district);
+    fd.append("sub_district", payload.sub_district);
+    fd.append("postal_code", payload.postal_code);
+    fd.append("tel", payload.tel);
+    fd.append("phone", payload.phone);
+    fd.append("line_id", payload.line_id);
+    fd.append("line_url", payload.line_url);
+    fd.append("facebook_url", payload.facebook_url);
+    fd.append("tiktok_url", payload.tiktok_url);
+    fd.append("start_day_bs_hour", payload.start_day_bs_hour);
+    fd.append("end_day_bs_hour", payload.end_day_bs_hour);
 
-    if (resImage_url.result?.file_url) {
-      fd.append("image_url", resImage_url.result?.file_url);
+    if (resbg_image.result?.file_url) {
+      fd.append("bg_image", resbg_image.result?.file_url);
+    }
+    if (resmap_imagel.result?.file_url) {
+      fd.append("map_image", resmap_imagel.result?.file_url);
     }
 
     setIsLoadingSubmit(true);
     if (dialogType === "edit" && data?.id) {
-      const All_file_url = data.image_url;
-      for (const file of All_file_url.split(",")) {
-        await deleteFileAction({ file_url: file });
-      }
-      await updateLogoAction({ formData: fd, id: data.id })
+      await updateContactAction({ formData: fd, id: data.id })
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
           onSuccess();
           showToast(
-            "แก้ไขโลโก้สำเร็จ",
+            "แก้ไขการติดต่อสำเร็จ",
             "",
             new Date(),
             typeStatusTaost.success
@@ -158,7 +192,7 @@ const DialogAddContact = ({
           console.error("Error create logo:", err?.message);
           setIsLoadingSubmit(false);
           showToast(
-            "แก้ไขโลโก้ไม่สำเร็จ",
+            "แก้ไขการติดต่อไม่สำเร็จ",
             "",
             new Date(),
             typeStatusTaost.error
@@ -167,13 +201,13 @@ const DialogAddContact = ({
     }
 
     if (dialogType === "create") {
-      await createLogoAction(fd)
+      await createContactAction(fd)
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
           onSuccess();
           showToast(
-            "เพิ่มโลโก้สำเร็จ",
+            "เพิ่มการติดต่อสำเร็จ",
             "",
             new Date(),
             typeStatusTaost.success
@@ -184,7 +218,7 @@ const DialogAddContact = ({
           console.error("Error create logo:", err?.message);
           setIsLoadingSubmit(false);
           showToast(
-            "เพิ่มโลโก้ไม่สำเร็จ",
+            "เพิ่มการติดต่อไม่สำเร็จ",
             "",
             new Date(),
             typeStatusTaost.error
@@ -206,24 +240,71 @@ const DialogAddContact = ({
     reset();
   };
 
-  const fetchFileData = async (data: Selectlogo) => {
+  const fetchFileData = async (data: SelectContact) => {
     setIsLoadingData(true);
     const preData: any = {
       id: data.id,
-      image_url: [],
       created_at: data.created_at,
       updated_at: data.updated_at,
+      address: data.address,
+      province: data.province,
+      district: data.district,
+      sub_district: data.sub_district,
+      postal_code: data.postal_code,
+      tel: data.tel,
+      phone: data.phone,
+      map_image: [],
+      bg_image: [],
+      line_id: data.line_id,
+      line_url: data.line_url,
+      tiktok_url: data.tiktok_url,
+      facebook_url: data.facebook_url,
+      start_day_bs_hour: data.start_day_bs_hour,
+      end_day_bs_hour: data.end_day_bs_hour,
+      is_active: data.is_active,
     };
-    const image_url = data.image_url;
-    const responseImage_url = await fetchFileByURL(image_url);
-    const responseFullImage_url = await fetchImages(responseImage_url.result);
-    preData.image_url.push(
-      responseFullImage_url ? responseFullImage_url[0] : []
-    );
+    const bg_image_urls = data.bg_image;
+    const map_image_url = data.map_image;
+
+    if (bg_image_urls) {
+      const responsebg_image_urls = await fetchFileByURL(bg_image_urls);
+      const responseFullbg_image_urls = await fetchImages(
+        responsebg_image_urls.result
+      );
+      preData.bg_image.push(
+        responseFullbg_image_urls ? responseFullbg_image_urls[0] : []
+      );
+    }
+
+    if (map_image_url) {
+      const responsemap_image_url = await fetchFileByURL(map_image_url);
+      const responseFullmap_image_url = await fetchImages(
+        responsemap_image_url.result
+      );
+      preData.map_image.push(
+        responseFullmap_image_url ? responseFullmap_image_url[0] : []
+      );
+    }
 
     console.log("preData", preData);
 
-    setValue("image_url", preData.image_url);
+    setValue("address", data.address ?? "");
+    setValue("province", data.province ?? "");
+    setValue("district", data.district ?? "");
+    setValue("sub_district", data.sub_district ?? "");
+    setValue("postal_code", data.postal_code ?? "");
+    setValue("tel", data.tel ?? "");
+    setValue("phone", data.phone ?? "");
+    setValue("bg_image", preData.bg_image);
+    setValue("map_image", preData.map_image);
+    setValue("line_id", preData.line_id);
+    setValue("line_url", preData.line_url);
+    setValue("facebook_url", preData.facebook_url);
+    setValue("tiktok_url", preData.tiktok_url);
+    setValue("start_day_bs_hour", preData.start_day_bs_hour);
+    setValue("end_day_bs_hour", preData.end_day_bs_hour);
+    setValue("is_active", preData.is_active);
+
     setIsLoadingData(false);
   };
 
@@ -233,12 +314,13 @@ const DialogAddContact = ({
     }
   }, [data, isOpen]);
 
+  console.log(errors);
   return (
     <>
       <DialogComponent
         isOpen={isOpen}
         className=" lg:max-w-5xl sm:max-w-lg"
-        title={data ? "แก้ไขโลโก้" : "เพิ่มโลโก้"}
+        title={data ? "แก้ไขการติดต่อ" : "เพิ่มการติดต่อ"}
         content={
           dialogType === "edit" && isLoadingData ? (
             <BoxLoadingData minHeight="666px" />
@@ -249,6 +331,119 @@ const DialogAddContact = ({
             >
               <div className=" flex flex-col w-full max-h-[600px] pl-1 pr-1 overflow-y-auto ">
                 <div className=" flex gap-6 flex-col ">
+                  <InputFormManage
+                    name={"ที่อยู่"}
+                    placeholder="ที่อยู่"
+                    register={{ ...register("address") }}
+                    msgError={errors.address?.message}
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"จังหวัด"}
+                    placeholder="จังหวัด"
+                    register={{ ...register("province") }}
+                    msgError={errors.province?.message}
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"อำเภอ"}
+                    placeholder="อำเภอ"
+                    register={{ ...register("district") }}
+                    msgError={errors.district?.message}
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"ตำบล"}
+                    placeholder="ตำบล"
+                    register={{ ...register("sub_district") }}
+                    msgError={errors.sub_district?.message}
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"รหัสไปรษณีย์"}
+                    placeholder="รหัสไปรษณีย์"
+                    register={{ ...register("postal_code") }}
+                    msgError={errors.postal_code?.message}
+                    type="number"
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"เบอร์โทรศัพท์"}
+                    placeholder="เบอร์โทรศัพท์"
+                    register={{ ...register("tel") }}
+                    msgError={errors.tel?.message}
+                    type="number"
+                    showLabel
+                  />
+                  <InputFormManage
+                    name={"เบอร์มือถือ"}
+                    placeholder="เบอร์มือถือ"
+                    register={{ ...register("phone") }}
+                    msgError={errors.phone?.message}
+                    type="number"
+                    showLabel
+                  />
+                  <InputFormManage
+                    name={"Link Facebook"}
+                    placeholder="Link Facebook"
+                    register={{ ...register("facebook_url") }}
+                    msgError={errors.facebook_url?.message}
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"Link Tiktok"}
+                    placeholder="link Tiktok"
+                    register={{ ...register("tiktok_url") }}
+                    msgError={errors.tiktok_url?.message}
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"Link Line"}
+                    placeholder="Link Line"
+                    register={{ ...register("line_url") }}
+                    msgError={errors.line_url?.message}
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"Link Id"}
+                    placeholder="Link Id"
+                    register={{ ...register("line_id") }}
+                    msgError={errors.line_id?.message}
+                    showLabel
+                    required
+                  />
+                  <SelectComponents
+                    option={TIME24}
+                    defaultValue={
+                      watch("start_day_bs_hour") ?? TIME24[0]?.value ?? ""
+                    }
+                    onValueChange={(value) =>
+                      setValue("start_day_bs_hour", value)
+                    }
+                    name={"วัน - เวลาเริ่มทำการ"}
+                    required
+                    showLabel
+                  />
+                  <SelectComponents
+                    option={TIME24}
+                    defaultValue={
+                      watch("end_day_bs_hour") ?? TIME24[0]?.value ?? ""
+                    }
+                    onValueChange={(value) =>
+                      setValue("end_day_bs_hour", value)
+                    }
+                    name={"วัน - เวลาหยุดทำการ"}
+                    required
+                    showLabel
+                  />
                   <Box
                     style={{ gap: 1, display: "flex", flexDirection: "column" }}
                   >
@@ -261,7 +456,7 @@ const DialogAddContact = ({
                         lineHeight: "28px",
                       }}
                     >
-                      อัปโหลดรูปภาพ โลโก้
+                      อัปโหลดรูปภาพพื้นหลัง
                       <div className=" text-red-500">*</div>
                     </label>
                     {isLoadingUploadFile ? (
@@ -272,37 +467,40 @@ const DialogAddContact = ({
                           display: "flex",
                           gap: "8px",
                           overflowX: "auto",
+                          height: "242px",
                           marginTop: "-10px",
                         }}
                         className=" lg:max-w-[976px] max-w-[464px]"
                       >
-                        {watch("image_url")?.length < LIMITFILE && (
+                        {watch("bg_image")?.length < 1 && (
                           <Box
                             style={{
                               width:
-                                watch("image_url")?.length > 0
+                                watch("bg_image")?.length > 0
                                   ? "168px"
                                   : "100%",
                               minWidth:
-                                watch("image_url")?.length > 0
+                                watch("bg_image")?.length > 0
                                   ? "168px"
                                   : "auto",
                               marginTop: "10px",
                             }}
                           >
                             <UploadField
-                              id="image_url_id"
-                              isError={errors.image_url?.message !== undefined}
+                              id="content_02_image_url_id"
+                              isError={errors.bg_image?.message !== undefined}
                               acceptDescription={".JPEG, .JPG, .PNG"}
-                              files={watch("image_url")}
+                              files={watch("bg_image")}
                               onLoading={(loading) =>
                                 setIsLoadingUploadFile(loading)
                               }
                               onCheckFileUpload={(f) => {
-                                setActiveUploadFileID("image_url_id");
-                                onCheckFileUpload(f, watch("image_url")).then(
+                                setActiveUploadFileID(
+                                  "content_02_image_url_id"
+                                );
+                                onCheckFileUpload(f, watch("bg_image")).then(
                                   (file) => {
-                                    setValue("image_url", file);
+                                    setValue("bg_image", file);
                                   }
                                 );
                               }}
@@ -311,24 +509,107 @@ const DialogAddContact = ({
                                 "image/jpeg": [".jpeg"],
                                 "image/webp": [".webp"],
                               }}
-                              multiple={false}
                             />
                           </Box>
                         )}
-                        {watch("image_url") &&
-                          watch("image_url")?.length > 0 && (
+                        {watch("bg_image") && watch("bg_image")?.length > 0 && (
+                          <ListFileCardDragField
+                            files={watch("bg_image")}
+                            setFiles={(f) => setValue("bg_image", f)}
+                            onClickDelete={(f) => handleDeleteFilebg_image(f)}
+                          />
+                        )}
+                      </Box>
+                    )}
+                    {errors.bg_image?.message && (
+                      <div className="text-require">
+                        {errors.bg_image?.message}
+                      </div>
+                    )}
+                  </Box>
+                  <Box
+                    style={{ gap: 1, display: "flex", flexDirection: "column" }}
+                  >
+                    <label
+                      className=" flex gap-1 "
+                      htmlFor={"name"}
+                      style={{
+                        fontWeight: "600",
+                        fontSize: "18px",
+                        lineHeight: "28px",
+                      }}
+                    >
+                      อัปโหลดรูปภาพแผนที่
+                      <div className=" text-red-500">*</div>
+                    </label>
+                    {isLoadingUploadFile ? (
+                      <Spinner size="3" />
+                    ) : (
+                      <Box
+                        style={{
+                          display: "flex",
+                          gap: "8px",
+                          overflowX: "auto",
+                          height: "242px",
+                          marginTop: "-10px",
+                        }}
+                        className=" lg:max-w-[976px] max-w-[464px]"
+                      >
+                        {watch("map_image")?.length < LIMITFILE && (
+                          <Box
+                            style={{
+                              width:
+                                watch("map_image")?.length > 0
+                                  ? "168px"
+                                  : "100%",
+                              minWidth:
+                                watch("map_image")?.length > 0
+                                  ? "168px"
+                                  : "auto",
+                              marginTop: "10px",
+                            }}
+                          >
+                            <UploadField
+                              id="content_02_image_url_id"
+                              isError={errors.map_image?.message !== undefined}
+                              acceptDescription={".JPEG, .JPG, .PNG"}
+                              files={watch("map_image")}
+                              onLoading={(loading) =>
+                                setIsLoadingUploadFile(loading)
+                              }
+                              onCheckFileUpload={(f) => {
+                                setActiveUploadFileID(
+                                  "content_02_image_url_id"
+                                );
+                                onCheckFileUpload(f, watch("map_image")).then(
+                                  (file) => {
+                                    setValue("map_image", file);
+                                  }
+                                );
+                              }}
+                              acceptOption={{
+                                "image/png": [".png"],
+                                "image/jpeg": [".jpeg"],
+                                "image/webp": [".webp"],
+                              }}
+                            />
+                          </Box>
+                        )}
+                        {watch("map_image") &&
+                          watch("map_image")?.length > 0 && (
                             <ListFileCardDragField
-                              files={watch("image_url")}
-                              setFiles={(f) => setValue("image_url", f)}
-                              onClickDelete={(f) => handleDeleteFile(f)}
-                              type="logo"
+                              files={watch("map_image")}
+                              setFiles={(f) => setValue("map_image", f)}
+                              onClickDelete={(f) =>
+                                handleDeleteFilemap_image(f)
+                              }
                             />
                           )}
                       </Box>
                     )}
-                    {errors.image_url?.message && (
+                    {errors.map_image?.message && (
                       <div className="text-require">
-                        {errors.image_url?.message}
+                        {errors.map_image?.message}
                       </div>
                     )}
                   </Box>
@@ -341,7 +622,7 @@ const DialogAddContact = ({
                   onClick={() => onCancelHandler()}
                   width="140px"
                 >
-                  <Text className=" text-base ">Cancel</Text>
+                  <Text className=" text-base ">ยกเลิก</Text>
                 </ButtonOutline>
                 <ButtonDefault
                   type="submit"
@@ -349,7 +630,7 @@ const DialogAddContact = ({
                   onClick={() => {}}
                   isLoading={isLoadingSubmit}
                 >
-                  <Text className=" text-base ">Submit</Text>
+                  <Text className=" text-base ">{data ? "ยืนยัน" : "สร้าง" }</Text>
                 </ButtonDefault>
               </div>
             </form>

@@ -98,6 +98,26 @@ export const updateContactSchema = createInsertSchema(contactTable, {
   is_active: z.boolean().optional(),
 });
 
+export const updateIsActiveContactSchema = createInsertSchema(contactTable, {
+  id: z.string().min(1, { message: "Category ID is required" }),
+  address: z.string().optional(),
+  province: z.string().optional(),
+  district: z.string().optional(),
+  sub_district: z.string().optional(),
+  postal_code: z.string().optional(),
+  tel: z.string().optional(),
+  phone: z.string().optional(),
+  map_image: z.string().optional(),
+  bg_image: z.string().optional(),
+  line_id: z.string().optional(),
+  line_url: z.string().optional(),
+  facebook_url: z.string().optional(),
+  tiktok_url: z.string().optional(),
+  start_day_bs_hour: z.string().optional(),
+  end_day_bs_hour: z.string().optional(),
+  is_active: z.boolean(),
+});
+
 export const deleteContactSchema = createInsertSchema(contactTable, {
   id: z.string().min(1, { message: "Category ID is required" }),
   address: z.string().optional(),

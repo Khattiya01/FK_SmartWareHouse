@@ -2,7 +2,10 @@
 
 import { userException } from "@/exceptions/users";
 import { loginSchema } from "@/schemas/auth";
-import { getUsersByUsername } from "@/services/users";
+import {
+  getUsersByEmailIsActive,
+  getUsersByUsernameIsActive,
+} from "@/services/users";
 import { checkPassword } from "@/utils/checkPassword";
 
 import jwt from "jsonwebtoken";
@@ -21,25 +24,34 @@ export async function loginAction(formData: FormData) {
   }
 
   if (username && password) {
-    const responseGetUsersByUsername = await getUsersByUsername({
+    let user = null;
+    const responseGetUsersByUsername = await getUsersByUsernameIsActive({
       username,
     });
     if (
       !(responseGetUsersByUsername && responseGetUsersByUsername.length > 0)
     ) {
-      return userException.createError("not-found-user");
+      const responseGetUsersByEmail = await getUsersByEmailIsActive({
+        email: username,
+      });
+      if (!(responseGetUsersByEmail && responseGetUsersByEmail.length > 0)) {
+        return userException.createError("not-found-user");
+      } else {
+        user = responseGetUsersByEmail[0];
+      }
+    } else {
+      user = responseGetUsersByUsername[0];
     }
 
     const isValidPassword = await checkPassword({
       password,
-      hashedPassword: responseGetUsersByUsername[0].password,
+      hashedPassword: user.password,
     });
 
     if (!isValidPassword) {
       return userException.createError("invalid-password");
     }
 
-    const user = responseGetUsersByUsername[0];
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET ?? "", {
       expiresIn: process.env.ACCESS_EXPIRATION_MINUTES,
     });
@@ -47,7 +59,7 @@ export async function loginAction(formData: FormData) {
     return {
       success: true,
       message: "Login successfully",
-      result: { user: responseGetUsersByUsername[0], token: token },
+      result: { user: user, token: token },
     };
   } else {
     return userException.createError("username, password are required.");

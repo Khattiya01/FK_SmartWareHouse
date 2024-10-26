@@ -26,7 +26,12 @@ const InputFormManage = ({
 }: InputFormManageProps) => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    if (/^\d*$/.test(value)) {
+    if (type === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailRegex.test(value) || value === "") {
+        event.target.value = value;
+      }
+    } else if (/^\d*$/.test(value)) {
       event.target.value = value;
     } else if (type === "number") {
       event.target.value = value.replace(/[^0-9]/g, "");

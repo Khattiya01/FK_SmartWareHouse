@@ -9,33 +9,35 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SelectContact } from "@/db/schemas";
+import { SelectUser } from "@/db/schemas";
+import { ROLE } from "@/types/role";
+import { Badge } from "@radix-ui/themes";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
-export function TableContact({
+export function TableUser({
   rows,
   handleClickEdit,
   handleOpenDialogDelete,
   handleClickIsActive,
 }: {
-  rows: SelectContact[] | undefined;
-  handleClickEdit: (item: SelectContact) => void;
-  handleOpenDialogDelete: (item: SelectContact) => void;
+  rows: SelectUser[] | undefined;
+  handleClickEdit: (item: SelectUser) => void;
+  handleOpenDialogDelete: (item: SelectUser) => void;
   handleClickIsActive: (item: boolean, id: string) => void;
 }) {
   return (
-    <Table className=" min-w-[900px]">
+    <Table className=" min-w-[400px]">
       <TableHeader>
         <TableRow className=" bg-main hover:bg-main ">
           <TableHead className="text-white font-bold text-base">
-            ที่อยู่
+            ชื่อผู้ใช้งาน
           </TableHead>
-          <TableHead className="text-white font-bold text-base w-40 ">
-            หมายเลขโทรศัพท์
+          <TableHead className="text-white font-bold text-base">
+            อีเมล
           </TableHead>
-          <TableHead className="text-white font-bold text-base w-36">
-            วัน - เวลาทำการ
+          <TableHead className="text-white font-bold text-base w-20 ">
+            บทบาท
           </TableHead>
           <TableHead className="text-white font-bold text-base w-16"></TableHead>
           <TableHead className="text-right w-20"></TableHead>
@@ -46,14 +48,18 @@ export function TableContact({
           rows?.length > 0 &&
           rows.map((item) => (
             <TableRow key={item.id}>
-              <TableCell className="font-medium">{item.address}</TableCell>
-              <TableCell className="font-medium">{item.phone}</TableCell>
+              <TableCell className="font-medium">{item.username}</TableCell>
+              <TableCell className="font-medium">{item.email}</TableCell>
               <TableCell className="font-medium">
-                {item.start_day_bs_hour} - {item.end_day_bs_hour}
+                <Badge
+                  variant="soft"
+                  color={item.role === ROLE[0] ? "crimson" : "indigo"}
+                >
+                  {item.role}
+                </Badge>
               </TableCell>
               <TableCell className="font-medium">
                 <ToggleAdmin
-                  disabled={item.is_active ? true : false}
                   checked={item.is_active ? true : false}
                   onCheckedChange={(c) => handleClickIsActive(c, item.id)}
                 />

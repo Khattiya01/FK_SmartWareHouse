@@ -4,24 +4,15 @@ import {
   deleteCategorySchema,
   insertCategorySchema,
   updateCategorySchema,
-  updateIsActivelogoSchema,
-  updatelogoSchema,
 } from "@/db/schemas";
 import { categoryException } from "@/exceptions/category";
-import { homePageDetailException } from "@/exceptions/homePageDetail";
-import { logoException } from "@/exceptions/logos";
 import {
   addCategory,
   deleteCategory,
   editCategory,
   getCategoryById,
 } from "@/services/category";
-import {
-  editHomePageDetailOtherIsActiveFalse,
-  editIsActiveHomePageDetail,
-  getHomeDetailIsActive,
-} from "@/services/homeDetail";
-import { editLogos } from "@/services/logo";
+
 import { revalidatePath } from "next/cache";
 import { deleteFileAction } from "./files";
 
@@ -120,67 +111,6 @@ export async function updateCategoryAction({
       return categoryException.createError(error?.message);
     }
     return categoryException.createError("An unknown error occurred.");
-  }
-}
-
-export async function updateIsActiveHomePageDetailAction({
-  formData,
-  id,
-}: {
-  formData: FormData;
-  id: string;
-}) {
-  try {
-    const is_active = formData.get("is_active")?.toString();
-
-    const validatedFields = updateIsActivelogoSchema.safeParse({
-      id,
-      is_active: is_active === "true" ? true : false,
-    });
-    if (!validatedFields.success) {
-      return homePageDetailException.updateFail();
-    }
-
-    if ((is_active === "true" || is_active === "false") && id) {
-      const responseGetHomeDetailIsActive = await getHomeDetailIsActive();
-      if (is_active === "true") {
-        if (
-          responseGetHomeDetailIsActive &&
-          responseGetHomeDetailIsActive.id !== id
-        ) {
-          editHomePageDetailOtherIsActiveFalse(
-            responseGetHomeDetailIsActive.id
-          );
-        }
-      } else {
-        if (
-          responseGetHomeDetailIsActive &&
-          responseGetHomeDetailIsActive.id === id
-        ) {
-          return homePageDetailException.createError(
-            "There are no other home detail active."
-          );
-        }
-      }
-
-      await editIsActiveHomePageDetail({
-        id: id,
-        is_active: is_active === "true" ? true : false,
-      });
-
-      revalidatePath("/", "layout");
-      return {
-        success: true,
-        message: "update home page detail successfully",
-        result: null,
-      };
-    } else {
-      return homePageDetailException.createError(
-        "isActive or id are required."
-      );
-    }
-  } catch (error: any) {
-    return homePageDetailException.createError(error?.message);
   }
 }
 

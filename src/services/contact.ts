@@ -1,11 +1,14 @@
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { db } from "@/db";
 import { contactTable, InsertContact, UpdateContact } from "@/db/schemas";
 import { v4 as uuidv4 } from "uuid";
 
 export const getContact = async () => {
   try {
-    const data = await db.select().from(contactTable);
+    const data = await db
+      .select()
+      .from(contactTable)
+      .orderBy(desc(contactTable.created_at));
     return data;
   } catch (error) {
     console.error("Error fetching contact:", error);
@@ -23,6 +26,19 @@ export const getContactIsActive = async () => {
   } catch (error) {
     console.error("Error fetching contact:", error);
     throw new Error("Could not fetch contact");
+  }
+};
+
+export const getContactById = async (id: string) => {
+  try {
+    const data = await db
+      .select()
+      .from(contactTable)
+      .where(eq(contactTable.id, id));
+    return data && data?.length > 0 ? data[0] : undefined;
+  } catch (error) {
+    console.error("Error fetching contact:", error);
+    // throw new Error("Could not fetch products");
   }
 };
 
@@ -62,6 +78,7 @@ export const editContact = async (data: UpdateContact) => {
       bg_image: data.bg_image,
       line_id: data.line_id,
       facebook_url: data.facebook_url,
+      line_url: data.line_url,
       tiktok_url: data.tiktok_url,
       start_day_bs_hour: data.start_day_bs_hour,
       end_day_bs_hour: data.end_day_bs_hour,
