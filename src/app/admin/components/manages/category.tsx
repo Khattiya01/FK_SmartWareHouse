@@ -71,7 +71,7 @@ export function ManageCategory() {
               typeStatusTaost.success
             );
           } else {
-            console.error("Error delete delete category:", res.message);
+            console.error("Error delete delete category:", res?.message);
             showToast(
               "ลบหมวดหมู่ไม่สำเร็จ",
               "",

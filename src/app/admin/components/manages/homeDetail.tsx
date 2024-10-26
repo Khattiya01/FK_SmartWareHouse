@@ -82,7 +82,7 @@ export function ManageHomeDetail() {
           } else {
             console.error(
               "Error delete deleteHomePageDetailAction:",
-              res.message
+              res?.message
             );
             showToast(
               "ลบรายละเอียดหน้าแรกไม่สำเร็จ",

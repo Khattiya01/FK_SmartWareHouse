@@ -63,7 +63,7 @@ export function ManageContact() {
           activeContactData.bg_image + "," + activeContactData.map_image,
       })
         .then((res) => {
-          if (res.success) {
+          if (res?.success) {
             refetchContact();
             showToast(
               "ลบข้อมูลการติดต่อสำเร็จ",
@@ -72,7 +72,7 @@ export function ManageContact() {
               typeStatusTaost.success
             );
           } else {
-            console.error("Error delete delete contact:", res.message);
+            console.error("Error delete delete contact:", res?.message);
             showToast(
               "ลบข้อมูลการติดต่อไม่สำเร็จ",
               "",

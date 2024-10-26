@@ -44,7 +44,7 @@ const FormContact = () => {
           );
           reset();
         } else {
-          console.error("Error create contact form:", res.message);
+          console.error("Error create contact form:", res?.message);
         }
       })
       .catch((err) => {
