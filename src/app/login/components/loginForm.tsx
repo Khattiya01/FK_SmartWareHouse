@@ -36,7 +36,6 @@ const LoginForm = () => {
   });
 
   const onSubmit = async (data: loginType) => {
-    console.log("data", data);
     setIsLoadingLogin(true);
     await signIn("credentials", {
       username: data.username,
@@ -51,7 +50,6 @@ const LoginForm = () => {
       });
   };
 
-  console.log("errors", errors);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

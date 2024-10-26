@@ -1,7 +1,7 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
-import LoginForm from "./components/loginForm";
+// import LoginForm from "./components/loginForm";
 
-export default async function LoginPage({}) {
+export default async function LoginPage() {
   return (
     <Flex
       width={"100%"}
@@ -9,15 +9,12 @@ export default async function LoginPage({}) {
       direction={"column"}
       align={"center"}
       justify={"between"}
-      // gap={"80px"}
       className="rounded-lg "
     >
-      <LoginForm />
+      {/* <LoginForm /> */}
       <Box
         style={{
           width: "100%",
-          // position: "absolute",
-          // bottom: 0,
           display: "flex",
           justifyContent: "space-between",
           flexWrap: "wrap",
