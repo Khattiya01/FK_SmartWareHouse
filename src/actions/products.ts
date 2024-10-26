@@ -121,8 +121,10 @@ export async function createProductAction(formData: FormData) {
     } else {
       return productException.misMatchData();
     }
-  } catch (error: any) {
-    return productException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return productException.createError(error?.message);
+    }
   }
 }
 
@@ -250,8 +252,10 @@ export async function updateProductAction({
     } else {
       return productException.createError("payload are required.");
     }
-  } catch (error: any) {
-    return productException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return productException.createError(error?.message);
+    }
   }
 }
 
@@ -293,8 +297,10 @@ export async function updateIsActiveProductAction({
     } else {
       return productException.createError("isActive or id are required.");
     }
-  } catch (error: any) {
-    return productException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return productException.createError(error?.message);
+    }
   }
 }
 
@@ -331,7 +337,9 @@ export async function deleteProductAction({
     } else {
       return productException.createError("id is required.");
     }
-  } catch (error: any) {
-    return productException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return productException.createError(error?.message);
+    }
   }
 }

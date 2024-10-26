@@ -1,9 +1,8 @@
 import { SelectProductIncludeCategory } from "@/db/schemas";
 import { getProducts } from "@/services/product";
 import { APIResponse } from "@/types/response";
-import { type NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const responseJson: APIResponse<SelectProductIncludeCategory[]> = {
     status: 200,
     message: "OK",

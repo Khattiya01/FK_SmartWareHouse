@@ -62,7 +62,7 @@ export function ManageCategory() {
         file_url: activeCategoryData.image_url,
       })
         .then((res) => {
-          if (res.success) {
+          if (res?.success) {
             refetchCategory();
             showToast(
               "ลบหมวดหมู่สำเร็จ",

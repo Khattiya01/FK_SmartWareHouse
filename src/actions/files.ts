@@ -32,12 +32,8 @@ const uploadDir = join(process.cwd(), "public", relativeUploadDir);
 const updateFolder = async () => {
   try {
     await stat(uploadDir);
-  } catch (e: any) {
-    if (e.code === "ENOENT") {
-      await mkdir(uploadDir, { recursive: true });
-    } else {
-      return fileException.createError("Something went wrong.");
-    }
+  } catch {
+    await mkdir(uploadDir, { recursive: true });
   }
 };
 
@@ -92,11 +88,13 @@ export async function createFileAction(formData: FormData) {
       success: true,
       message: "Create file successfully",
       result: {
-        file_url: AllFilesURL.join(","), 
+        file_url: AllFilesURL.join(","),
       },
     };
-  } catch (error: any) {
-    return fileException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return fileException.createError(error?.message);
+    }
   }
 }
 
@@ -168,8 +166,10 @@ export async function updateFileAction({
     } else {
       return fileException.createError("File URL is required.");
     }
-  } catch (error: any) {
-    return fileException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return fileException.createError(error?.message);
+    }
   }
 }
 
@@ -206,7 +206,7 @@ export async function deleteFileAction({ file_url }: { file_url: string }) {
       if (filesInDirectory.length === 0) {
         await rmdir(directoryPath);
       }
-      console.log("deleteFiles", file_url)
+      console.log("deleteFiles", file_url);
       revalidatePath("/admin");
       return {
         success: true,
@@ -216,7 +216,9 @@ export async function deleteFileAction({ file_url }: { file_url: string }) {
     } else {
       return fileException.createError("id is required.");
     }
-  } catch (error: any) {
-    return fileException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return fileException.createError(error?.message);
+    }
   }
 }

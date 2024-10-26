@@ -44,8 +44,10 @@ export async function createLogoAction(formData: FormData) {
     } else {
       return logoException.createError("Image URL is required.");
     }
-  } catch (error: any) {
-    return logoException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return logoException.createError(error?.message);
+    }
   }
 }
 
@@ -89,8 +91,10 @@ export async function updateLogoAction({
     } else {
       return logoException.createError("Image URL or id are required.");
     }
-  } catch (error: any) {
-    return logoException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return logoException.createError(error?.message);
+    }
   }
 }
 
@@ -144,8 +148,10 @@ export async function updateIsActiveLogoAction({
     } else {
       return logoException.createError("isActive or id are required.");
     }
-  } catch (error: any) {
-    return logoException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return logoException.createError(error?.message);
+    }
   }
 }
 
@@ -181,7 +187,9 @@ export async function deleteLogoAction({
     } else {
       return logoException.createError("id is required.");
     }
-  } catch (error: any) {
-    return logoException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return logoException.createError(error?.message);
+    }
   }
 }

@@ -77,6 +77,8 @@ const DialogAddLogo = ({
         id: Math.random().toString(36).slice(2),
         status: "new",
         imageURL: "",
+        url: "",
+        file_url: "",
         error: false,
       });
 
@@ -131,7 +133,7 @@ const DialogAddLogo = ({
 
     const fd = new FormData();
 
-    if (resImage_url.result?.file_url) {
+    if (resImage_url?.result?.file_url) {
       fd.append("image_url", resImage_url.result?.file_url);
     }
 
@@ -208,22 +210,19 @@ const DialogAddLogo = ({
 
   const fetchFileData = async (data: Selectlogo) => {
     setIsLoadingData(true);
-    const preData: any = {
+    const preData = {
       id: data.id,
-      image_url: [],
       created_at: data.created_at,
       updated_at: data.updated_at,
     };
     const image_url = data.image_url;
     const responseImage_url = await fetchFileByURL(image_url);
     const responseFullImage_url = await fetchImages(responseImage_url.result);
-    preData.image_url.push(
-      responseFullImage_url ? responseFullImage_url[0] : []
-    );
+    if (responseFullImage_url && responseFullImage_url?.length > 0) {
+      setValue("image_url", responseFullImage_url);
+    }
 
     console.log("preData", preData);
-
-    setValue("image_url", preData.image_url);
     setIsLoadingData(false);
   };
 
@@ -349,7 +348,9 @@ const DialogAddLogo = ({
                   onClick={() => {}}
                   isLoading={isLoadingSubmit}
                 >
-                  <Text className=" text-base ">{data ? "ยืนยัน" : "สร้าง" }</Text>
+                  <Text className=" text-base ">
+                    {data ? "ยืนยัน" : "สร้าง"}
+                  </Text>
                 </ButtonDefault>
               </div>
             </form>

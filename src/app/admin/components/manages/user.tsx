@@ -7,7 +7,6 @@ import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { Box, Text } from "@radix-ui/themes";
 import ButtonDefault from "@/components/buttons/buttonDefault";
 import { IoMdAdd } from "react-icons/io";
-import { updateIsActiveLogoAction } from "@/actions/logos";
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 import { TableUser } from "../tables/tableUser";
 import { useUser } from "@/app/hooks/useUser";
@@ -58,7 +57,7 @@ export function ManageUser() {
         id: activeUserData.id,
       })
         .then((res) => {
-          if (res.success) {
+          if (res?.success) {
             refetchUser();
             showToast(
               "ลบผู้ใช้งานสำเร็จ",
@@ -67,7 +66,7 @@ export function ManageUser() {
               typeStatusTaost.success
             );
           } else {
-            console.error("Error delete delete user:", res.message);
+            console.error("Error delete delete user:", res?.message);
             showToast(
               "ลบผู้ใช้งานไม่สำเร็จ",
               "",

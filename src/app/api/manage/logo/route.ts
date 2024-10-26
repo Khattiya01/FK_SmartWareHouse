@@ -1,9 +1,8 @@
 import { Selectlogo } from "@/db/schemas";
 import { getLogos } from "@/services/logo";
 import { APIResponse } from "@/types/response";
-import { type NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const responseJson: APIResponse<Selectlogo[]> = {
     status: 200,
     message: "OK",

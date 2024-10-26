@@ -84,6 +84,8 @@ const DialogHomeDetail = ({
         id: Math.random().toString(36).slice(2),
         status: "new",
         imageURL: "",
+        url: "",
+        file_url: "",
         error: false,
       });
 
@@ -173,16 +175,16 @@ const DialogHomeDetail = ({
     fd.append("content_01_detail", payload.content_01_detail);
     fd.append("content_02_detail", payload.content_02_detail);
 
-    if (rescontent_02_image_url.result?.file_url) {
+    if (rescontent_02_image_url?.result?.file_url) {
       fd.append(
         "content_02_image_url",
         rescontent_02_image_url.result?.file_url
       );
     }
-    if (resbanner_image_url.result?.file_url) {
+    if (resbanner_image_url?.result?.file_url) {
       fd.append("banner_image_url", resbanner_image_url.result?.file_url);
     }
-    if (rescontact_image_url.result?.file_url) {
+    if (rescontact_image_url?.result?.file_url) {
       fd.append("contact_image_url", rescontact_image_url.result?.file_url);
     }
     setIsLoadingSubmit(true);
@@ -263,17 +265,28 @@ const DialogHomeDetail = ({
 
   const fetchFileData = async (data: SelectHomePageDetail) => {
     setIsLoadingData(true);
-    const preData: any = {
+    const preData: {
+      id: string;
+      is_active: boolean | null;
+      created_at: Date | null;
+      updated_at: Date | null;
+      banner_image_url: blobToFile[];
+      content_02_image_url: blobToFile[];
+      contact_image_url: blobToFile[];
+      content_01_title: string;
+      content_01_detail: string;
+      content_02_detail: string;
+    } = {
       id: data.id,
       is_active: data.is_active,
       created_at: data.created_at,
       updated_at: data.updated_at,
       banner_image_url: [],
+      content_02_image_url: [],
+      contact_image_url: [],
       content_01_title: data.content_01_title,
       content_01_detail: data.content_01_detail,
-      content_02_image_url: [],
       content_02_detail: data.content_02_detail,
-      contact_image_url: [],
     };
 
     const banner_image_urls = data.banner_image_url.split(",");
@@ -281,16 +294,14 @@ const DialogHomeDetail = ({
     const contact_image_url = data.contact_image_url;
 
     // Fetch banner images
-    if (banner_image_urls.length > 0) {
+    if (banner_image_urls && banner_image_urls.length > 0) {
       preData.banner_image_url = await Promise.all(
         banner_image_urls.map(async (image) => {
           const response = await fetchFileByURL(image);
           const responseFullbanner_image_urls = await fetchImages(
             response.result
           );
-          return responseFullbanner_image_urls
-            ? responseFullbanner_image_urls[0]
-            : [];
+          return responseFullbanner_image_urls[0];
         })
       );
     }
@@ -302,20 +313,18 @@ const DialogHomeDetail = ({
     const responseFullContent_02_image_url = await fetchImages(
       responseContent_02_image_url.result
     );
-    preData.content_02_image_url.push(
-      responseFullContent_02_image_url
-        ? responseFullContent_02_image_url[0]
-        : []
-    );
+    if (responseFullContent_02_image_url) {
+      preData.content_02_image_url.push(responseFullContent_02_image_url[0]);
+    }
 
     // Fetch contact image
     const responseContact_image_url = await fetchFileByURL(contact_image_url);
     const responseFullContact_image_url = await fetchImages(
       responseContact_image_url.result
     );
-    preData.contact_image_url.push(
-      responseFullContact_image_url ? responseFullContact_image_url[0] : []
-    );
+    if (responseFullContact_image_url) {
+      preData.contact_image_url.push(responseFullContact_image_url[0]);
+    }
 
     // Set the values after all data is fetched
     setValue("content_01_title", data.content_01_title);
@@ -656,7 +665,9 @@ const DialogHomeDetail = ({
                   onClick={() => {}}
                   isLoading={isLoadingSubmit}
                 >
-                  <Text className=" text-base ">{data ? "ยืนยัน" : "สร้าง" }</Text>
+                  <Text className=" text-base ">
+                    {data ? "ยืนยัน" : "สร้าง"}
+                  </Text>
                 </ButtonDefault>
               </div>
             </form>

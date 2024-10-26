@@ -1,9 +1,8 @@
 import { SelectContactForm } from "@/db/schemas";
 import { getContactForm } from "@/services/contactForm";
 import { APIResponse } from "@/types/response";
-import { type NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const responseJson: APIResponse<SelectContactForm[]> = {
     status: 200,
     message: "OK",

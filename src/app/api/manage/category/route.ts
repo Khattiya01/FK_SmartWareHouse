@@ -1,9 +1,8 @@
 import { SelectCategory } from "@/db/schemas";
 import { getCategory } from "@/services/category";
 import { APIResponse } from "@/types/response";
-import { type NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const responseJson: APIResponse<SelectCategory[]> = {
     status: 200,
     message: "OK",

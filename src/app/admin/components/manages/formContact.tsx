@@ -41,7 +41,7 @@ export function ManageFormContact() {
       // await deleteContactForm(activeFormContact.id)
       await deleteContactFormAction({ id: activeFormContact.id })
         .then((res) => {
-          if (res.success) {
+          if (res?.success) {
             refetchFormContact();
             showToast(
               "ลบแบบฟอร์มการติดต่อสำเร็จ",

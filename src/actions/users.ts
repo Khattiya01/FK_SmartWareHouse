@@ -67,8 +67,10 @@ export async function createUserAction(formData: FormData) {
         "username, password, and role are required."
       );
     }
-  } catch (error: any) {
-    return userException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return userException.createError(error?.message);
+    }
   }
 }
 
@@ -140,8 +142,10 @@ export async function updateUserAction({
     } else {
       return userException.createError("username and role are required.");
     }
-  } catch (error: any) {
-    return userException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return userException.createError(error?.message);
+    }
   }
 }
 export async function updateIsActiveUserAction({
@@ -177,8 +181,10 @@ export async function updateIsActiveUserAction({
     } else {
       return userException.createError("isActive or id are required.");
     }
-  } catch (error: any) {
-    return userException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return userException.createError(error?.message);
+    }
   }
 }
 
@@ -203,7 +209,9 @@ export async function deleteUserAction({ id }: { id: string }) {
     } else {
       return userException.createError("id is required.");
     }
-  } catch (error: any) {
-    return userException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return userException.createError(error?.message);
+    }
   }
 }

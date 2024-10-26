@@ -71,7 +71,7 @@ export function ManageHomeDetail() {
           activeHomeDetailData.content_02_image_url,
       })
         .then((res) => {
-          if (res.success) {
+          if (res?.success) {
             refetchHomeDetail();
             showToast(
               "ลบรายละเอียดหน้าแรกสำเร็จ",

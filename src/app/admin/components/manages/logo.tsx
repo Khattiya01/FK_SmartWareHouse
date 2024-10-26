@@ -58,7 +58,7 @@ export function ManageLogo() {
         file_url: activeLogoData.image_url,
       })
         .then((res) => {
-          if (res.success) {
+          if (res?.success) {
             refetchLogo();
             showToast("ลบโลโก้สำเร็จ", "", new Date(), typeStatusTaost.success);
           } else {
