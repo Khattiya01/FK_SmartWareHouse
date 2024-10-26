@@ -65,7 +65,7 @@ const DialogAddUser = ({
       await updateUserAction({ formData: fd, id: data.id })
         .then((res) => {
           console.log(res?.message);
-          if (res.success) {
+          if (res?.success) {
             setIsLoadingSubmit(false);
             onSuccess();
             showToast(
@@ -103,7 +103,7 @@ const DialogAddUser = ({
       await createUserAction(fd)
         .then((res) => {
           console.log(res?.message);
-          if (res.success) {
+          if (res?.success) {
             setIsLoadingSubmit(false);
             onSuccess();
             showToast(
@@ -153,7 +153,7 @@ const DialogAddUser = ({
 
   const fetchFileData = async (data: SelectUser) => {
     setIsLoadingData(true);
-    const preData: any = {
+    const preData = {
       id: data.id,
       username: data.username,
       email: data.email,

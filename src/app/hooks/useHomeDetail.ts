@@ -1,6 +1,5 @@
 import { fetchHomeDetail } from "@/api/manage/manage-home-detail";
-import { queryOptions, useMutation, useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { queryOptions,  useQuery } from "@tanstack/react-query";
 
 function fetchHomeDetailOptions() {
   return queryOptions({

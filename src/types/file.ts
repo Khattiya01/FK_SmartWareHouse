@@ -3,5 +3,7 @@ export interface blobToFile extends File {
   id: string;
   status: string;
   imageURL: string;
+  url: string;
+  file_url: string;
   error: boolean;
 }

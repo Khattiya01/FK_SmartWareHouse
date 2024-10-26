@@ -89,8 +89,10 @@ export async function createContactAction(formData: FormData) {
     } else {
       return contactException.misMatchData();
     }
-  } catch (error: any) {
-    return contactException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return contactException.createError(error?.message);
+    }
   }
 }
 
@@ -194,8 +196,10 @@ export async function updateContactAction({
     } else {
       return contactException.createError("payload are required.");
     }
-  } catch (error: any) {
-    return contactException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return contactException.createError(error?.message);
+    }
   }
 }
 
@@ -241,8 +245,10 @@ export async function updateIsActiveContactAction({
     } else {
       return contactException.createError("isActive or id are required.");
     }
-  } catch (error: any) {
-    return contactException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return contactException.createError(error?.message);
+    }
   }
 }
 
@@ -279,7 +285,9 @@ export async function deleteContactAction({
     } else {
       return contactException.createError("id is required.");
     }
-  } catch (error: any) {
-    return contactException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return contactException.createError(error?.message);
+    }
   }
 }

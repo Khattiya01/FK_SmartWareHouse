@@ -70,7 +70,7 @@ export function ManageProduct() {
           activeProductData.others_image,
       })
         .then((res) => {
-          if (res.success) {
+          if (res?.success) {
             refetchProduct();
             showToast(
               "ลบผลิตภัณฑ์สำเร็จ",

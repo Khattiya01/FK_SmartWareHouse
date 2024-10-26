@@ -70,8 +70,10 @@ export async function createHomePageDetailAction(formData: FormData) {
     } else {
       return logoException.createError("Image URL is required.");
     }
-  } catch (error: any) {
-    return logoException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return homePageDetailException.createError(error?.message);
+    }
   }
 }
 
@@ -139,8 +141,10 @@ export async function updateHomePageDetailAction({
     } else {
       return homePageDetailException.createError("id are required.");
     }
-  } catch (error: any) {
-    return homePageDetailException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return homePageDetailException.createError(error?.message);
+    }
   }
 }
 
@@ -197,8 +201,10 @@ export async function updateIsActiveHomePageDetailAction({
         "isActive or id are required."
       );
     }
-  } catch (error: any) {
-    return homePageDetailException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return homePageDetailException.createError(error?.message);
+    }
   }
 }
 
@@ -234,7 +240,9 @@ export async function deleteHomePageDetailAction({
     } else {
       return homePageDetailException.createError("id is required.");
     }
-  } catch (error: any) {
-    return homePageDetailException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return homePageDetailException.createError(error?.message);
+    }
   }
 }

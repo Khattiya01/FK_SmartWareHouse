@@ -29,14 +29,18 @@ export const getCategory = async () => {
       ) => {
         const { category, products } = row;
 
-        let existingCategory: any = acc.find((c) => c.id === category?.id);
+        let existingCategory = acc.find((c) => c.id === category?.id);
 
         if (!existingCategory) {
-          existingCategory = {
-            ...category,
-            products: [],
-          };
-          acc.push(existingCategory);
+          if (category) {
+            existingCategory = {
+              ...category,
+              products: [],
+            };
+          }
+          if (existingCategory) {
+            acc.push(existingCategory);
+          }
         }
 
         if (products?.id) {
@@ -69,14 +73,18 @@ export const getCategoryIsActive = async () => {
       ) => {
         const { category, products } = row;
 
-        let existingCategory: any = acc.find((c) => c.id === category?.id);
+        let existingCategory = acc.find((c) => c.id === category?.id);
 
         if (!existingCategory) {
-          existingCategory = {
-            ...category,
-            products: [],
-          };
-          acc.push(existingCategory);
+          if (category) {
+            existingCategory = {
+              ...category,
+              products: [],
+            };
+          }
+          if (existingCategory) {
+            acc.push(existingCategory);
+          }
         }
 
         if (products?.id && products?.is_active) {

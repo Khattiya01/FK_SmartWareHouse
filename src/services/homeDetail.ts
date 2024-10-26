@@ -1,6 +1,5 @@
 import { desc, eq } from "drizzle-orm";
 import { db } from "@/db";
-import { UpdateUser, usersTable } from "@/db/schemas";
 import { v4 as uuidv4 } from "uuid";
 import {
   homePageDetailTable,

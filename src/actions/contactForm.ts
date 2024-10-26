@@ -55,8 +55,10 @@ export async function createContactFormAction(formData: FormData) {
     } else {
       return contactFormException.misMatchData();
     }
-  } catch (error: any) {
-    return contactFormException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return contactFormException.createError(error?.message);
+    }
   }
 }
 
@@ -94,8 +96,10 @@ export async function updateProductAction({
     } else {
       return logoException.createError("Image URL or id are required.");
     }
-  } catch (error: any) {
-    return logoException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return contactFormException.createError(error?.message);
+    }
   }
 }
 
@@ -120,7 +124,9 @@ export async function deleteContactFormAction({ id }: { id: string }) {
     } else {
       return contactFormException.createError("id is required.");
     }
-  } catch (error: any) {
-    return contactFormException.createError(error?.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return contactFormException.createError(error?.message);
+    }
   }
 }

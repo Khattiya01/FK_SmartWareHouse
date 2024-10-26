@@ -82,6 +82,8 @@ const DialogAddContact = ({
         id: Math.random().toString(36).slice(2),
         status: "new",
         imageURL: "",
+        url: "",
+        file_url: "",
         error: false,
       });
 
@@ -166,10 +168,10 @@ const DialogAddContact = ({
     fd.append("start_day_bs_hour", payload.start_day_bs_hour);
     fd.append("end_day_bs_hour", payload.end_day_bs_hour);
 
-    if (resbg_image.result?.file_url) {
+    if (resbg_image?.result?.file_url) {
       fd.append("bg_image", resbg_image.result?.file_url);
     }
-    if (resmap_imagel.result?.file_url) {
+    if (resmap_imagel?.result?.file_url) {
       fd.append("map_image", resmap_imagel.result?.file_url);
     }
 
@@ -242,7 +244,27 @@ const DialogAddContact = ({
 
   const fetchFileData = async (data: SelectContact) => {
     setIsLoadingData(true);
-    const preData: any = {
+    const preData: {
+      id: string;
+      created_at: Date | null;
+      updated_at: Date | null;
+      address: string | null;
+      province: string | null;
+      district: string | null;
+      sub_district: string | null;
+      is_active: boolean | null;
+      postal_code: string | null;
+      tel: string | null;
+      phone: string | null;
+      map_image: blobToFile[];
+      bg_image: blobToFile[];
+      line_id: string | null;
+      line_url: string | null;
+      tiktok_url: string | null;
+      facebook_url: string | null;
+      start_day_bs_hour: string | null;
+      end_day_bs_hour: string | null;
+    } = {
       id: data.id,
       created_at: data.created_at,
       updated_at: data.updated_at,
@@ -263,6 +285,7 @@ const DialogAddContact = ({
       end_day_bs_hour: data.end_day_bs_hour,
       is_active: data.is_active,
     };
+
     const bg_image_urls = data.bg_image;
     const map_image_url = data.map_image;
 
@@ -271,9 +294,7 @@ const DialogAddContact = ({
       const responseFullbg_image_urls = await fetchImages(
         responsebg_image_urls.result
       );
-      preData.bg_image.push(
-        responseFullbg_image_urls ? responseFullbg_image_urls[0] : []
-      );
+      preData.bg_image.push(responseFullbg_image_urls[0]);
     }
 
     if (map_image_url) {
@@ -281,9 +302,7 @@ const DialogAddContact = ({
       const responseFullmap_image_url = await fetchImages(
         responsemap_image_url.result
       );
-      preData.map_image.push(
-        responseFullmap_image_url ? responseFullmap_image_url[0] : []
-      );
+      preData.map_image.push(responseFullmap_image_url[0]);
     }
 
     console.log("preData", preData);
@@ -297,13 +316,13 @@ const DialogAddContact = ({
     setValue("phone", data.phone ?? "");
     setValue("bg_image", preData.bg_image);
     setValue("map_image", preData.map_image);
-    setValue("line_id", preData.line_id);
-    setValue("line_url", preData.line_url);
-    setValue("facebook_url", preData.facebook_url);
-    setValue("tiktok_url", preData.tiktok_url);
-    setValue("start_day_bs_hour", preData.start_day_bs_hour);
-    setValue("end_day_bs_hour", preData.end_day_bs_hour);
-    setValue("is_active", preData.is_active);
+    setValue("line_id", preData.line_id ?? "");
+    setValue("line_url", preData.line_url ?? "");
+    setValue("facebook_url", preData.facebook_url ?? "");
+    setValue("tiktok_url", preData.tiktok_url ?? "");
+    setValue("start_day_bs_hour", preData.start_day_bs_hour ?? "");
+    setValue("end_day_bs_hour", preData.end_day_bs_hour ?? "");
+    setValue("is_active", preData.is_active ?? false);
 
     setIsLoadingData(false);
   };
@@ -630,7 +649,9 @@ const DialogAddContact = ({
                   onClick={() => {}}
                   isLoading={isLoadingSubmit}
                 >
-                  <Text className=" text-base ">{data ? "ยืนยัน" : "สร้าง" }</Text>
+                  <Text className=" text-base ">
+                    {data ? "ยืนยัน" : "สร้าง"}
+                  </Text>
                 </ButtonDefault>
               </div>
             </form>

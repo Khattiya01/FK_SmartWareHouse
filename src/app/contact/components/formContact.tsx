@@ -35,7 +35,7 @@ const FormContact = () => {
     console.log("data", data);
     await createContactFormAction(formData)
       .then((res) => {
-        if (res.success) {
+        if (res?.success) {
           showToast(
             "ส่งข้อมูลติดต่อสำเร็จ",
             "",

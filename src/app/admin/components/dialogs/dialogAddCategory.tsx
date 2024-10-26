@@ -79,6 +79,8 @@ const DialogAddCategory = ({
         id: Math.random().toString(36).slice(2),
         status: "new",
         imageURL: "",
+        url: "",
+        file_url: "",
         error: false,
       });
 
@@ -135,7 +137,7 @@ const DialogAddCategory = ({
     fd.append("name", payload.name);
     fd.append("abbreviation", payload.abbreviation);
 
-    if (resImage_url.result?.file_url) {
+    if (resImage_url?.result?.file_url) {
       fd.append("image_url", resImage_url.result?.file_url);
     }
 
@@ -212,7 +214,14 @@ const DialogAddCategory = ({
 
   const fetchFileData = async (data: SelectCategory) => {
     setIsLoadingData(true);
-    const preData: any = {
+    const preData: {
+      id: string;
+      image_url: blobToFile[];
+      name: string;
+      abbreviation: string;
+      created_at: Date | null;
+      updated_at: Date | null;
+    } = {
       id: data.id,
       image_url: [],
       name: data.name,
@@ -223,9 +232,7 @@ const DialogAddCategory = ({
     const image_url = data.image_url;
     const responseImage_url = await fetchFileByURL(image_url);
     const responseFullImage_url = await fetchImages(responseImage_url.result);
-    preData.image_url.push(
-      responseFullImage_url ? responseFullImage_url[0] : []
-    );
+    preData.image_url.push(responseFullImage_url[0]);
 
     console.log("preData", preData);
 
@@ -373,7 +380,9 @@ const DialogAddCategory = ({
                   onClick={() => {}}
                   isLoading={isLoadingSubmit}
                 >
-                  <Text className=" text-base ">{data ? "ยืนยัน" : "สร้าง" }</Text>
+                  <Text className=" text-base ">
+                    {data ? "ยืนยัน" : "สร้าง"}
+                  </Text>
                 </ButtonDefault>
               </div>
             </form>

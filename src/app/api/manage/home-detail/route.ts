@@ -1,9 +1,8 @@
 import { SelectHomePageDetail } from "@/db/schemas";
 import { getHomeDetail } from "@/services/homeDetail";
 import { APIResponse } from "@/types/response";
-import { type NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const responseJson: APIResponse<SelectHomePageDetail[]> = {
     status: 200,
     message: "OK",

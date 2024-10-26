@@ -1,9 +1,8 @@
 import { SelectUser } from "@/db/schemas";
 import { getUsers } from "@/services/users";
 import { APIResponse } from "@/types/response";
-import { type NextRequest } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const responseJson: APIResponse<SelectUser[]> = {
     status: 200,
     message: "OK",

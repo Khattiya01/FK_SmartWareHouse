@@ -88,6 +88,8 @@ const DialogAddProduct = ({
         id: Math.random().toString(36).slice(2),
         status: "new",
         imageURL: "",
+        url: "",
+        file_url: "",
         error: false,
       });
 
@@ -191,13 +193,13 @@ const DialogAddProduct = ({
       fd.append("remark", payload?.remark);
     }
 
-    if (resmain_image.result?.file_url) {
+    if (resmain_image?.result?.file_url) {
       fd.append("main_image", resmain_image.result?.file_url);
     }
-    if (resmap_image.result?.file_url) {
+    if (resmap_image?.result?.file_url) {
       fd.append("map_image", resmap_image.result?.file_url);
     }
-    if (resothers_image.result?.file_url) {
+    if (resothers_image?.result?.file_url) {
       fd.append("others_image", resothers_image.result?.file_url);
     }
 
@@ -236,7 +238,7 @@ const DialogAddProduct = ({
       await updateProductAction({ formData: fd, id: data.id })
         .then((res) => {
           console.log(res?.success, res?.message);
-          if (res.success) {
+          if (res?.success) {
             setIsLoadingSubmit(false);
             onSuccess();
             showToast(
@@ -287,7 +289,26 @@ const DialogAddProduct = ({
 
   const fetchFileData = async (data: SelectProduct) => {
     setIsLoadingData(true);
-    const preData: any = {
+    const preData : {
+      id: string,
+      created_at: Date | null,
+      updated_at: Date | null,
+      category_id: string,
+      name:string,
+      description: string | null,
+      price: string | null,
+      address: string | null,
+      province: string | null,
+      district: string | null,
+      sub_district: string | null,
+      postal_code: string | null,
+      tel: string | null,
+      phone: string | null,
+      remark: string | null,
+      main_image: blobToFile[],
+      map_image: blobToFile[],
+      others_image: blobToFile[],
+    } = {
       id: data.id,
       created_at: data.created_at,
       updated_at: data.updated_at,
@@ -319,9 +340,7 @@ const DialogAddProduct = ({
           const responseFullothers_image_url = await fetchImages(
             response.result
           );
-          return responseFullothers_image_url
-            ? responseFullothers_image_url[0]
-            : [];
+          return responseFullothers_image_url[0];
         })
       );
     }
@@ -331,9 +350,7 @@ const DialogAddProduct = ({
       const responseFullmain_image_urls = await fetchImages(
         responsemain_image_urls.result
       );
-      preData.main_image.push(
-        responseFullmain_image_urls ? responseFullmain_image_urls[0] : []
-      );
+      preData.main_image.push(responseFullmain_image_urls[0]);
     }
 
     if (map_image_url) {
@@ -341,9 +358,7 @@ const DialogAddProduct = ({
       const responseFullmap_image_url = await fetchImages(
         responsemap_image_url.result
       );
-      preData.map_image.push(
-        responseFullmap_image_url ? responseFullmap_image_url[0] : []
-      );
+      preData.map_image.push(responseFullmap_image_url[0]);
     }
     console.log("preData", preData);
 
@@ -775,7 +790,9 @@ const DialogAddProduct = ({
                   onClick={() => {}}
                   isLoading={isLoadingSubmit}
                 >
-                  <Text className=" text-base ">{data ? "ยืนยัน" : "สร้าง" }</Text>
+                  <Text className=" text-base ">
+                    {data ? "ยืนยัน" : "สร้าง"}
+                  </Text>
                 </ButtonDefault>
               </div>
             </form>
