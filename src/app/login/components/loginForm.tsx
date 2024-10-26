@@ -108,6 +108,16 @@ const LoginForm = () => {
             รหัสผ่านที่คุณป้อนไม่ถูกต้อง
           </Text>
         )}
+        {search === "permission-denied" && (
+          <Text
+            style={{
+              fontSize: "14px",
+              color: "red",
+            }}
+          >
+            ผู้ใช้งานนี้ไม่มีสิทธิ์เข้าถึง
+          </Text>
+        )}
         <InputFormLogin
           placeholder="ชื่อผู้ใช้หรือที่อยู่อีเมล"
           iconLeft={<FaUserCircle size={"22px"} className=" text-[#00337d]" />}

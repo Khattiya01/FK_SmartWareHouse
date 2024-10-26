@@ -7,74 +7,69 @@ import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { Box, Text } from "@radix-ui/themes";
 import ButtonDefault from "@/components/buttons/buttonDefault";
 import { IoMdAdd } from "react-icons/io";
+import { updateIsActiveLogoAction } from "@/actions/logos";
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
-import { TableContact } from "../tables/tableContact";
-import { SelectContact } from "@/db/schemas";
-import { useContact } from "@/app/hooks/useContact";
-import { deleteContactAction, updateIsActiveContactAction } from "@/actions/contact";
-import DialogAddContact from "../dialogs/dialogAddContact";
+import { TableUser } from "../tables/tableUser";
+import { useUser } from "@/app/hooks/useUser";
+import { SelectUser } from "@/db/schemas";
+import DialogAddUser from "../dialogs/dialogAddUser";
+import { deleteUserAction, updateIsActiveUserAction } from "@/actions/users";
 
-export function ManageContact() {
+export function ManageUser() {
   // states
-  const [openDialogCreateContact, setOpenDialogCreateContact] =
+  const [openDialogCreateHomeDetail, setOpenDialogCreateHomeDetail] =
     useState<boolean>(false);
-  const [activeContactData, setActiveContactData] = useState<
-    SelectContact | undefined
-  >(undefined);
+  const [activeUserData, setActiveUserData] = useState<SelectUser | undefined>(
+    undefined
+  );
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
   // hooks
-  const {
-    data: dataContact,
-    refetch: refetchContact,
-    isLoading,
-  } = useContact();
+  const { data: dataUser, refetch: refetchUser, isLoading } = useUser();
   const showToast = useToastStore((state) => state.show);
 
   // functions
 
   const onSuccessDailogHomeDetail = () => {
-    refetchContact();
-    setOpenDialogCreateContact(false);
-    setActiveContactData(undefined);
+    refetchUser();
+    setOpenDialogCreateHomeDetail(false);
+    setActiveUserData(undefined);
   };
 
   const onCancelDailogHomeDetail = () => {
-    setOpenDialogCreateContact(false);
-    setActiveContactData(undefined);
+    setOpenDialogCreateHomeDetail(false);
+    setActiveUserData(undefined);
   };
 
   const handleOpenDailogCreate = () => {
-    setOpenDialogCreateContact(true);
+    setOpenDialogCreateHomeDetail(true);
   };
 
-  const handleOpenDailogEdit = (data: SelectContact) => {
-    setActiveContactData(data);
-    setOpenDialogCreateContact(true);
+  const handleOpenDailogEdit = (data: SelectUser) => {
+    setActiveUserData(data);
+    setOpenDialogCreateHomeDetail(true);
   };
 
   const handleSubmitDelete = async () => {
-    if (activeContactData) {
+    if (activeUserData) {
       handleCloseDialogDelete();
-      setActiveContactData(undefined);
-      await deleteContactAction({
-        id: activeContactData.id,
-        file_url:
-          activeContactData.bg_image + "," + activeContactData.map_image,
+      setActiveUserData(undefined);
+      await deleteUserAction({
+        id: activeUserData.id,
       })
         .then((res) => {
           if (res.success) {
-            refetchContact();
+            refetchUser();
             showToast(
-              "ลบข้อมูลการติดต่อสำเร็จ",
+              "ลบผู้ใช้งานสำเร็จ",
               "",
               new Date(),
               typeStatusTaost.success
             );
           } else {
-            console.error("Error delete delete contact:", res.message);
+            console.error("Error delete delete user:", res.message);
             showToast(
-              "ลบข้อมูลการติดต่อไม่สำเร็จ",
+              "ลบผู้ใช้งานไม่สำเร็จ",
               "",
               new Date(),
               typeStatusTaost.error
@@ -82,33 +77,33 @@ export function ManageContact() {
           }
         })
         .catch((err) => {
-          console.error("Error delete delete contact:", err.message);
+          console.error("Error delete delete user:", err.message);
         });
     } else {
-      console.log("error deleting: activeContactData is undefined");
+      console.log("error deleting: active user Data is undefined");
     }
   };
   const handleCloseDialogDelete = () => {
     setOpenDialogDelete(false);
-    setActiveContactData(undefined);
+    setActiveUserData(undefined);
   };
-  const handleOpenDialogDelete = (data: SelectContact) => {
-    setActiveContactData(data);
+  const handleOpenDialogDelete = (data: SelectUser) => {
+    setActiveUserData(data);
     setOpenDialogDelete(true);
   };
+
   const handleClickIsActive = async (isActive: boolean, id: string) => {
     const formData = new FormData();
     formData.append("is_active", isActive ? "true" : "false");
-    await updateIsActiveContactAction({ formData, id })
+    await updateIsActiveUserAction({ formData, id })
       .then((res) => {
         console.log(res?.message);
-        refetchContact();
+        refetchUser();
       })
       .catch((err) => {
-        console.error("Error create logo:", err?.message);
+        console.error("Error create user:", err?.message);
       });
   };
-
   // lifecycle
 
   return (
@@ -116,7 +111,7 @@ export function ManageContact() {
       <Box style={{ width: "100%", display: "flex", justifyContent: "end" }}>
         <ButtonDefault onClick={handleOpenDailogCreate}>
           <IoMdAdd size={"20px"} />
-          <Text>เพิ่ม ข้อมูลการติดต่อ</Text>
+          <Text>เพิ่ม ผู้ใช้งาน</Text>
         </ButtonDefault>
       </Box>
 
@@ -130,14 +125,14 @@ export function ManageContact() {
       >
         {!isLoading ? (
           <>
-            <TableContact
-              rows={dataContact?.result}
+            <TableUser
+              rows={dataUser?.result}
               handleClickEdit={handleOpenDailogEdit}
               handleOpenDialogDelete={handleOpenDialogDelete}
               handleClickIsActive={handleClickIsActive}
             />
-            {!dataContact?.result ||
-              (dataContact.result && dataContact.result?.length <= 0 && (
+            {!dataUser?.result ||
+              (dataUser?.result && dataUser?.result?.length <= 0 && (
                 <BoxNotDataTableAdmin />
               ))}
           </>
@@ -145,12 +140,12 @@ export function ManageContact() {
           <BoxLoadingData height="300px" />
         )}
 
-        <DialogAddContact
-          dialogType={activeContactData ? "edit" : "create"}
-          data={activeContactData}
+        <DialogAddUser
+          dialogType={activeUserData ? "edit" : "create"}
+          data={activeUserData}
           onSuccess={onSuccessDailogHomeDetail}
           onCancel={onCancelDailogHomeDetail}
-          isOpen={openDialogCreateContact}
+          isOpen={openDialogCreateHomeDetail}
         />
 
         <DialogDelete

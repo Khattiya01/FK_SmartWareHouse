@@ -767,7 +767,7 @@ const DialogAddProduct = ({
                   onClick={() => onCancelHandler()}
                   width="140px"
                 >
-                  <Text className=" text-base ">Cancel</Text>
+                  <Text className=" text-base ">ยกเลิก</Text>
                 </ButtonOutline>
                 <ButtonDefault
                   type="submit"
@@ -775,7 +775,7 @@ const DialogAddProduct = ({
                   onClick={() => {}}
                   isLoading={isLoadingSubmit}
                 >
-                  <Text className=" text-base ">Submit</Text>
+                  <Text className=" text-base ">{data ? "ยืนยัน" : "สร้าง" }</Text>
                 </ButtonDefault>
               </div>
             </form>

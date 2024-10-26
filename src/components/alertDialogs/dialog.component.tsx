@@ -36,7 +36,7 @@ export function DialogComponent({
         <div className="flex items-center">{content}</div>
         <AlertDialogFooter>
           {footer}
-          {/* <AlertDialogCancel>Cancel</AlertDialogCancel>
+          {/* <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
           <AlertDialogAction>Continue</AlertDialogAction> */}
         </AlertDialogFooter>
       </AlertDialogContent>

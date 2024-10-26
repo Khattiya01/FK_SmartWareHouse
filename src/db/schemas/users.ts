@@ -1,4 +1,10 @@
-import { boolean, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  pgTable,
+  timestamp,
+  uuid,
+  varchar,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
@@ -6,6 +12,7 @@ import { z } from "zod";
 export const usersTable = pgTable("users", {
   id: uuid("id").default(uuidv4()).primaryKey(),
   username: varchar("username").notNull().unique(),
+  email: varchar("email").notNull().unique(),
   password: varchar("password").notNull(),
   is_active: boolean("is_active").default(true),
   role: varchar("role").notNull(), // 'admin' หรือ 'user'
@@ -21,6 +28,7 @@ export type DeleteUser = {
 export type UpdateUser = {
   username?: string;
   password?: string;
+  email?: string;
   role?: string;
   id: string;
   is_active?: boolean;
@@ -35,21 +43,33 @@ export const insertUserSchema = createInsertSchema(usersTable, {
     .min(6, "Password must be at least 6 characters")
     .max(10, "Password must not exceed 10 characters"),
   username: z.string().min(1, { message: "Username is required" }),
+  email: z.string().email().min(1, { message: "Email is required" }),
   is_active: z.boolean().optional(),
 });
 
 export const updateUserSchema = createInsertSchema(usersTable, {
   id: z.string().min(1, { message: "User ID is required" }),
+  username: z.string().min(1, { message: "Username is required" }),
+  email: z.string().email().min(1, { message: "Email is required" }),
+  password: z.string().optional(),
+  role: z.string().min(1, { message: "Role is required" }),
+  is_active: z.boolean().optional(),
+});
+
+export const updateIsActiveUserSchema = createInsertSchema(usersTable, {
+  id: z.string().min(1, { message: "User ID is required" }),
   username: z.string().optional(),
+  email: z.string().optional(),
   password: z.string().optional(),
   role: z.string().optional(),
-  is_active: z.boolean().optional(),
+  is_active: z.boolean()
 });
 
 export const deleteUserSchema = createInsertSchema(usersTable, {
   id: z.string().min(1, { message: "User ID is required" }),
   username: z.string().optional(),
   password: z.string().optional(),
+  email: z.string().optional(),
   role: z.string().optional(),
   is_active: z.boolean().optional(),
 });

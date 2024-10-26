@@ -50,7 +50,6 @@ const AdminSidebar = () => {
       icon: <HiOutlineUsers style={{ width: "24px", height: "24px" }} />,
       name: "จัดการผู้ใช้",
       path: `/admin/manage-users`,
-      disabled: true,
     },
     {
       icon: <MdOutlinePrivacyTip style={{ width: "24px", height: "24px" }} />,
