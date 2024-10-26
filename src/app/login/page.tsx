@@ -1,5 +1,9 @@
 import { Box, Flex, Text } from "@radix-ui/themes";
-// import LoginForm from "./components/loginForm";
+import dynamic from "next/dynamic";
+
+const LoginForm = dynamic(() => import("./components/loginForm"), {
+  ssr: false,
+});
 
 export default async function LoginPage() {
   return (
@@ -11,7 +15,7 @@ export default async function LoginPage() {
       justify={"between"}
       className="rounded-lg "
     >
-      {/* <LoginForm /> */}
+      <LoginForm />
       <Box
         style={{
           width: "100%",
