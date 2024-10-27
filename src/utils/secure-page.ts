@@ -5,8 +5,6 @@ import { ROLE } from "@/types/role";
 
 export async function SecurePage({ role }: { role?: ROLE | undefined }) {
   const session = await getServerSession(authOptions);
-  console.log("SecurePage", session?.user);
-  console.log("session.user.role !== ROLE[0]", session?.user.role !== ROLE[0]);
   if (!session || !session?.user) {
     redirect("/login?error=session-timeout");
   }
