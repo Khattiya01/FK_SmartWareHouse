@@ -26,7 +26,7 @@ const ContentContactUs = (props: {
         className=" w-full h-full max-h-[525px] filter brightness-50"
       />
       <Flex className="  absolute " direction={"column"} align={"center"}>
-        <Text className=" text-[3vw] font-bold  text-white">ติดต่อเรา</Text>
+        <Text className=" sm:text-[42px] text-[24px] font-bold  text-white">ติดต่อเรา</Text>
         <Link
           href={line_url ?? "https://facebook.com"}
           target="_blank"

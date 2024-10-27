@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
 
 const LoginForm = dynamic(() => import("./components/loginForm"), {
@@ -16,17 +16,6 @@ export default async function LoginPage() {
       className="rounded-lg "
     >
       <LoginForm />
-      <Box
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-        }}
-      >
-        <Text>Version 1.00</Text>
-        <Text>© Copyright 2024 by FK-SWH.com</Text>
-      </Box>
     </Flex>
   );
 }

@@ -51,14 +51,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Box
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
+    <>
       <form
         onSubmit={handleSubmit(onSubmit)}
         style={{
@@ -166,7 +159,18 @@ const LoginForm = () => {
           </button>
         </Box>
       </form>
-    </Box>
+      <Box
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+        }}
+      >
+        <Text>Version 1.00</Text>
+        <Text>© Copyright 2024 by FK-SWH.com</Text>
+      </Box>
+    </>
   );
 };
 

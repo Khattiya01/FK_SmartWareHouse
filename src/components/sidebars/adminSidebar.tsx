@@ -55,7 +55,6 @@ const AdminSidebar = () => {
       icon: <MdOutlinePrivacyTip style={{ width: "24px", height: "24px" }} />,
       name: "จัดการนโยบายและความเป็นส่วนตัว",
       path: `/admin/manage-privacy-policy`,
-      disabled: true,
     },
   ];
 
