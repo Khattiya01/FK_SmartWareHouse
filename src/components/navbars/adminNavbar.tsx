@@ -52,17 +52,19 @@ const AdminNavbar = async () => {
         }}
       >
         <Link href={"/"}>
-          <Box className=" overflow-hidden sm:w-[320px] w-[88px]">
-            <Box className="relative w-[320px] h-[80px] ">
-              <Image
-                src={logoURL}
-                alt="logo-main-website"
-                layout="fill"
-                objectFit="cover"
-                className="hover:cursor-pointer hover:opacity-60 opacity-100 transition ease-in-out duration-300 "
-              />
+          <Flex className="h-full" align={"center"}>
+            <Box className=" overflow-hidden sm:w-[240px] w-[80px]">
+              <Box className="relative w-[240px] h-[48px] ">
+                <Image
+                  src={logoURL}
+                  alt="logo-main-website"
+                  layout="fill"
+                  objectFit="cover"
+                  className="hover:cursor-pointer hover:opacity-60 opacity-100 transition ease-in-out duration-300 "
+                />
+              </Box>
             </Box>
-          </Box>
+          </Flex>
         </Link>
         <NavbarProfileInfo />
       </Flex>

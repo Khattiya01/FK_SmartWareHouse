@@ -48,11 +48,11 @@ const Banner = ({ imagesURL }: { imagesURL: string[] | undefined }) => {
         </Swiper>
       </Box>
       <Flex className=" absolute z-50" direction={"column"} align={"center"}>
-        <Text className=" text-white text-[10vw] sm:text-[7vw] font-bold ">
-          FIRSTKAS{" "}
+        <Text className=" text-white text-[58px] sm:text-[115px] font-bold ">
+          FIRSTKAS
         </Text>
-        <Text className=" text-white text-[5vw] sm:text-[3vw] font-bold ">
-          SMART WAREHOUSE{" "}
+        <Text className=" text-white text-[21px] sm:text-[42px] font-bold ">
+          SMART WAREHOUSE
         </Text>
       </Flex>
     </Flex>

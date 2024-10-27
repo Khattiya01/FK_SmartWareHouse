@@ -90,15 +90,19 @@ const MainNavbar = async () => {
         }}
       >
         <Link href={"/"}>
-          <Box className="relative w-[320px] h-[80px] ">
-            <Image
-              src={logoURL}
-              alt="logo-main-website"
-              layout="fill"
-              objectFit="cover"
-              className="hover:cursor-pointer hover:opacity-60 opacity-100 transition ease-in-out duration-300 "
-            />
-          </Box>
+          <Flex className="h-full" align={"center"}>
+            <Box className=" overflow-hidden sm:w-[240px] w-[80px]">
+              <Box className="relative w-[240px] h-[48px] ">
+                <Image
+                  src={logoURL}
+                  alt="logo-main-website"
+                  layout="fill"
+                  objectFit="cover"
+                  className="hover:cursor-pointer hover:opacity-60 opacity-100 transition ease-in-out duration-300 "
+                />
+              </Box>
+            </Box>
+          </Flex>
         </Link>
 
         {/* desktop menu */}
