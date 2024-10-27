@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1729929872536,
-      "tag": "0000_nostalgic_doctor_strange",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1729929874741,
-      "tag": "0001_faulty_raza",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1730034544368,
-      "tag": "0002_cold_marvex",
+      "when": 1730040994922,
+      "tag": "0000_sweet_nextwave",
       "breakpoints": true
     }
   ]

@@ -12,6 +12,7 @@ type InputTextareaFormManageProps = {
   disabled?: boolean;
   required?: boolean;
   showLabel?: boolean;
+  rows?: number;
 };
 
 const InputTextareaFormManage = ({
@@ -23,6 +24,7 @@ const InputTextareaFormManage = ({
   disabled,
   required,
   showLabel = true,
+  rows,
 }: InputTextareaFormManageProps) => {
   return (
     <div className=" w-full">
@@ -44,7 +46,7 @@ const InputTextareaFormManage = ({
           disabled={disabled}
           id={name}
           {...register}
-          rows={4}
+          rows={rows ?? 4}
           maxLength={type === "to" || type === "tel" ? 10 : undefined}
           placeholder={placeholder}
           className={`no-spinners border rounded-lg text-black  p-4 w-full focus:border-gray focus:outline-none `}

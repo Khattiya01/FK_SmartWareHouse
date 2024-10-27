@@ -112,14 +112,6 @@ export function ManageFormContact() {
           height: "44px",
         }}
       >
-        {/* <Box className=" w-[400px]">
-          <InputFormManage
-            name={"Search"}
-            placeholder="Search"
-            required
-            showLabel={false}
-          />
-        </Box> */}
         <ButtonOutline
           type="button"
           onClick={handleExportExcelFile}
