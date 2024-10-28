@@ -23,7 +23,7 @@ const NavbarProfileInfo = async () => {
         </Flex>
       </HoverCard.Trigger>
       <HoverCard.Content maxWidth="300px">
-        <Flex gap={"2"} direction={"column"} width={"140px"}>
+        <Flex gap={"2"} direction={"column"} width={"160px"}>
           <ListMenuNavbarProfile title={"ออกจากระบบ"} />
         </Flex>
       </HoverCard.Content>

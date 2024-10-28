@@ -19,8 +19,8 @@ import InputFormManage from "@/components/inputs/inputFormManage";
 import { CreateContactType } from "@/types/requests/createContact";
 import { CreateContact } from "@/schemas/createContact";
 import { createContactAction, updateContactAction } from "@/actions/contact";
-import SelectComponents from "@/components/selects/selectComponents";
-import { TIME24 } from "@/utils/optionDate";
+import dayjs from "dayjs";
+import InputTimeHM from "../inputTimeHM";
 
 type DialogAddContactProps = {
   dialogType?: "create" | "edit";
@@ -64,6 +64,8 @@ const DialogAddContact = ({
     defaultValues: {
       map_image: [],
       bg_image: [],
+      start_day_bs_hour: dayjs().hour(0).minute(0).format(),
+      end_day_bs_hour: dayjs().hour(0).minute(0).format(),
     },
     resolver: zodResolver(CreateContact),
   });
@@ -165,8 +167,14 @@ const DialogAddContact = ({
     fd.append("line_url", payload.line_url);
     fd.append("facebook_url", payload.facebook_url);
     fd.append("tiktok_url", payload.tiktok_url);
-    fd.append("start_day_bs_hour", payload.start_day_bs_hour);
-    fd.append("end_day_bs_hour", payload.end_day_bs_hour);
+    fd.append(
+      "start_day_bs_hour",
+      dayjs(payload.start_day_bs_hour).format("HH:mm")
+    );
+    fd.append(
+      "end_day_bs_hour",
+      dayjs(payload.end_day_bs_hour).format("HH:mm")
+    );
 
     if (resbg_image?.result?.file_url) {
       fd.append("bg_image", resbg_image.result?.file_url);
@@ -181,14 +189,25 @@ const DialogAddContact = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "แก้ไขการติดต่อสำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "แก้ไขการติดต่อสำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "แก้ไขการติดต่อไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -207,14 +226,24 @@ const DialogAddContact = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "เพิ่มการติดต่อสำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "เพิ่มการติดต่อสำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "เพิ่มการติดต่อไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -439,7 +468,49 @@ const DialogAddContact = ({
                     showLabel
                     required
                   />
-                  <SelectComponents
+                  <InputTimeHM
+                    name="วัน - เวลาเริ่มทำการ"
+                    valueHour={dayjs(watch("start_day_bs_hour")).format("HH")}
+                    valueMinute={dayjs(watch("start_day_bs_hour")).format("mm")}
+                    handleChangeHour={(e) => {
+                      setValue(
+                        "start_day_bs_hour",
+                        dayjs(watch("start_day_bs_hour"))
+                          .hour(parseInt(e))
+                          .format()
+                      );
+                    }}
+                    handleChangeMinute={(e) => {
+                      setValue(
+                        "start_day_bs_hour",
+                        dayjs(watch("start_day_bs_hour"))
+                          .minute(parseInt(e))
+                          .format()
+                      );
+                    }}
+                  />
+                  <InputTimeHM
+                    name={"วัน - เวลาหยุดทำการ"}
+                    valueHour={dayjs(watch("end_day_bs_hour")).format("HH")}
+                    valueMinute={dayjs(watch("end_day_bs_hour")).format("mm")}
+                    handleChangeHour={(e) => {
+                      setValue(
+                        "end_day_bs_hour",
+                        dayjs(watch("end_day_bs_hour"))
+                          .hour(parseInt(e))
+                          .format()
+                      );
+                    }}
+                    handleChangeMinute={(e) => {
+                      setValue(
+                        "end_day_bs_hour",
+                        dayjs(watch("end_day_bs_hour"))
+                          .minute(parseInt(e))
+                          .format()
+                      );
+                    }}
+                  />
+                  {/* <SelectComponents
                     option={TIME24}
                     defaultValue={
                       watch("start_day_bs_hour") ?? TIME24[0]?.value ?? ""
@@ -462,7 +533,7 @@ const DialogAddContact = ({
                     name={"วัน - เวลาหยุดทำการ"}
                     required
                     showLabel
-                  />
+                  /> */}
                   <Box
                     style={{ gap: 1, display: "flex", flexDirection: "column" }}
                   >
