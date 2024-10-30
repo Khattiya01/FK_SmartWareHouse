@@ -1,11 +1,11 @@
-import { editPasswordUser } from "@/services/users";
+import { editTermUser } from "@/services/users";
 import { APIResponse } from "@/types/response";
-import { hashPassword } from "@/utils/hashPassword";
 import { verify } from "jsonwebtoken";
 
 export async function POST(request: Request) {
   const formData = await request.formData();
-  const password = formData.get("password")?.toString();
+  const term = formData.get("term")?.toString();
+
   const responseJson: APIResponse<[]> = {
     status: 200,
     message: "OK",
@@ -14,28 +14,21 @@ export async function POST(request: Request) {
 
   try {
     const token = request.headers.get("Authorization")?.split(" ")[1];
-    if (password && token) {
+
+    if (term && token) {
       const jwtPayload = verify(token, process.env.JWT_SECRET ?? "") as {
         userId: string;
         iat: number;
       };
       const userId = jwtPayload.userId;
-      const hashedPassword = await hashPassword(password);
-      await editPasswordUser({ password: hashedPassword, id: userId })
-        .then((res) => {
-          console.log("res", res);
-        })
-        .catch((err) => {
-          responseJson.status = 400;
-          responseJson.message = err.message;
-        });
+      await editTermUser({ id: userId, term: term === "true" ? true : false });
     } else {
       responseJson.status = 400;
-      responseJson.message = "password is not specified";
+      responseJson.message = "term is not defind";
     }
   } catch {
     responseJson.status = 400;
-    responseJson.message = "Error post email";
+    responseJson.message = "Error update term";
   }
 
   return new Response(JSON.stringify(responseJson), {

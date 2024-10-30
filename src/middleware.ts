@@ -36,6 +36,6 @@ export default async function middleware(req: NextRequest) {
 
 // See "Matching Paths" below to learn more
 export const config = {
-  matcher: ["/api/reset-password/:path*"],
+  matcher: ["/api/reset-password/:path*", "/api/term/:path*"],
   // matcher: ["/api/manage/:path*", "/api/reset-password/:path*"],
 };

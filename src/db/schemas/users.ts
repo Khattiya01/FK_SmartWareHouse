@@ -16,6 +16,7 @@ export const usersTable = pgTable("users", {
   password: varchar("password").notNull(),
   is_active: boolean("is_active").default(true),
   role: varchar("role").notNull(), // 'admin' หรือ 'user'
+  term: boolean("term").default(false),
   created_at: timestamp("created_at").defaultNow(),
   updated_at: timestamp("updated_at").$onUpdate(() => new Date()),
 });
@@ -32,6 +33,7 @@ export type UpdateUser = {
   role?: string;
   id: string;
   is_active?: boolean;
+  term?: boolean;
   created_at?: Date | null | undefined;
   updated_at?: Date | null | undefined;
 };
@@ -45,6 +47,7 @@ export const insertUserSchema = createInsertSchema(usersTable, {
   username: z.string().min(1, { message: "Username is required" }),
   email: z.string().email().min(1, { message: "Email is required" }),
   is_active: z.boolean().optional(),
+  term: z.boolean().optional(),
 });
 
 export const updateUserSchema = createInsertSchema(usersTable, {
@@ -54,6 +57,7 @@ export const updateUserSchema = createInsertSchema(usersTable, {
   password: z.string().optional(),
   role: z.string().min(1, { message: "Role is required" }),
   is_active: z.boolean().optional(),
+  term: z.boolean().optional(),
 });
 
 export const updateIsActiveUserSchema = createInsertSchema(usersTable, {
@@ -62,7 +66,8 @@ export const updateIsActiveUserSchema = createInsertSchema(usersTable, {
   email: z.string().optional(),
   password: z.string().optional(),
   role: z.string().optional(),
-  is_active: z.boolean()
+  is_active: z.boolean(),
+  term: z.boolean(),
 });
 
 export const deleteUserSchema = createInsertSchema(usersTable, {
@@ -72,4 +77,5 @@ export const deleteUserSchema = createInsertSchema(usersTable, {
   email: z.string().optional(),
   role: z.string().optional(),
   is_active: z.boolean().optional(),
+  term: z.boolean().optional(),
 });

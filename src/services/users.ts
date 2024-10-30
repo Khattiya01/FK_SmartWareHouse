@@ -145,6 +145,22 @@ export const editIsActiveUser = async ({
     .returning({ id: usersTable.id });
 };
 
+export const editTermUser = async ({
+  id,
+  term,
+}: {
+  id: string;
+  term: boolean;
+}) => {
+  await db
+    .update(usersTable)
+    .set({
+      term: term,
+    })
+    .where(eq(usersTable.id, id))
+    .returning({ id: usersTable.id });
+};
+
 export const deleteUser = async (id: string) => {
   await db
     .delete(usersTable)

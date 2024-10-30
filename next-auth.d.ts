@@ -29,6 +29,7 @@ declare module "next-auth/jwt" {
     error?: string;
     userInfo: {
       role: string;
+      term?:boolean | null;
     };
   }
 }

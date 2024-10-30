@@ -127,17 +127,15 @@ export async function updateIsActivePrivacyAndPolicyAction({
       if (is_active === "true") {
         if (
           responseGetPrivacyAndPolicyIsActive &&
-          responseGetPrivacyAndPolicyIsActive?.length > 0 &&
-          responseGetPrivacyAndPolicyIsActive[0].id !== id
+          responseGetPrivacyAndPolicyIsActive.id !== id
         ) {
           editPrivacyAndPolicyOtherIsActiveFalse(
-            responseGetPrivacyAndPolicyIsActive[0].id
+            responseGetPrivacyAndPolicyIsActive.id
           );
         }
       } else if (
         responseGetPrivacyAndPolicyIsActive &&
-        responseGetPrivacyAndPolicyIsActive?.length > 0 &&
-        responseGetPrivacyAndPolicyIsActive[0].id === id
+        responseGetPrivacyAndPolicyIsActive.id === id
       ) {
         return privacyAndPolicyException.createError(
           "There are no other logos active."

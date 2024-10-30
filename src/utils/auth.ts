@@ -22,7 +22,7 @@ export const authOptions: NextAuthOptions = {
           const responseLogin = await loginAction(fd);
           const user = responseLogin.result?.user;
           const token = responseLogin.result?.token;
-          console.log("token", token)
+          console.log("token", token);
           if (responseLogin.success && user && token) {
             return {
               id: "1234",
@@ -33,6 +33,7 @@ export const authOptions: NextAuthOptions = {
                 60 * parseInt(process.env.ACCESS_EXPIRATION_MINUTES ?? "60"),
               userInfo: {
                 role: user.role,
+                term: user.term,
               },
             };
           } else {
@@ -45,17 +46,25 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt", // ใช้ JWT เป็นพื้นฐานของ session
-    maxAge: parseInt(process.env.NEXTAUTH_EXPIRATION_HOUR ?? "24") * 60 * 60, // อายุของ session token (cookies) 1 วัน
+    strategy: "jwt",
+    maxAge: parseInt(process.env.NEXTAUTH_EXPIRATION_HOUR ?? "24") * 60 * 60,
   },
   jwt: {
-    maxAge: 60 * 60, // อายุของ access token 1 ชั่วโมง
+    maxAge: 60 * 60,
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger, session }) {
+      // added code
+      if (trigger === "update" && session) {
+        token = { ...token, userInfo: session.user };
+        return token;
+      }
+
       if (user && user.accessToken) {
         token.id = user.id;
-        token.expired = Math.floor(Date.now() / 1000) + 60 * 60 * parseInt(process.env.NEXTAUTH_EXPIRATION_HOUR ?? "24");
+        token.expired =
+          Math.floor(Date.now() / 1000) +
+          60 * 60 * parseInt(process.env.NEXTAUTH_EXPIRATION_HOUR ?? "24");
         token.userInfo = user.userInfo;
         token.accessToken = user.accessToken;
         return {
@@ -82,7 +91,8 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        maxAge: parseInt(process.env.NEXTAUTH_EXPIRATION_HOUR ?? "24") * 60 * 60, // อายุของ cookies 1 วัน
+        maxAge:
+          parseInt(process.env.NEXTAUTH_EXPIRATION_HOUR ?? "24") * 60 * 60, // อายุของ cookies 1 วัน
       },
     },
   },
