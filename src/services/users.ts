@@ -116,6 +116,19 @@ export const editUser = async (data: UpdateUser) => {
     .returning({ id: usersTable.id });
 };
 
+export const editPasswordUser = async (data: {
+  password: string;
+  id: string;
+}) => {
+  await db
+    .update(usersTable)
+    .set({
+      password: data.password,
+    })
+    .where(eq(usersTable.id, data.id))
+    .returning({ id: usersTable.id });
+};
+
 export const editIsActiveUser = async ({
   id,
   is_active,

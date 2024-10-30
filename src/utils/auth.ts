@@ -22,6 +22,7 @@ export const authOptions: NextAuthOptions = {
           const responseLogin = await loginAction(fd);
           const user = responseLogin.result?.user;
           const token = responseLogin.result?.token;
+          console.log("token", token)
           if (responseLogin.success && user && token) {
             return {
               id: "1234",
