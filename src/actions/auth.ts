@@ -52,10 +52,7 @@ export async function loginAction(formData: FormData) {
       return userException.createError("invalid-password");
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET ?? "", {
-      expiresIn: process.env.ACCESS_EXPIRATION_MINUTES,
-    });
-
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET ?? "");
     return {
       success: true,
       message: "Login successfully",

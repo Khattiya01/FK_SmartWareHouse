@@ -116,6 +116,19 @@ export const editUser = async (data: UpdateUser) => {
     .returning({ id: usersTable.id });
 };
 
+export const editPasswordUser = async (data: {
+  password: string;
+  id: string;
+}) => {
+  await db
+    .update(usersTable)
+    .set({
+      password: data.password,
+    })
+    .where(eq(usersTable.id, data.id))
+    .returning({ id: usersTable.id });
+};
+
 export const editIsActiveUser = async ({
   id,
   is_active,
@@ -127,6 +140,22 @@ export const editIsActiveUser = async ({
     .update(usersTable)
     .set({
       is_active: is_active,
+    })
+    .where(eq(usersTable.id, id))
+    .returning({ id: usersTable.id });
+};
+
+export const editTermUser = async ({
+  id,
+  term,
+}: {
+  id: string;
+  term: boolean;
+}) => {
+  await db
+    .update(usersTable)
+    .set({
+      term: term,
     })
     .where(eq(usersTable.id, id))
     .returning({ id: usersTable.id });

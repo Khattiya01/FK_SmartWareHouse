@@ -14,9 +14,8 @@ const AxiosInstance = axios.create({
   ...config,
 });
 
-AxiosInstance.interceptors.request.use(async (config ) => {
-  const tz = localStorage.getItem("tz");
-  config.headers["x-time-zone"] = tz;
+AxiosInstance.interceptors.request.use(async (config) => {
+  // Do something before request is sent
   return config;
 });
 AxiosInstance.interceptors.response.use(

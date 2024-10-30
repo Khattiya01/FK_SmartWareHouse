@@ -1,53 +1,55 @@
 "use client";
 
-import InputFormLogin from "@/app/login/components/inputFormLogin";
 import { Box, Spinner, Text } from "@radix-ui/themes";
 import Image from "next/image";
-import { FaUserCircle } from "react-icons/fa";
 import InputFormPassword from "./inputFormPassword";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { FaAngleLeft } from "react-icons/fa6";
 
-import { signIn } from "next-auth/react";
-import { loginType } from "@/types/requests/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/schemas/auth";
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { resetPasswordType } from "@/types/requests/resetPassword";
+import { resetPasswordSchema } from "@/schemas/resetPassword";
+import { postResetPassword } from "@/api/reset-password/reset-password";
 
-const LoginForm = () => {
+const ResetPasswordForm = () => {
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
 
   const searchParams = useSearchParams();
+  const router = useRouter();
   const search = searchParams.get("error");
+  const token = searchParams.get("token");
+
+  if (!token) router.push("/login");
 
   const {
     watch,
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<loginType>({
+  } = useForm<resetPasswordType>({
     defaultValues: {
-      username: "",
       password: "",
+      confirmPassword: "",
     },
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(resetPasswordSchema),
   });
 
-  const onSubmit = async (data: loginType) => {
+  const onSubmit = async (data: resetPasswordType) => {
     setIsLoadingLogin(true);
-    await signIn("credentials", {
-      username: data.username,
-      password: data.password,
-      callbackUrl: "/admin/manage-home-detail",
-    })
-      .then(() => {
-        setIsLoadingLogin(false);
-      })
-      .catch(() => {
-        setIsLoadingLogin(false);
-      });
+
+    if (token) {
+      await postResetPassword({ password: data.password, token: token })
+        .then(() => {
+          setIsLoadingLogin(false);
+          router.push("/login")
+        })
+        .catch(() => {
+          setIsLoadingLogin(false);
+        });
+    }
   };
 
   return (
@@ -76,7 +78,7 @@ const LoginForm = () => {
             marginTop: "16px",
           }}
         >
-          เข้าสู่ระบบบัญชีของคุณ
+          รีเซ็ตรหัสผ่าน
         </Text>
         <Box
           style={{
@@ -98,55 +100,29 @@ const LoginForm = () => {
               ชื่อผู้ใช้ที่คุณป้อนไม่ถูกต้อง
             </Text>
           )}
-          {search === "invalid-password" && (
-            <Text
-              style={{
-                fontSize: "14px",
-                color: "red",
-              }}
-            >
-              รหัสผ่านที่คุณป้อนไม่ถูกต้อง
-            </Text>
-          )}
-          {search === "permission-denied" && (
-            <Text
-              style={{
-                fontSize: "14px",
-                color: "red",
-              }}
-            >
-              ผู้ใช้งานนี้ไม่มีสิทธิ์เข้าถึง
-            </Text>
-          )}
-          <InputFormLogin
-            placeholder="ชื่อผู้ใช้หรือที่อยู่อีเมล"
-            iconLeft={
-              <FaUserCircle size={"22px"} className=" text-[#00337d]" />
-            }
-            onChange={(value) => {
-              setValue("username", value);
-            }}
-            value={watch("username")}
-            errorMessage={errors.username?.message}
-          />
           <InputFormPassword
-            placeholder="รหัสผ่าน"
+            placeholder="รหัสผ่านใหม่"
             onChange={(value) => {
               setValue("password", value);
             }}
             value={watch("password")}
             errorMessage={errors.password?.message}
+            showIconRight={false}
           />
-          <Box className=" text-end">
-            <Link href={"/forgot-poassword"}>
-              <Text className=" text-sm ">ลืมรหัสผ่านของคุณ?</Text>
-            </Link>
-          </Box>
+          <InputFormPassword
+            placeholder="ยืนยันรหัสผ่านใหม่"
+            onChange={(value) => {
+              setValue("confirmPassword", value);
+            }}
+            value={watch("confirmPassword")}
+            errorMessage={errors.confirmPassword?.message}
+            showIconRight={false}
+          />
 
           <Box className="">
-            <Link href={"/"} className=" flex gap-2 items-center">
+            <Link href={"/login"} className=" flex gap-2 items-center">
               <FaAngleLeft size={"12px"} />
-              <Text className=" text-sm">กลับไปที่ เว็บไซต์หลักของคุณ</Text>
+              <Text className=" text-sm">กลับไปที่ หน้าล็อกอิน</Text>
             </Link>
           </Box>
 
@@ -156,9 +132,8 @@ const LoginForm = () => {
             className=" bg-[#3e63dd] hover:bg-[#3e63ddcf] px-[12px] py-[8px] rounded-md cursor-pointer text-center mt-8 flex gap-2 justify-center items-center"
           >
             {isLoadingLogin && <Spinner />}
-            <Text>เข้าสู่ระบบ</Text>
+            <Text>ยืนยัน</Text>
           </button>
-          
         </Box>
       </form>
       <Box
@@ -176,4 +151,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ResetPasswordForm;

@@ -9,6 +9,7 @@ import { ManageLogo } from "../components/manages/logo";
 import { ManageContact } from "../components/manages/contact";
 import { ManageUser } from "../components/manages/user";
 import { ManagePrivacyAndPolicy } from "../components/manages/privacyAndPolicy";
+import { CheckTermPagePage } from "@/utils/check-term-page";
 
 export default async function AdminManagePage({
   params,
@@ -16,6 +17,7 @@ export default async function AdminManagePage({
   params: { slug: string };
 }) {
   await SecurePage({ role: ROLE.admin });
+  await CheckTermPagePage();
   const manageName = params.slug;
 
   return (

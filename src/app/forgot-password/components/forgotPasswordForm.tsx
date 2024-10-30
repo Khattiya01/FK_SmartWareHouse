@@ -4,19 +4,18 @@ import InputFormLogin from "@/app/login/components/inputFormLogin";
 import { Box, Spinner, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import { FaUserCircle } from "react-icons/fa";
-import InputFormPassword from "./inputFormPassword";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { FaAngleLeft } from "react-icons/fa6";
 
-import { signIn } from "next-auth/react";
-import { loginType } from "@/types/requests/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/schemas/auth";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { forgotPasswordType } from "@/types/requests/forgotPassword";
+import { forgotPasswordSchema } from "@/schemas/forgotPassword";
+import { postForgotPassword } from "@/api/forgot-password/forgot-password";
 
-const LoginForm = () => {
+const ForgotPasswordForm = () => {
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
 
   const searchParams = useSearchParams();
@@ -27,21 +26,14 @@ const LoginForm = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<loginType>({
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-    resolver: zodResolver(loginSchema),
+  } = useForm<forgotPasswordType>({
+    defaultValues: {},
+    resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = async (data: loginType) => {
+  const onSubmit = async (data: forgotPasswordType) => {
     setIsLoadingLogin(true);
-    await signIn("credentials", {
-      username: data.username,
-      password: data.password,
-      callbackUrl: "/admin/manage-home-detail",
-    })
+    await postForgotPassword({email:data.email })
       .then(() => {
         setIsLoadingLogin(false);
       })
@@ -76,7 +68,14 @@ const LoginForm = () => {
             marginTop: "16px",
           }}
         >
-          เข้าสู่ระบบบัญชีของคุณ
+          ลืมรหัสผ่าน
+        </Text>
+        <Text
+          style={{
+            fontSize: "14px",
+          }}
+        >
+          กรุณายืนยันอีเมลของคุณ เราจะส่งคำแนะนำ
         </Text>
         <Box
           style={{
@@ -88,65 +87,37 @@ const LoginForm = () => {
             gap: "16px",
           }}
         >
-          {search === "not-found-user" && (
+          {search === "not-found-email" && (
             <Text
               style={{
                 fontSize: "14px",
                 color: "red",
               }}
             >
-              ชื่อผู้ใช้ที่คุณป้อนไม่ถูกต้อง
-            </Text>
-          )}
-          {search === "invalid-password" && (
-            <Text
-              style={{
-                fontSize: "14px",
-                color: "red",
-              }}
-            >
-              รหัสผ่านที่คุณป้อนไม่ถูกต้อง
-            </Text>
-          )}
-          {search === "permission-denied" && (
-            <Text
-              style={{
-                fontSize: "14px",
-                color: "red",
-              }}
-            >
-              ผู้ใช้งานนี้ไม่มีสิทธิ์เข้าถึง
+              อีเมลที่คุณป้อนไม่ถูกต้อง
             </Text>
           )}
           <InputFormLogin
-            placeholder="ชื่อผู้ใช้หรือที่อยู่อีเมล"
+            placeholder="ที่อยู่อีเมล"
             iconLeft={
               <FaUserCircle size={"22px"} className=" text-[#00337d]" />
             }
             onChange={(value) => {
-              setValue("username", value);
+              setValue("email", value);
             }}
-            value={watch("username")}
-            errorMessage={errors.username?.message}
-          />
-          <InputFormPassword
-            placeholder="รหัสผ่าน"
-            onChange={(value) => {
-              setValue("password", value);
-            }}
-            value={watch("password")}
-            errorMessage={errors.password?.message}
+            value={watch("email")}
+            errorMessage={errors.email?.message}
           />
           <Box className=" text-end">
             <Link href={"/forgot-poassword"}>
-              <Text className=" text-sm ">ลืมรหัสผ่านของคุณ?</Text>
+              <Text className=" text-sm">ลืมรหัสผ่านของคุณ?</Text>
             </Link>
           </Box>
 
           <Box className="">
-            <Link href={"/"} className=" flex gap-2 items-center">
+            <Link href={"/login"} className=" flex gap-2 items-center">
               <FaAngleLeft size={"12px"} />
-              <Text className=" text-sm">กลับไปที่ เว็บไซต์หลักของคุณ</Text>
+              <Text className=" text-sm">กลับไปที่ หน้าล็อกอิน</Text>
             </Link>
           </Box>
 
@@ -156,9 +127,8 @@ const LoginForm = () => {
             className=" bg-[#3e63dd] hover:bg-[#3e63ddcf] px-[12px] py-[8px] rounded-md cursor-pointer text-center mt-8 flex gap-2 justify-center items-center"
           >
             {isLoadingLogin && <Spinner />}
-            <Text>เข้าสู่ระบบ</Text>
+            <Text>ส่งอีเมล</Text>
           </button>
-          
         </Box>
       </form>
       <Box
@@ -176,4 +146,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordForm;

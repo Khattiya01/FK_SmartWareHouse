@@ -39,7 +39,7 @@ export const getPrivacyAndPolicyIsActive = async () => {
       .from(privacyAndPolicyTable)
       .where(eq(privacyAndPolicyTable.is_active, true));
 
-    return data;
+    return data && data?.length > 0 ? data[0] : undefined;
   } catch (error) {
     console.error("Error fetching privacy and policy:", error);
     throw new Error("Could not fetch privacy and policy");
