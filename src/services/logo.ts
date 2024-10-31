@@ -1,15 +1,29 @@
-import { eq } from "drizzle-orm";
+import { eq, count } from "drizzle-orm";
 import { db } from "@/db";
 import { v4 as uuidv4 } from "uuid";
 import { Insertlogo, logosTable, Updatelogo } from "@/db/schemas";
 
-export const getLogos = async () => {
+export const getLogos = async ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  const pageNumber = parseInt(page, 10) || 1;
+  const size = parseInt(pageSize, 10) || 25;
+  const offset = (pageNumber - 1) * size;
+
   try {
     const data = await db
       .select()
       .from(logosTable)
-      .orderBy(logosTable.created_at);
-    return data;
+      .orderBy(logosTable.created_at)
+      .limit(size)
+      .offset(offset);
+
+    const total = await db.select({ count: count() }).from(logosTable);
+    return { data, total: total[0].count };
   } catch (error) {
     console.error("Error fetching logos:", error);
     throw new Error("Could not fetch logos");

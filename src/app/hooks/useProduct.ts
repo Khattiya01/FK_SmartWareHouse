@@ -1,10 +1,16 @@
 import { fetchProduct } from "@/api/manage/manage-product";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-function fetchProductOptions() {
+function fetchProductOptions({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) {
   return queryOptions({
-    queryKey: ["fetchProduct"],
-    queryFn: () => fetchProduct(),
+    queryKey: ["fetchProduct",page, pageSize],
+    queryFn: () => fetchProduct({ page: page, pageSize: pageSize }),
     staleTime: 10 * 1000,
     refetchInterval: 0,
     retry: false,
@@ -12,6 +18,17 @@ function fetchProductOptions() {
     // enabled: false,
   });
 }
-export const useProduct = () => {
-  return useQuery(fetchProductOptions());
+export const useProduct = ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  return useQuery(
+    fetchProductOptions({
+      page,
+      pageSize,
+    })
+  );
 };

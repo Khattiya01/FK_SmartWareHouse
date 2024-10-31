@@ -16,6 +16,8 @@ import {
   deletePrivacyAndPolicyAction,
   updateIsActivePrivacyAndPolicyAction,
 } from "@/actions/privacyAndPolicy";
+import { useSearchParams } from "next/navigation";
+import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 
 export function ManagePrivacyAndPolicy() {
   // states
@@ -26,12 +28,17 @@ export function ManagePrivacyAndPolicy() {
   >(undefined);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
+  // pagination
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const pageSize = searchParams.get("pageSize") ?? "25";
+
   // hooks
   const {
     data: dataPrivacyAndPolicy,
     refetch: refetchPrivacyAndPolicy,
     isLoading,
-  } = usePrivacyAndPolicy();
+  } = usePrivacyAndPolicy({ page, pageSize });
   const showToast = useToastStore((state) => state.show);
 
   // functions
@@ -132,16 +139,24 @@ export function ManagePrivacyAndPolicy() {
         {!isLoading ? (
           <>
             <TablePrivacyAndPolicy
-              rows={dataPrivacyAndPolicy?.result}
+              rows={dataPrivacyAndPolicy?.result.data}
               handleClickEdit={handleOpenDailogEdit}
               handleOpenDialogDelete={handleOpenDialogDelete}
               handleClickIsActive={handleClickIsActive}
             />
-            {!dataPrivacyAndPolicy?.result ||
-              (dataPrivacyAndPolicy?.result &&
-                dataPrivacyAndPolicy?.result?.length <= 0 && (
-                  <BoxNotDataTableAdmin />
-                ))}
+            {dataPrivacyAndPolicy?.result.data &&
+            dataPrivacyAndPolicy?.result.data?.length <= 0 ? (
+              <BoxNotDataTableAdmin />
+            ) : (
+              <PaginationWithLinks
+                page={parseInt(page)}
+                pageSize={parseInt(pageSize)}
+                totalCount={dataPrivacyAndPolicy?.result.total ?? 0}
+                pageSizeSelectOptions={{
+                  pageSizeOptions: [15, 25, 35, 50],
+                }}
+              />
+            )}
           </>
         ) : (
           <BoxLoadingData height="300px" />

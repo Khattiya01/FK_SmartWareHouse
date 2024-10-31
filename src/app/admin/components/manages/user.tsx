@@ -13,6 +13,8 @@ import { useUser } from "@/app/hooks/useUser";
 import { SelectUser } from "@/db/schemas";
 import DialogAddUser from "../dialogs/dialogAddUser";
 import { deleteUserAction, updateIsActiveUserAction } from "@/actions/users";
+import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+import { useSearchParams } from "next/navigation";
 
 export function ManageUser() {
   // states
@@ -23,8 +25,17 @@ export function ManageUser() {
   );
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
+  // pagination
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const pageSize = searchParams.get("pageSize") ?? "25";
+
   // hooks
-  const { data: dataUser, refetch: refetchUser, isLoading } = useUser();
+  const {
+    data: dataUser,
+    refetch: refetchUser,
+    isLoading,
+  } = useUser({ page, pageSize });
   const showToast = useToastStore((state) => state.show);
 
   // functions
@@ -125,15 +136,24 @@ export function ManageUser() {
         {!isLoading ? (
           <>
             <TableUser
-              rows={dataUser?.result}
+              rows={dataUser?.result.data}
               handleClickEdit={handleOpenDailogEdit}
               handleOpenDialogDelete={handleOpenDialogDelete}
               handleClickIsActive={handleClickIsActive}
             />
-            {!dataUser?.result ||
-              (dataUser?.result && dataUser?.result?.length <= 0 && (
-                <BoxNotDataTableAdmin />
-              ))}
+
+            {dataUser?.result.data && dataUser?.result.data?.length <= 0 ? (
+              <BoxNotDataTableAdmin />
+            ) : (
+              <PaginationWithLinks
+                page={parseInt(page)}
+                pageSize={parseInt(pageSize)}
+                totalCount={dataUser?.result.total ?? 0}
+                pageSizeSelectOptions={{
+                  pageSizeOptions: [15, 25, 35, 50],
+                }}
+              />
+            )}
           </>
         ) : (
           <BoxLoadingData height="300px" />

@@ -299,7 +299,7 @@ const DialogHomeDetail = ({
         banner_image_urls.map(async (image) => {
           const response = await fetchFileByURL(image);
           const responseFullbanner_image_urls = await fetchImages(
-            response.result
+            response.result.data
           );
           return responseFullbanner_image_urls[0];
         })
@@ -311,7 +311,7 @@ const DialogHomeDetail = ({
       content_02_image_url
     );
     const responseFullContent_02_image_url = await fetchImages(
-      responseContent_02_image_url.result
+      responseContent_02_image_url.result.data
     );
     if (responseFullContent_02_image_url) {
       preData.content_02_image_url.push(responseFullContent_02_image_url[0]);
@@ -320,7 +320,7 @@ const DialogHomeDetail = ({
     // Fetch contact image
     const responseContact_image_url = await fetchFileByURL(contact_image_url);
     const responseFullContact_image_url = await fetchImages(
-      responseContact_image_url.result
+      responseContact_image_url.result.data
     );
     if (responseFullContact_image_url) {
       preData.contact_image_url.push(responseFullContact_image_url[0]);

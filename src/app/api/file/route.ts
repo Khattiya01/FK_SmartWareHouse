@@ -9,13 +9,16 @@ export async function GET(request: NextRequest) {
   const responseJson: APIResponse<SelectFile[]> = {
     status: 200,
     message: "OK",
-    result: [],
+    result: {
+      data: [],
+      total: 0,
+    },
   };
 
   if (urlParam) {
     try {
       const res = await getFilesByUrl(urlParam);
-      responseJson.result = res;
+      responseJson.result.data = res;
     } catch {
       responseJson.status = 500;
       responseJson.message = "Error fetching files";

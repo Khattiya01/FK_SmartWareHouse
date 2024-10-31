@@ -1,10 +1,16 @@
 import { fetchPrivacyAndPolicy } from "@/api/manage/manage-privacy-policy";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-function fetchPrivacyAndPolicyOptions() {
+function fetchPrivacyAndPolicyOptions({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) {
   return queryOptions({
-    queryKey: ["fetchPrivacyAndPolicy"],
-    queryFn: () => fetchPrivacyAndPolicy(),
+    queryKey: ["fetchPrivacyAndPolicy", page, pageSize],
+    queryFn: () => fetchPrivacyAndPolicy({ page: page, pageSize: pageSize }),
     staleTime: 10 * 1000,
     refetchInterval: 0,
     retry: false,
@@ -12,6 +18,17 @@ function fetchPrivacyAndPolicyOptions() {
     // enabled: false,
   });
 }
-export const usePrivacyAndPolicy = () => {
-  return useQuery(fetchPrivacyAndPolicyOptions());
+export const usePrivacyAndPolicy = ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  return useQuery(
+    fetchPrivacyAndPolicyOptions({
+      page,
+      pageSize,
+    })
+  );
 };

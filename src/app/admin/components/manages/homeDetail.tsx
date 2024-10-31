@@ -17,6 +17,8 @@ import { TableHomeDetail } from "../tables/tableHomeDetail";
 import ButtonDefault from "@/components/buttons/buttonDefault";
 import { IoMdAdd } from "react-icons/io";
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
+import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+import { useSearchParams } from "next/navigation";
 
 export function ManageHomeDetail() {
   // states
@@ -27,12 +29,17 @@ export function ManageHomeDetail() {
   >(undefined);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
+  // pagination
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const pageSize = searchParams.get("pageSize") ?? "25";
+
   // hooks
   const {
     data: dataHomeDetail,
     refetch: refetchHomeDetail,
     isLoading,
-  } = useHomeDetail();
+  } = useHomeDetail({ page, pageSize });
   const showToast = useToastStore((state) => state.show);
 
   // functions
@@ -146,16 +153,24 @@ export function ManageHomeDetail() {
         {!isLoading ? (
           <>
             <TableHomeDetail
-              rows={dataHomeDetail?.result}
+              rows={dataHomeDetail?.result.data}
               handleClickEdit={handleOpenDailogEdit}
               handleOpenDialogDelete={handleOpenDialogDelete}
               handleClickIsActive={handleClickIsActive}
             />
-            {!dataHomeDetail?.result ||
-              (dataHomeDetail?.result &&
-                dataHomeDetail?.result?.length <= 0 && (
-                  <BoxNotDataTableAdmin />
-                ))}
+            {dataHomeDetail?.result.data &&
+            dataHomeDetail?.result.data?.length <= 0 ? (
+              <BoxNotDataTableAdmin />
+            ) : (
+              <PaginationWithLinks
+                page={parseInt(page)}
+                pageSize={parseInt(pageSize)}
+                totalCount={dataHomeDetail?.result.total ?? 0}
+                pageSizeSelectOptions={{
+                  pageSizeOptions: [15, 25, 35, 50],
+                }}
+              />
+            )}
           </>
         ) : (
           <BoxLoadingData height="300px" />

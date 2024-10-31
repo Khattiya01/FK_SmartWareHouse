@@ -1,15 +1,29 @@
-import { eq, desc, and } from "drizzle-orm";
+import { eq, desc, and, count } from "drizzle-orm";
 import { db } from "@/db";
 import { InsertUser, UpdateUser, usersTable } from "@/db/schemas";
 import { v4 as uuidv4 } from "uuid";
 
-export const getUsers = async () => {
+export const getUsers = async ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  const pageNumber = parseInt(page, 10) || 1;
+  const size = parseInt(pageSize, 10) || 25;
+  const offset = (pageNumber - 1) * size;
+
   try {
     const data = await db
       .select()
       .from(usersTable)
-      .orderBy(desc(usersTable.created_at));
-    return data;
+      .orderBy(desc(usersTable.created_at))
+      .limit(size)
+      .offset(offset);
+
+    const total = await db.select({ count: count() }).from(usersTable);
+    return { data, total: total[0].count };
   } catch (error) {
     console.error("Error fetching users:", error);
     throw new Error("Could not fetch users");

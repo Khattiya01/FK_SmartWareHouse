@@ -231,7 +231,7 @@ const DialogAddCategory = ({
     };
     const image_url = data.image_url;
     const responseImage_url = await fetchFileByURL(image_url);
-    const responseFullImage_url = await fetchImages(responseImage_url.result);
+    const responseFullImage_url = await fetchImages(responseImage_url.result.data);
     preData.image_url.push(responseFullImage_url[0]);
 
     console.log("preData", preData);
