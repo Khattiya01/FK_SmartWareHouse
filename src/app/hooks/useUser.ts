@@ -1,10 +1,16 @@
 import { fetchUser } from "@/api/manage/manage-user";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-function fetchUserOptions() {
+function fetchUserOptions({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) {
   return queryOptions({
-    queryKey: ["fetchUser"],
-    queryFn: () => fetchUser(),
+    queryKey: ["fetchUser", page, pageSize],
+    queryFn: () => fetchUser({ page: page, pageSize: pageSize }),
     staleTime: 10 * 1000,
     refetchInterval: 0,
     retry: false,
@@ -12,6 +18,17 @@ function fetchUserOptions() {
     // enabled: false,
   });
 }
-export const useUser = () => {
-  return useQuery(fetchUserOptions());
+export const useUser = ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  return useQuery(
+    fetchUserOptions({
+      page,
+      pageSize,
+    })
+  );
 };

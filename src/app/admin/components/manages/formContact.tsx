@@ -16,6 +16,8 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
+import { useSearchParams } from "next/navigation";
+import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -27,12 +29,17 @@ export function ManageFormContact() {
   >(undefined);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
+  // pagination
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const pageSize = searchParams.get("pageSize") ?? "25";
+
   // hooks
   const {
     data: dataFormContact,
     refetch: refetchFormContact,
     isLoading,
-  } = useFormContact();
+  } = useFormContact({ page, pageSize });
   const showToast = useToastStore((state) => state.show);
 
   // functions
@@ -86,19 +93,21 @@ export function ManageFormContact() {
   };
 
   const handleExportExcelFile = async () => {
-    await fetchFormContact().then((response) => {
-      const dataExcel = response.result.map((item) => ({
-        CreateAt: dayjs.utc(item.created_at).format("DD/MM/YYYY HH:mm:ss"),
-        Name: item.name,
-        Email: item.email,
-        Phone: item.phone,
-        LIneID: item.lineId,
-        Title: item.title,
-        Message: item.message,
-      }));
-      console.log("dataExcel", dataExcel);
-      ExportExcelFile({ data: dataExcel, fileName: "form-contact" });
-    });
+    await fetchFormContact({ page: "1", pageSize: "100000" }).then(
+      (response) => {
+        const dataExcel = response.result.data?.map((item) => ({
+          CreateAt: dayjs.utc(item.created_at).format("DD/MM/YYYY HH:mm:ss"),
+          Name: item.name,
+          Email: item.email,
+          Phone: item.phone,
+          LIneID: item.lineId,
+          Title: item.title,
+          Message: item.message,
+        }));
+        console.log("dataExcel", dataExcel);
+        ExportExcelFile({ data: dataExcel, fileName: "form-contact" });
+      }
+    );
   };
   // lifecycle
 
@@ -132,14 +141,22 @@ export function ManageFormContact() {
         {!isLoading ? (
           <>
             <TableFormContact
-              rows={dataFormContact?.result}
+              rows={dataFormContact?.result.data}
               handleOpenDialogDelete={handleOpenDialogDelete}
             />
-            {!dataFormContact?.result ||
-              (dataFormContact?.result &&
-                dataFormContact?.result?.length <= 0 && (
-                  <BoxNotDataTableAdmin />
-                ))}
+            {dataFormContact?.result.data &&
+            dataFormContact?.result.data?.length <= 0 ? (
+              <BoxNotDataTableAdmin />
+            ) : (
+              <PaginationWithLinks
+                page={parseInt(page)}
+                pageSize={parseInt(pageSize)}
+                totalCount={dataFormContact?.result.total ?? 0}
+                pageSizeSelectOptions={{
+                  pageSizeOptions: [15, 25, 35, 50],
+                }}
+              />
+            )}
           </>
         ) : (
           <BoxLoadingData height="300px" />

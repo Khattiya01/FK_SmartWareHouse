@@ -1,4 +1,4 @@
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, count } from "drizzle-orm";
 import { db } from "@/db";
 import {
   InsertprivacyAndPolicy,
@@ -7,13 +7,29 @@ import {
 } from "@/db/schemas";
 import { v4 as uuidv4 } from "uuid";
 
-export const getPrivacyAndPolicy = async () => {
+export const getPrivacyAndPolicy = async ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  const pageNumber = parseInt(page, 10) || 1;
+  const size = parseInt(pageSize, 10) || 25;
+  const offset = (pageNumber - 1) * size;
+
   try {
     const data = await db
       .select()
       .from(privacyAndPolicyTable)
-      .orderBy(desc(privacyAndPolicyTable.created_at));
-    return data;
+      .orderBy(desc(privacyAndPolicyTable.created_at))
+      .limit(size)
+      .offset(offset);
+
+    const total = await db
+      .select({ count: count() })
+      .from(privacyAndPolicyTable);
+    return { data, total: total[0].count };
   } catch (error) {
     console.error("Error fetching privacy and policy:", error);
     throw new Error("Could not fetch users");

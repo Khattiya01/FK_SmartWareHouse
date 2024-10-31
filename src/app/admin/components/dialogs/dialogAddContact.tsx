@@ -321,7 +321,7 @@ const DialogAddContact = ({
     if (bg_image_urls) {
       const responsebg_image_urls = await fetchFileByURL(bg_image_urls);
       const responseFullbg_image_urls = await fetchImages(
-        responsebg_image_urls.result
+        responsebg_image_urls.result.data
       );
       preData.bg_image.push(responseFullbg_image_urls[0]);
     }
@@ -329,7 +329,7 @@ const DialogAddContact = ({
     if (map_image_url) {
       const responsemap_image_url = await fetchFileByURL(map_image_url);
       const responseFullmap_image_url = await fetchImages(
-        responsemap_image_url.result
+        responsemap_image_url.result.data
       );
       preData.map_image.push(responseFullmap_image_url[0]);
     }

@@ -338,7 +338,7 @@ const DialogAddProduct = ({
         others_image_url?.map(async (image) => {
           const response = await fetchFileByURL(image);
           const responseFullothers_image_url = await fetchImages(
-            response.result
+            response.result.data
           );
           return responseFullothers_image_url[0];
         })
@@ -348,7 +348,7 @@ const DialogAddProduct = ({
     if (main_image_urls) {
       const responsemain_image_urls = await fetchFileByURL(main_image_urls);
       const responseFullmain_image_urls = await fetchImages(
-        responsemain_image_urls.result
+        responsemain_image_urls.result.data
       );
       preData.main_image.push(responseFullmain_image_urls[0]);
     }
@@ -356,7 +356,7 @@ const DialogAddProduct = ({
     if (map_image_url) {
       const responsemap_image_url = await fetchFileByURL(map_image_url);
       const responseFullmap_image_url = await fetchImages(
-        responsemap_image_url.result
+        responsemap_image_url.result.data
       );
       preData.map_image.push(responseFullmap_image_url[0]);
     }
@@ -386,10 +386,10 @@ const DialogAddProduct = ({
       if (data) {
         fetchFileData(data);
       }
-      fetchCategory().then((category) => {
+      fetchCategory({page: "1", pageSize: "100000"}).then((category) => {
         const ListOption: SetStateAction<{ value: string; label: string }[]> =
           [];
-        category.result?.map((item) => {
+        category.result.data?.map((item) => {
           const option = {
             value: item.id,
             label: item.name,

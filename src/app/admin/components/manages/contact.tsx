@@ -11,8 +11,13 @@ import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 import { TableContact } from "../tables/tableContact";
 import { SelectContact } from "@/db/schemas";
 import { useContact } from "@/app/hooks/useContact";
-import { deleteContactAction, updateIsActiveContactAction } from "@/actions/contact";
+import {
+  deleteContactAction,
+  updateIsActiveContactAction,
+} from "@/actions/contact";
 import DialogAddContact from "../dialogs/dialogAddContact";
+import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+import { useSearchParams } from "next/navigation";
 
 export function ManageContact() {
   // states
@@ -23,12 +28,17 @@ export function ManageContact() {
   >(undefined);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
+  // pagination
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const pageSize = searchParams.get("pageSize") ?? "25";
+
   // hooks
   const {
     data: dataContact,
     refetch: refetchContact,
     isLoading,
-  } = useContact();
+  } = useContact({ page, pageSize });
   const showToast = useToastStore((state) => state.show);
 
   // functions
@@ -131,15 +141,24 @@ export function ManageContact() {
         {!isLoading ? (
           <>
             <TableContact
-              rows={dataContact?.result}
+              rows={dataContact?.result.data}
               handleClickEdit={handleOpenDailogEdit}
               handleOpenDialogDelete={handleOpenDialogDelete}
               handleClickIsActive={handleClickIsActive}
             />
-            {!dataContact?.result ||
-              (dataContact.result && dataContact.result?.length <= 0 && (
-                <BoxNotDataTableAdmin />
-              ))}
+            {dataContact?.result.data &&
+            dataContact?.result.data?.length <= 0 ? (
+              <BoxNotDataTableAdmin />
+            ) : (
+              <PaginationWithLinks
+                page={parseInt(page)}
+                pageSize={parseInt(pageSize)}
+                totalCount={dataContact?.result.total ?? 0}
+                pageSizeSelectOptions={{
+                  pageSizeOptions: [15, 25, 35, 50],
+                }}
+              />
+            )}
           </>
         ) : (
           <BoxLoadingData height="300px" />

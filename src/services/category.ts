@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, count } from "drizzle-orm";
 import { db } from "@/db";
 import {
   categoryTable,
@@ -12,13 +12,25 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { homePageDetailTable } from "@/db/schemas/homeDetail";
 
-export const getCategory = async () => {
+export const getCategory = async ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  const pageNumber = parseInt(page, 10) || 1;
+  const size = parseInt(pageSize, 10) || 25;
+  const offset = (pageNumber - 1) * size;
+
   try {
     const categories = await db
       .select()
       .from(categoryTable)
       .fullJoin(productsTable, eq(categoryTable.id, productsTable.category_id))
-      .orderBy(desc(categoryTable.created_at));
+      .orderBy(desc(categoryTable.created_at))
+      .limit(size)
+      .offset(offset);
 
     const groupedCategoriesResult = categories.reduce(
       (
@@ -50,7 +62,8 @@ export const getCategory = async () => {
       []
     );
 
-    return groupedCategoriesResult;
+    const total = await db.select({ count: count() }).from(categoryTable);
+    return { data: groupedCategoriesResult, total: total[0].count };
   } catch (error) {
     console.error("Error fetching category:", error);
     throw new Error("Could not fetch ctegory");

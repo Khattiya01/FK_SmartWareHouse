@@ -1,4 +1,4 @@
-import { desc, eq } from "drizzle-orm";
+import { desc, eq, count } from "drizzle-orm";
 import { db } from "@/db";
 import { v4 as uuidv4 } from "uuid";
 import {
@@ -7,13 +7,27 @@ import {
   UpdateHomePageDetail,
 } from "@/db/schemas/homeDetail";
 
-export const getHomeDetail = async () => {
+export const getHomeDetail = async ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  const pageNumber = parseInt(page, 10) || 1;
+  const size = parseInt(pageSize, 10) || 25;
+  const offset = (pageNumber - 1) * size;
+
   try {
     const data = await db
       .select()
       .from(homePageDetailTable)
-      .orderBy(desc(homePageDetailTable.created_at));
-    return data;
+      .orderBy(desc(homePageDetailTable.created_at))
+      .limit(size)
+      .offset(offset);
+
+    const total = await db.select({ count: count() }).from(homePageDetailTable);
+    return { data, total: total[0].count };
   } catch (error) {
     console.error("Error fetching home detail:", error);
     throw new Error("Could not fetch home detail");

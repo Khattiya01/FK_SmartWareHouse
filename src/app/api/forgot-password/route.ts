@@ -31,7 +31,10 @@ export async function POST(request: Request) {
   const responseJson: APIResponse<[]> = {
     status: 200,
     message: "OK",
-    result: [],
+    result: {
+      data: [],
+      total: 0,
+    },
   };
 
   try {

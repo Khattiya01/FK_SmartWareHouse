@@ -16,6 +16,8 @@ import {
   updateIsActiveProductAction,
 } from "@/actions/products";
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
+import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+import { useSearchParams } from "next/navigation";
 
 export function ManageProduct() {
   // states
@@ -26,12 +28,17 @@ export function ManageProduct() {
   >(undefined);
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
+  // pagination
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const pageSize = searchParams.get("pageSize") ?? "25";
+
   // hooks
   const {
     data: dataProduct,
     refetch: refetchProduct,
     isLoading,
-  } = useProduct();
+  } = useProduct({ page, pageSize });
   const showToast = useToastStore((state) => state.show);
 
   // functions
@@ -148,15 +155,24 @@ export function ManageProduct() {
         {!isLoading ? (
           <>
             <TableProduct
-              rows={dataProduct?.result}
+              rows={dataProduct?.result.data}
               handleClickEdit={handleOpenDailogEdit}
               handleOpenDialogDelete={handleOpenDialogDelete}
               handleClickIsActive={handleClickIsActive}
             />
-            {!dataProduct?.result ||
-              (dataProduct?.result && dataProduct?.result?.length <= 0 && (
-                <BoxNotDataTableAdmin />
-              ))}
+            {dataProduct?.result.data &&
+            dataProduct?.result.data?.length <= 0 ? (
+              <BoxNotDataTableAdmin />
+            ) : (
+              <PaginationWithLinks
+                page={parseInt(page)}
+                pageSize={parseInt(pageSize)}
+                totalCount={dataProduct?.result.total ?? 0}
+                pageSizeSelectOptions={{
+                  pageSizeOptions: [15, 25, 35, 50],
+                }}
+              />
+            )}
           </>
         ) : (
           <BoxLoadingData height="300px" />

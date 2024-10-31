@@ -13,6 +13,8 @@ import { Selectlogo } from "@/db/schemas";
 import { deleteLogoAction, updateIsActiveLogoAction } from "@/actions/logos";
 import DialogAddLogo from "../dialogs/dialogAddLogo";
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
+import { useSearchParams } from "next/navigation";
+import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 
 export function ManageLogo() {
   // states
@@ -23,8 +25,17 @@ export function ManageLogo() {
   );
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
+  // pagination
+  const searchParams = useSearchParams();
+  const page = searchParams.get("page") ?? "1";
+  const pageSize = searchParams.get("pageSize") ?? "25";
+
   // hooks
-  const { data: dataLogo, refetch: refetchLogo, isLoading } = useLogo();
+  const {
+    data: dataLogo,
+    refetch: refetchLogo,
+    isLoading,
+  } = useLogo({ page, pageSize });
   const showToast = useToastStore((state) => state.show);
 
   // functions
@@ -121,15 +132,23 @@ export function ManageLogo() {
         {!isLoading ? (
           <>
             <TableLogo
-              rows={dataLogo?.result}
+              rows={dataLogo?.result.data}
               handleClickEdit={handleOpenDailogEdit}
               handleOpenDialogDelete={handleOpenDialogDelete}
               handleClickIsActive={handleClickIsActive}
             />
-            {!dataLogo?.result ||
-              (dataLogo?.result && dataLogo?.result?.length <= 0 && (
-                <BoxNotDataTableAdmin />
-              ))}
+            {dataLogo?.result.data && dataLogo?.result.data?.length <= 0 ? (
+              <BoxNotDataTableAdmin />
+            ) : (
+              <PaginationWithLinks
+                page={parseInt(page)}
+                pageSize={parseInt(pageSize)}
+                totalCount={dataLogo?.result.total ?? 0}
+                pageSizeSelectOptions={{
+                  pageSizeOptions: [15, 25, 35, 50],
+                }}
+              />
+            )}
           </>
         ) : (
           <BoxLoadingData height="300px" />

@@ -1,12 +1,15 @@
 export type APIResponse<result> = {
   status: number;
   message: string;
-  result: result;
+  result: {
+    data: result;
+    total: number;
+  };
 };
 
 export type FormStateType<T = null> = {
   code: number;
   message: string;
   success: boolean;
-  result?: T
+  result?: T;
 };

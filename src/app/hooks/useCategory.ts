@@ -1,10 +1,16 @@
 import { fetchCategory } from "@/api/manage/manage-category";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-function fetchCategoryOptions() {
+function fetchCategoryOptions({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) {
   return queryOptions({
-    queryKey: ["fetchCategory"],
-    queryFn: () => fetchCategory(),
+    queryKey: ["fetchCategory", page, pageSize],
+    queryFn: () => fetchCategory({ page: page, pageSize: pageSize }),
     staleTime: 10 * 1000,
     refetchInterval: 0,
     retry: false,
@@ -12,6 +18,17 @@ function fetchCategoryOptions() {
     // enabled: false,
   });
 }
-export const useCategory = () => {
-  return useQuery(fetchCategoryOptions());
+export const useCategory = ({
+  page,
+  pageSize,
+}: {
+  page: string;
+  pageSize: string;
+}) => {
+  return useQuery(
+    fetchCategoryOptions({
+      page,
+      pageSize,
+    })
+  );
 };
