@@ -12,7 +12,7 @@ function fetchLogoOptions({
     queryKey: ["fetchLogo", page, pageSize],
     queryFn: () => fetchLogo({ page: page, pageSize: pageSize }),
     staleTime: 10 * 1000,
-    refetchInterval: 0,
+    refetchInterval: 10 * 1000,
     retry: false,
     // refetchOnWindowFocus: false,
     // enabled: false,

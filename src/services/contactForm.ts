@@ -4,29 +4,89 @@ import {
   InsertContactForm,
   UpdateContactForm,
 } from "@/db/schemas";
-import { desc, eq, count } from "drizzle-orm";
+import { desc, eq, count, or, ilike, between, and } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 export const getContactForm = async ({
   page,
   pageSize,
+  searchText,
+  startDate,
+  endDate,
 }: {
   page: string;
   pageSize: string;
+  searchText: string;
+  startDate?: string;
+  endDate?: string;
 }) => {
   const pageNumber = parseInt(page, 10) || 1;
   const size = parseInt(pageSize, 10) || 25;
   const offset = (pageNumber - 1) * size;
-
+  console.log("searchText", searchText);
   try {
-    const data = await db
-      .select()
-      .from(contactFormTable)
+    const query = db.select().from(contactFormTable);
+
+    if (startDate && endDate) {
+      if (searchText != "") {
+        query.where(
+          and(
+            or(
+              ilike(contactFormTable.name, `%${searchText}%`),
+              ilike(contactFormTable.email, `%${searchText}%`)
+            ),
+            between(
+              contactFormTable.created_at,
+              new Date(startDate),
+              new Date(endDate)
+            )
+          )
+        );
+      } else {
+        query.where(
+          between(
+            contactFormTable.created_at,
+            new Date(startDate),
+            new Date(endDate)
+          )
+        );
+      }
+    }
+    const data = await query
       .orderBy(desc(contactFormTable.created_at))
       .limit(size)
       .offset(offset);
 
-    const total = await db.select({ count: count() }).from(contactFormTable);
+    const totalQuery = db.select({ count: count() }).from(contactFormTable);
+
+    if (startDate && endDate) {
+      if (searchText != "") {
+        totalQuery.where(
+          and(
+            or(
+              ilike(contactFormTable.name, `%${searchText}%`),
+              ilike(contactFormTable.email, `%${searchText}%`)
+            ),
+            between(
+              contactFormTable.created_at,
+              new Date(startDate),
+              new Date(endDate)
+            )
+          )
+        );
+      } else {
+        totalQuery.where(
+          between(
+            contactFormTable.created_at,
+            new Date(startDate),
+            new Date(endDate)
+          )
+        );
+      }
+    }
+
+    const total = await totalQuery;
+
     return { data, total: total[0].count };
   } catch (error) {
     console.error("Error fetching contact form:", error);

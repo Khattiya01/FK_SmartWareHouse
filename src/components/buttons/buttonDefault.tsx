@@ -32,7 +32,7 @@ const ButtonDefault = (props: ButtonProps) => {
         textTransform: "none",
         cursor: isLoading ? "wait" : "pointer",
       }}
-      className={`${className} hover:bg-[#074E9F] hover:text-white`}
+      className={`hover:bg-[#074E9F] hover:text-white  ${className} `}
     >
       <label
         htmlFor={id}
