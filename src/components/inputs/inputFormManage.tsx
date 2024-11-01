@@ -52,7 +52,11 @@ const InputFormManage = ({
           {name} {required && <div className=" text-red-500">*</div>}
         </label>
       )}
-      <div className=" w-full flex  items-center relative mt-1">
+      <div
+        className={` w-full flex  items-center relative ${
+          showLabel ? "mt-1" : ""
+        }`}
+      >
         <input
           disabled={disabled}
           type={"text"}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SelectContactForm } from "@/db/schemas";
 import DialogDelete from "@/components/dialogs/dialogDelete";
 import useToastStore, { typeStatusTaost } from "@/hooks/useToastStore";
@@ -12,13 +12,17 @@ import { deleteContactFormAction } from "@/actions/contactForm";
 import ButtonOutline from "@/components/buttons/buttonOutline";
 import { fetchFormContact } from "@/api/manage/manage-form-contact";
 import ExportExcelFile from "@/utils/exportExcelFile";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 import { useSearchParams } from "next/navigation";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+import { InputCalendarRange } from "@/components/calendars/InputCalendarRange";
+import InputFormManage from "@/components/inputs/inputFormManage";
+import ButtonDefault from "@/components/buttons/buttonDefault";
 
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
@@ -33,19 +37,30 @@ export function ManageFormContact() {
   const searchParams = useSearchParams();
   const page = searchParams.get("page") ?? "1";
   const pageSize = searchParams.get("pageSize") ?? "25";
+  const [debounceSearchText, setDebounceSearchText] = useState("");
+  const [debounceStartDate, setDebounceStartDate] = useState("");
+  const [debounceEndDate, setDebounceEndDate] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // hooks
   const {
     data: dataFormContact,
     refetch: refetchFormContact,
     isLoading,
-  } = useFormContact({ page, pageSize });
+  } = useFormContact({
+    page,
+    pageSize,
+    searchText: debounceSearchText,
+    startDate: debounceStartDate,
+    endDate: debounceEndDate,
+  });
   const showToast = useToastStore((state) => state.show);
 
   // functions
   const handleSubmitDelete = async () => {
     if (activeFormContact) {
-      // await deleteContactForm(activeFormContact.id)
       await deleteContactFormAction({ id: activeFormContact.id })
         .then((res) => {
           if (res?.success) {
@@ -93,23 +108,30 @@ export function ManageFormContact() {
   };
 
   const handleExportExcelFile = async () => {
-    await fetchFormContact({ page: "1", pageSize: "100000" }).then(
-      (response) => {
-        const dataExcel = response.result.data?.map((item) => ({
-          CreateAt: dayjs.utc(item.created_at).format("DD/MM/YYYY HH:mm:ss"),
-          Name: item.name,
-          Email: item.email,
-          Phone: item.phone,
-          LIneID: item.lineId,
-          Title: item.title,
-          Message: item.message,
-        }));
-        console.log("dataExcel", dataExcel);
-        ExportExcelFile({ data: dataExcel, fileName: "form-contact" });
-      }
-    );
+    await fetchFormContact({
+      page: "1",
+      pageSize: "100000",
+      searchText: debounceSearchText,
+      startDate: debounceStartDate,
+      endDate: debounceEndDate
+    }).then((response) => {
+      const dataExcel = response.result.data?.map((item) => ({
+        CreateAt: dayjs.utc(item.created_at).format("DD/MM/YYYY HH:mm:ss"),
+        Name: item.name,
+        Email: item.email,
+        Phone: item.phone,
+        LIneID: item.lineId,
+        Title: item.title,
+        Message: item.message,
+      }));
+      console.log("dataExcel", dataExcel);
+      ExportExcelFile({ data: dataExcel, fileName: "form-contact" });
+    });
   };
   // lifecycle
+  useEffect(() => {
+    // refetchFormContact();
+  }, []);
 
   return (
     <>
@@ -129,7 +151,47 @@ export function ManageFormContact() {
           <Text className="text-base">Export to Excel</Text>
         </ButtonOutline>
       </Box>
-
+      <div className=" flex justify-between w-full gap-4 max-sm:flex-wrap">
+        <div className=" flex gap-4 w-full flex-wrap">
+          <Box className=" w-full sm:max-w-[420px]">
+            <InputFormManage
+              name={"ค้นหา"}
+              placeholder="ค้นหาด้วย ชื่อ/อีเมล"
+              register={{
+                onChange: (e) => {
+                  setSearchText(e.target.value);
+                },
+              }}
+              showLabel={false}
+            />
+          </Box>
+          <InputCalendarRange
+            className="  h-11 "
+            onChangeDate={(date) => {
+              if (date?.from) {
+                setStartDate(dayjs(date?.from).format("YYYY-MM-DD"));
+              }
+              if (date?.to) {
+                setEndDate(dayjs(date?.to).format("YYYY-MM-DD"));
+              }
+            }}
+          />
+        </div>
+        <ButtonDefault
+          type="submit"
+          width="140px"
+          className=" h-6"
+          onClick={() => {
+            // refetchFormContact();
+            setDebounceSearchText(searchText);
+            setDebounceStartDate(startDate);
+            setDebounceEndDate(endDate);
+          }}
+          isLoading={false}
+        >
+          <Text className=" text-base ">ค้นหา</Text>
+        </ButtonDefault>
+      </div>
       <Box
         style={{
           borderRadius: "8px",

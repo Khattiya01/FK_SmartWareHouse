@@ -4,15 +4,35 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 function fetchFormContactOptions({
   page,
   pageSize,
+  searchText,
+  startDate,
+  endDate,
 }: {
   page: string;
   pageSize: string;
+  searchText: string;
+  startDate: string;
+  endDate: string;
 }) {
   return queryOptions({
-    queryKey: ["fetchFormContact", page, pageSize],
-    queryFn: () => fetchFormContact({ page: page, pageSize: pageSize }),
+    queryKey: [
+      "fetchFormContact",
+      page,
+      pageSize,
+      searchText,
+      startDate,
+      endDate,
+    ],
+    queryFn: () =>
+      fetchFormContact({
+        page: page,
+        pageSize: pageSize,
+        searchText: searchText,
+        startDate: startDate,
+        endDate: endDate,
+      }),
     staleTime: 10 * 1000,
-    refetchInterval: 0,
+    refetchInterval: 10 * 1000,
     retry: false,
     // refetchOnWindowFocus: false,
     // enabled: false,
@@ -21,14 +41,23 @@ function fetchFormContactOptions({
 export const useFormContact = ({
   page,
   pageSize,
+  searchText,
+  startDate,
+  endDate,
 }: {
   page: string;
   pageSize: string;
+  searchText: string;
+  startDate: string;
+  endDate: string;
 }) => {
   return useQuery(
     fetchFormContactOptions({
       page,
       pageSize,
+      searchText,
+      startDate,
+      endDate,
     })
   );
 };

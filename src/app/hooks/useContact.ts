@@ -12,7 +12,7 @@ function fetchContactOptions({
     queryKey: ["fetchContact", page, pageSize],
     queryFn: () => fetchContact({ page: page, pageSize: pageSize }),
     staleTime: 10 * 1000,
-    refetchInterval: 0,
+    refetchInterval: 10 * 1000,
     retry: false,
     // refetchOnWindowFocus: false,
     // enabled: false,
