@@ -6,7 +6,9 @@ npm install
 ```
 
 check env check created database
-.env.local env.dev
+if local database coppy env.dev to .env.local and env 
+if prd database
+if local database coppy env.prd to .env.local and env 
 
 setup the database and seeds
 1) create a new database
