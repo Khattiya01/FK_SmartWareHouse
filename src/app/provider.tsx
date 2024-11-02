@@ -12,7 +12,6 @@ export default function Providers({ children }: { children: ReactNode }) {
       <SessionProvider>
         <QueryClientProvider client={queryClient}>
           <ToastProvider />
-
           {children}
         </QueryClientProvider>
       </SessionProvider>
