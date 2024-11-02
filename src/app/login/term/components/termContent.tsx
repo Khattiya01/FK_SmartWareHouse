@@ -43,6 +43,7 @@ const TermContent = ({
             term: true,
           },
         }).then(() => {
+          localStorage.setItem("term", "true");
           router.push("/admin");
         });
         setIsLoading(false);
