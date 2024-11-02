@@ -5,7 +5,7 @@ export const postForgotPassword = async (data: { email: string }) => {
   const fd = new FormData();
   fd.append("email", data.email);
 
-  const response = await AxiosInstance.post<APIResponse<any>>(
+  const response = await AxiosInstance.post<APIResponse<[]>>(
     `/api/forgot-password`,
     fd
   );

@@ -8,7 +8,7 @@ export const postResetPassword = async (data: {
   const fd = new FormData();
   fd.append("password", data.password);
 
-  const response = await axios.post<APIResponse<any>>(
+  const response = await axios.post<APIResponse<[]>>(
     `/api/reset-password`,
     fd,
     {
