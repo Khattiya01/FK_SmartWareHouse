@@ -138,7 +138,7 @@ const LoginForm = () => {
             errorMessage={errors.password?.message}
           />
           <Box className=" text-end">
-            <Link href={"/forgot-poassword"}>
+            <Link href={"/forgot-password"}>
               <Text className=" text-sm ">ลืมรหัสผ่านของคุณ?</Text>
             </Link>
           </Box>
