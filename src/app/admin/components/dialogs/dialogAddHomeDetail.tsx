@@ -393,7 +393,7 @@ const DialogHomeDetail = ({
                       htmlFor={"name"}
                       style={{
                         fontWeight: "600",
-                        fontSize: "18px",
+                        fontSize: "16px",
                         lineHeight: "28px",
                       }}
                     >
@@ -477,7 +477,7 @@ const DialogHomeDetail = ({
                       htmlFor={"name"}
                       style={{
                         fontWeight: "600",
-                        fontSize: "18px",
+                        fontSize: "16px",
                         lineHeight: "28px",
                       }}
                     >
@@ -568,7 +568,7 @@ const DialogHomeDetail = ({
                       htmlFor={"name"}
                       style={{
                         fontWeight: "600",
-                        fontSize: "18px",
+                        fontSize: "16px",
                         lineHeight: "28px",
                       }}
                     >

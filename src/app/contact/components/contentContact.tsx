@@ -48,7 +48,7 @@ const ContentContact = (props: ContentContactProps) => {
       >
         <Text className=" font-bold text-xl  text-white">สถานที่ตั้ง</Text>
         <ContactItem
-          icon={<IoLocationOutline size={"18px"} />}
+          icon={<IoLocationOutline size={"16px"} />}
           desc={
             contact?.address ??
             "444/23 หมู่ 2 ถนนลพบุรีราเมศวร์ ตำบลพะวง อำเภอเมืองสงขลา จังหวัดสงขลา 90100"
@@ -64,11 +64,11 @@ const ContentContact = (props: ContentContactProps) => {
           ติดต่อสอบถามข้อมูล
         </Text>
         <ContactItem
-          icon={<FiPhone size={"18px"} />}
+          icon={<FiPhone size={"16px"} />}
           desc={contact?.tel ? formatPhoneNumber(contact?.tel) : "074-800811"}
         />
         <ContactItem
-          icon={<CiMobile3 size={"18px"} />}
+          icon={<CiMobile3 size={"16px"} />}
           desc={
             contact?.phone ? formatPhoneNumber(contact?.phone) : "089-4665376"
           }
@@ -81,7 +81,7 @@ const ContentContact = (props: ContentContactProps) => {
       >
         <Text className=" font-bold text-xl  text-white">วัน - เวลาทำการ</Text>
         <ContactItem
-          icon={<CiTimer size={"18px"} />}
+          icon={<CiTimer size={"16px"} />}
           desc={`${contact?.start_day_bs_hour}-${contact?.end_day_bs_hour} น.`}
         />
       </Flex>

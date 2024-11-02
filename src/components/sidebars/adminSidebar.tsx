@@ -61,21 +61,23 @@ const AdminSidebar = () => {
   return (
     <section
       style={{ boxShadow: "4px 2px 12px 0px #0A0A100F" }}
-      className=" sm:w-[256px] w-[64px] h-[calc(100vh-80px)] relative z-10"
+      className=" sm:w-[256px] w-[64px] h-[calc(100vh-48px)] relative z-10 "
     >
-      {ListSidebarItems.map((item) => {
-        return (
-          <SidebarItem
-            key={item.name}
-            icon={item.icon}
-            name={item.name}
-            path={item.path}
-            disabled={item.disabled}
-          />
-        );
-      })}
+      <div className=" sm:w-[260px] w-[64px] h-[calc(100vh-126px)] overflow-y-auto">
+        {ListSidebarItems.map((item) => {
+          return (
+            <SidebarItem
+              key={item.name}
+              icon={item.icon}
+              name={item.name}
+              path={item.path}
+              disabled={item.disabled}
+            />
+          );
+        })}
+      </div>
 
-      <div className=" fixed bottom-4 border-t-[1px] border-[#f6f7f9]">
+      <div className=" fixed bottom-4 ">
         <SidebarItemLogout />
       </div>
     </section>

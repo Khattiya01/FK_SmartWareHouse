@@ -30,11 +30,11 @@ const ContentProduct = (props: {
           >
             <Text className=" text-[18px] font-bold ">ติดต่อผู้ขาย</Text>
             <ContactItem
-              icon={<FiPhone size={"18px"} />}
+              icon={<FiPhone size={"16px"} />}
               desc={product?.tel && product?.tel != null ? product?.tel : "-"}
             />
             <ContactItem
-              icon={<CiMobile3 size={"18px"} />}
+              icon={<CiMobile3 size={"16px"} />}
               desc={product?.phone && product?.phone != null ? product?.phone : "-"}
             />
           </Flex>
