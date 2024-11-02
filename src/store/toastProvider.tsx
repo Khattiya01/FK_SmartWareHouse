@@ -5,14 +5,20 @@ import "./styles.css";
 import { IoMdClose } from "react-icons/io";
 
 const ToastProvider: React.FC = () => {
-  const { open, title, message, hide, status } = useToastStore();
+  const { open, title, message, hide, status, duration } = useToastStore();
 
   return (
-    <Toast.Provider swipeDirection="up" duration={3000}>
+    <Toast.Provider swipeDirection={"up"} duration={duration ?? 3000}>
       <Toast.Root
-        className={`  ${
-          status === typeStatusTaost.success ? "ToastRoot" : "ToastRoot-error"
-        } `}
+        className={`  
+          ${status === typeStatusTaost.success ? "ToastRoot" : ""} 
+          ${status === typeStatusTaost.error ? "ToastRoot-error" : ""} 
+          ${
+            status === typeStatusTaost["notification-cookies"]
+              ? "ToastRoot-notification-cookies"
+              : ""
+          } 
+         `}
         open={open}
         onOpenChange={hide}
       >
@@ -23,17 +29,28 @@ const ToastProvider: React.FC = () => {
           {/* <time className="ToastDescription" dateTime={eventDate.toISOString()}>
             {prettyDate(eventDate)}
           </time> */}
-          <div>{message}</div>
+          <div>
+            {message}
+            {/* {status === typeStatusTaost["notification-cookies"]} */}
+          </div>
         </Toast.Description>
-        <Toast.Action
-          className="ToastAction cursor-pointer"
-          asChild
-          altText="Undo action"
-        >
-          <IoMdClose />
-        </Toast.Action>
+        {status === typeStatusTaost["notification-cookies"] ? null : (
+          <Toast.Action
+            className="ToastAction cursor-pointer"
+            asChild
+            altText="Undo action"
+          >
+            <IoMdClose />
+          </Toast.Action>
+        )}
       </Toast.Root>
-      <Toast.Viewport className="ToastViewport" />
+      <Toast.Viewport
+        className={
+          status === typeStatusTaost["notification-cookies"]
+            ? "ToastViewport-noti"
+            : "ToastViewport"
+        }
+      />
     </Toast.Provider>
   );
 };

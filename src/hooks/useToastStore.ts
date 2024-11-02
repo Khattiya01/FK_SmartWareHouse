@@ -1,22 +1,26 @@
+import { ReactNode } from "react";
 import { create } from "zustand";
 
 export enum typeStatusTaost {
   "success",
   "error",
+  "notification-cookies",
 }
 interface ToastState {
   open: boolean;
-  message: string;
+  message: ReactNode;
   title: string;
   eventDate: Date;
   status: typeStatusTaost;
   show: (
     title: string,
-    message: string,
+    message: ReactNode,
     eventDate: Date,
-    status: typeStatusTaost
+    status: typeStatusTaost,
+    duration?: number
   ) => void;
   hide: () => void;
+  duration?: number;
 }
 
 const useToastStore = create<ToastState>((set) => ({
@@ -27,11 +31,13 @@ const useToastStore = create<ToastState>((set) => ({
   status: typeStatusTaost.success,
   show: (
     title: string,
-    message: string,
+    message: ReactNode,
     eventDate: Date,
-    status: typeStatusTaost
-  ) => set({ open: true, title, message, eventDate, status }),
+    status: typeStatusTaost,
+    duration?: number
+  ) => set({ open: true, title, message, eventDate, status, duration }),
   hide: () => set({ open: false }),
+  duration: 3000,
 }));
 
 export default useToastStore;
