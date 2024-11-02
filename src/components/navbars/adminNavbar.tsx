@@ -40,7 +40,7 @@ const AdminNavbar = async () => {
 
   return (
     <Flex
-      className="absolute w-screen top-0 h-[80px] shadow-navbar bg-main"
+      className="absolute w-screen top-0 h-[48px] shadow-navbar bg-main"
       justify={"center"}
     >
       <Flex
@@ -53,8 +53,8 @@ const AdminNavbar = async () => {
       >
         <Link href={"/"}>
           <Flex className="h-full" align={"center"}>
-            <Box className=" overflow-hidden sm:w-[240px] w-[80px]">
-              <Box className="relative w-[240px] h-[48px] ">
+            <Box className=" overflow-hidden sm:w-[200px] w-[64px]">
+              <Box className="relative w-[200px] h-[48px] ">
                 <Image
                   src={logoURL}
                   alt="logo-main-website"

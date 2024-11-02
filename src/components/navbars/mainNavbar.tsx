@@ -80,7 +80,7 @@ const MainNavbar = async () => {
       : "/images/logo_sr_estate2.jpg";
 
   return (
-    <Flex className=" h-[80px]  relative bg-main" justify={"center"}>
+    <Flex className=" h-[48px]  relative bg-main" justify={"center"}>
       <Flex
         className="w-full max-w-desktop "
         justify={"between"}
@@ -91,8 +91,8 @@ const MainNavbar = async () => {
       >
         <Link href={"/"}>
           <Flex className="h-full" align={"center"}>
-            <Box className=" overflow-hidden sm:w-[240px] w-[80px]">
-              <Box className="relative w-[240px] h-[48px] ">
+            <Box className=" overflow-hidden sm:w-[200px] w-[64px]">
+              <Box className="relative w-[200px] h-[42px] ">
                 <Image
                   src={logoURL}
                   alt="logo-main-website"
