@@ -22,7 +22,7 @@ const NavbarMenuItem = (props: { title: string; href: string }) => {
 };
 
 const NavbarMenuItemList = async () => {
-  const responseGetCategory = await getCategory();
+  const responseGetCategory = await getCategory({page: "1", pageSize: "100000"});
 
   const ListMenuNavbar = ({ title, href }: { title: string; href: string }) => {
     return (
@@ -46,9 +46,9 @@ const NavbarMenuItemList = async () => {
       </HoverCard.Trigger>
       <HoverCard.Content maxWidth="300px">
         <Flex gap={"2"} direction={"column"} width={"140px"}>
-          {responseGetCategory &&
-            responseGetCategory?.length > 0 &&
-            responseGetCategory?.map((item) => (
+          {responseGetCategory.data &&
+            responseGetCategory.data?.length > 0 &&
+            responseGetCategory.data?.map((item) => (
               <ListMenuNavbar
                 key={item.id}
                 title={item.name}
@@ -73,7 +73,7 @@ const NavbarMenu = () => {
 
 const MainNavbar = async () => {
   const responseLogos = await getLogosIsActived();
-  const responseGetCategory = await getCategory();
+  const responseGetCategory = await getCategory({page: "1", pageSize: "100000"});
   const logoURL =
     responseLogos && responseLogos?.length > 0
       ? responseLogos[0].image_url ?? "/images/logo_sr_estate2.jpg"
@@ -108,7 +108,7 @@ const MainNavbar = async () => {
         {/* desktop menu */}
         <NavbarMenu />
         {/* mobile menu */}
-        <NavbarMenuMobile category={responseGetCategory} />
+        <NavbarMenuMobile category={responseGetCategory.data} />
       </Flex>
     </Flex>
   );

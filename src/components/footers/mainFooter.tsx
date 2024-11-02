@@ -8,7 +8,7 @@ import { getCategory } from "@/services/category";
 import { getContactIsActive } from "@/services/contact";
 
 const MainFooter = async () => {
-  const responseGetCategory = await getCategory();
+  const responseGetCategory = await getCategory({page: "1", pageSize: "100000"});
   const contact = await getContactIsActive();
 
   return (
@@ -23,7 +23,7 @@ const MainFooter = async () => {
           gap={"6"}
         >
           <Flex gap={"4"} direction={"column"} justify={"between"}>
-            <ListMenu category={responseGetCategory}/>
+            <ListMenu category={responseGetCategory.data}/>
           </Flex>
           <ContactInfo contact={contact}/>
           <FollowUs contact={contact}/>
