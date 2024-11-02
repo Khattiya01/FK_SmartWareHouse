@@ -13,7 +13,7 @@ const LoginLayout = async ({ children }: { children: React.ReactNode }) => {
           quality={100} 
         />
       </div>
-      <div className="bg-white w-[100%] sm:w-[50%] px-[32px] py-[40px]">
+      <div className="bg-white w-[100%] sm:w-[50%] px-[32px] py-[40px]  overflow-auto">
         {children}
       </div>
     </div>

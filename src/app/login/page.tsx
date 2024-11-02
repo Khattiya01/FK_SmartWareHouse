@@ -13,6 +13,7 @@ export default async function LoginPage() {
       direction={"column"}
       align={"center"}
       justify={"between"}
+      gap={"4"}
       className="rounded-lg "
     >
       <LoginForm />
