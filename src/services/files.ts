@@ -15,10 +15,12 @@ export const getFiles = async () => {
 
 export const getFilesByUrl = async (file_url: string) => {
   try {
+    console.log("file_url", file_url);
     const data = await db
       .select()
       .from(filesTable)
       .where(eq(filesTable.file_url, file_url));
+    console.log("data", data);
     return data;
   } catch (error) {
     console.error("Error fetching files:", error);

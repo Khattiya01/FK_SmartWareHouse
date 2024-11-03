@@ -5,12 +5,18 @@ import AxiosInstance from "@/utils/interceptors";
 export const fetchProduct = async ({
   page,
   pageSize,
+  searchText,
+  category,
 }: {
   page: string;
   pageSize: string;
+  searchText: string;
+  category: string;
 }) => {
   const response = await AxiosInstance.get<
     APIResponse<SelectProductIncludeCategory[]>
-  >(`/api/manage/product?page=${page}&pageSize=${pageSize}`);
+  >(
+    `/api/manage/product?page=${page}&pageSize=${pageSize}&searchText=${searchText}&category=${category}`
+  );
   return response.data;
 };

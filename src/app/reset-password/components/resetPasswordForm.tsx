@@ -16,10 +16,10 @@ import { postResetPassword } from "@/api/reset-password/reset-password";
 
 const ResetPasswordForm = () => {
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
+  const [isErrorToken, setIsErrorToken] = useState(false);
 
   const searchParams = useSearchParams();
   const router = useRouter();
-  const search = searchParams.get("error");
   const token = searchParams.get("token");
 
   if (!token) router.push("/login");
@@ -44,9 +44,14 @@ const ResetPasswordForm = () => {
       await postResetPassword({ password: data.password, token: token })
         .then(() => {
           setIsLoadingLogin(false);
-          router.push("/login")
+          setIsErrorToken(false);
+          router.push("/login");
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log("err", err);
+          if (err?.response?.data?.message) {
+            setIsErrorToken(true);
+          }
           setIsLoadingLogin(false);
         });
     }
@@ -90,14 +95,14 @@ const ResetPasswordForm = () => {
             gap: "16px",
           }}
         >
-          {search === "not-found-user" && (
+          {isErrorToken && (
             <Text
               style={{
                 fontSize: "14px",
                 color: "red",
               }}
             >
-              ชื่อผู้ใช้ที่คุณป้อนไม่ถูกต้อง
+              Token นี้ไม่สามารถใช้งานได้ เนื่องจากไม่ถูกต้องหรือหมดอายุ กรุณาทำการขอใหม่
             </Text>
           )}
           <InputFormPassword

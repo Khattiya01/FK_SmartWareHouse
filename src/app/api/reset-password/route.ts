@@ -21,17 +21,23 @@ export async function POST(request: Request) {
       const jwtPayload = verify(token, process.env.JWT_SECRET ?? "") as {
         userId: string;
         iat: number;
+        type: string;
       };
-      const userId = jwtPayload.userId;
-      const hashedPassword = await hashPassword(password);
-      await editPasswordUser({ password: hashedPassword, id: userId })
-        .then((res) => {
-          console.log("res", res);
-        })
-        .catch((err) => {
-          responseJson.status = 400;
-          responseJson.message = err.message;
-        });
+      if (jwtPayload.type !== "reset-password") {
+        responseJson.status = 400;
+        responseJson.message = "token is invalid";
+      } else {
+        const userId = jwtPayload.userId;
+        const hashedPassword = await hashPassword(password);
+        await editPasswordUser({ password: hashedPassword, id: userId })
+          .then((res) => {
+            console.log("res", res);
+          })
+          .catch((err) => {
+            responseJson.status = 400;
+            responseJson.message = err.message;
+          });
+      }
     } else {
       responseJson.status = 400;
       responseJson.message = "password is not specified";
