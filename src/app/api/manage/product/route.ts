@@ -6,6 +6,8 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const page = url.searchParams.get("page") || "1";
   const pageSize = url.searchParams.get("pageSize") || "25";
+  const searchText = url.searchParams.get("searchText") || "";
+  const category = url.searchParams.get("category") || "";
 
   const responseJson: APIResponse<SelectProductIncludeCategory[]> = {
     status: 200,
@@ -17,12 +19,12 @@ export async function GET(request: Request) {
   };
 
   try {
-    const res = await getProducts({ page, pageSize });
+    const res = await getProducts({ page, pageSize, searchText, category });
     responseJson.result.data = res.data;
     responseJson.result.total = res.total;
   } catch {
     responseJson.status = 500;
-    responseJson.message = "Error fetching home detail";
+    responseJson.message = "Error fetching products";
   }
 
   return new Response(JSON.stringify(responseJson), {

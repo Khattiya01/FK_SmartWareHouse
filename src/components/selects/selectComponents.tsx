@@ -14,7 +14,7 @@ const SelectComponents = ({
   onValueChange,
   showLabel,
   name,
-  required
+  required,
 }: SelectComponentsProps) => {
   return (
     <div>
@@ -35,7 +35,9 @@ const SelectComponents = ({
         id={name}
         value={defaultValue}
         onChange={(e) => onValueChange(e.target.value)}
-        className=" h-11 w-full rounded-lg px-[10px]  text-base mt-1"
+        className={` h-11 w-full rounded-lg px-[10px]  text-base ${
+          showLabel ? "mt-1" : ""
+        }`}
         style={{ border: "1px solid #ccc" }}
       >
         {option && option?.length > 0 ? (

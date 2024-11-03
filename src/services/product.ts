@@ -1,4 +1,4 @@
-import { eq, getTableColumns, ne, and, count } from "drizzle-orm";
+import { eq, getTableColumns, ne, and, count, or, ilike } from "drizzle-orm";
 import { db } from "@/db";
 import {
   categoryTable,
@@ -13,16 +13,20 @@ import { desc } from "drizzle-orm";
 export const getProducts = async ({
   page,
   pageSize,
+  searchText,
+  category,
 }: {
   page: string;
   pageSize: string;
+  searchText: string;
+  category: string;
 }) => {
   const pageNumber = parseInt(page, 10) || 1;
   const size = parseInt(pageSize, 10) || 25;
   const offset = (pageNumber - 1) * size;
 
   try {
-    const data = await db
+    const query = db
       .select({
         ...getTableColumns(productsTable),
         category: {
@@ -31,16 +35,93 @@ export const getProducts = async ({
         },
       })
       .from(productsTable)
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id));
+    if (category != "") {
+      if (searchText != "") {
+        query.where(
+          and(
+            or(
+              ilike(productsTable.name, `%${searchText}%`),
+              ilike(productsTable.product_id, `%${searchText}%`)
+            ),
+            eq(productsTable.category_id, category)
+          )
+        );
+      } else {
+        query.where(eq(productsTable.category_id, category));
+      }
+    } else {
+      if (searchText != "") {
+        query.where(
+          or(
+            ilike(productsTable.name, `%${searchText}%`),
+            ilike(productsTable.product_id, `%${searchText}%`)
+          )
+        );
+      }
+    }
+
+    const data = await query
       .orderBy(desc(productsTable.created_at))
-      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id))
+      // .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id))
       .limit(size)
       .offset(offset);
 
-    const total = await db.select({ count: count() }).from(productsTable);
+    const totalQuery = db
+      .select({ count: count() })
+      .from(productsTable)
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id)); // Join with category table
+
+    if (category != "") {
+      if (searchText != "") {
+        totalQuery.where(
+          and(
+            or(
+              ilike(productsTable.name, `%${searchText}%`),
+              ilike(productsTable.product_id, `%${searchText}%`),
+              ilike(categoryTable.name, `%${searchText}%`)
+            ),
+            eq(productsTable.category_id, category)
+          )
+        );
+      } else {
+        totalQuery.where(eq(productsTable.category_id, category));
+      }
+    } else {
+      if (searchText != "") {
+        totalQuery.where(
+          or(
+            ilike(productsTable.name, `%${searchText}%`),
+            ilike(productsTable.product_id, `%${searchText}%`),
+            ilike(categoryTable.name, `%${searchText}%`)
+          )
+        );
+      }
+    }
+
+    const total = await totalQuery;
+
     return { data, total: total[0].count };
+
+    // const data = await db
+    //   .select({
+    //     ...getTableColumns(productsTable),
+    //     category: {
+    //       id: categoryTable.id,
+    //       name: categoryTable.name,
+    //     },
+    //   })
+    //   .from(productsTable)
+    //   .orderBy(desc(productsTable.created_at))
+    //   .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id))
+    //   .limit(size)
+    //   .offset(offset);
+
+    // const total = await db.select({ count: count() }).from(productsTable);
+    // return { data, total: total[0].count };
   } catch (error) {
     console.error("Error fetching products:", error);
-    throw new Error("Could not fetch hproducts");
+    throw new Error("Could not fetch products");
   }
 };
 

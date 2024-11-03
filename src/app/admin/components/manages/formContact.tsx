@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SelectContactForm } from "@/db/schemas";
 import DialogDelete from "@/components/dialogs/dialogDelete";
 import useToastStore, { typeStatusTaost } from "@/hooks/useToastStore";
@@ -38,9 +38,9 @@ export function ManageFormContact() {
   const page = searchParams.get("page") ?? "1";
   const pageSize = searchParams.get("pageSize") ?? "25";
   const [debounceSearchText, setDebounceSearchText] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [debounceStartDate, setDebounceStartDate] = useState("");
   const [debounceEndDate, setDebounceEndDate] = useState("");
-  const [searchText, setSearchText] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -129,9 +129,6 @@ export function ManageFormContact() {
     });
   };
   // lifecycle
-  useEffect(() => {
-    // refetchFormContact();
-  }, []);
 
   return (
     <>

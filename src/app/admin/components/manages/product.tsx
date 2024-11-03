@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import DialogDelete from "@/components/dialogs/dialogDelete";
 import useToastStore, { typeStatusTaost } from "@/hooks/useToastStore";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
@@ -18,6 +18,9 @@ import {
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { useSearchParams } from "next/navigation";
+import InputFormManage from "@/components/inputs/inputFormManage";
+import SelectComponents from "@/components/selects/selectComponents";
+import { fetchCategory } from "@/api/manage/manage-category";
 
 export function ManageProduct() {
   // states
@@ -32,13 +35,25 @@ export function ManageProduct() {
   const searchParams = useSearchParams();
   const page = searchParams.get("page") ?? "1";
   const pageSize = searchParams.get("pageSize") ?? "25";
+  const [searchText, setSearchText] = useState("");
+  const [debounceSearchText, setDebounceSearchText] = useState("");
+  const [optionCategory, setOptionCategory] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [category, setCategory] = useState("");
+  const [debounceCategory, setDebounceCategory] = useState("");
 
   // hooks
   const {
     data: dataProduct,
     refetch: refetchProduct,
     isLoading,
-  } = useProduct({ page, pageSize });
+  } = useProduct({
+    page,
+    pageSize,
+    searchText: searchText,
+    category: category,
+  });
   const showToast = useToastStore((state) => state.show);
 
   // functions
@@ -125,6 +140,25 @@ export function ManageProduct() {
   };
 
   // lifecycle
+  useEffect(() => {
+    fetchCategory({ page: "1", pageSize: "100000" }).then((category) => {
+      const ListOption: SetStateAction<{ value: string; label: string }[]> = [
+        {
+          value: "",
+          label: "ทั้งหมด",
+        },
+      ];
+      category.result.data?.map((item) => {
+        const option = {
+          value: item.id,
+          label: item.name,
+        };
+        ListOption.push(option);
+      });
+      setOptionCategory(ListOption);
+      setDebounceCategory(ListOption[0].value);
+    });
+  }, []);
 
   return (
     <>
@@ -142,7 +176,44 @@ export function ManageProduct() {
           <Text>เพิ่ม ผลิตภัณฑ์</Text>
         </ButtonDefault>
       </Box>
-
+      <div className=" flex justify-between w-full gap-4 max-sm:flex-wrap">
+        <div className=" flex gap-4 w-full flex-wrap">
+          <Box className=" w-full sm:max-w-[420px]">
+            <InputFormManage
+              name={"ค้นหา"}
+              placeholder="ค้นหาด้วย ชื่อ/อีเมล"
+              register={{
+                onChange: (e) => {
+                  setDebounceSearchText(e.target.value);
+                },
+              }}
+              showLabel={false}
+            />
+          </Box>
+          <Box className=" w-full sm:max-w-[160px]">
+            <SelectComponents
+              option={optionCategory}
+              defaultValue={debounceCategory ?? optionCategory[0]?.value ?? ""}
+              onValueChange={(value) => setDebounceCategory(value)}
+              name={"หมวดหมู่"}
+              showLabel={false}
+            />
+          </Box>
+        </div>
+        <ButtonDefault
+          type="submit"
+          width="140px"
+          className=" h-6"
+          onClick={() => {
+            // refetchProduct();
+            setCategory(debounceCategory);
+            setSearchText(debounceSearchText);
+          }}
+          isLoading={false}
+        >
+          <Text className=" text-base ">ค้นหา</Text>
+        </ButtonDefault>
+      </div>
       <Box
         style={{
           borderRadius: "8px",

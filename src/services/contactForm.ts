@@ -23,7 +23,6 @@ export const getContactForm = async ({
   const pageNumber = parseInt(page, 10) || 1;
   const size = parseInt(pageSize, 10) || 25;
   const offset = (pageNumber - 1) * size;
-  console.log("searchText", searchText);
   try {
     const query = db.select().from(contactFormTable);
 
