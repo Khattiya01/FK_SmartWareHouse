@@ -11,15 +11,23 @@ const MenuItem = (props: {
   onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
   otherListMenuItems?: ReactNode;
+  onClick: () => void;
 }) => {
-  const { name, iconRight, onMouseEnter, onMouseLeave, otherListMenuItems } =
-    props;
+  const {
+    name,
+    iconRight,
+    onMouseEnter,
+    onMouseLeave,
+    otherListMenuItems,
+    onClick,
+  } = props;
 
   return (
     <Flex
       direction={"column"}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onClick={onClick}
     >
       <Flex className=" cursor-pointer" justify={"between"} align={"center"}>
         <Box className=" py-2 text-white hover:text-blue-500 ">{name}</Box>
@@ -44,7 +52,10 @@ export const ListMenu = (props: { category: SelectCategory[] }) => {
 
   return (
     <Flex direction={"column"}>
-      <MenuItem name={<LinkItem name={"หน้าแรก"} href={"/"} />} />
+      <MenuItem
+        name={<LinkItem name={"หน้าแรก"} href={"/"} />}
+        onClick={() => {}}
+      />
       <hr />
       <MenuItem
         name={"อสังหาริมทรัพย์"}
@@ -65,15 +76,20 @@ export const ListMenu = (props: { category: SelectCategory[] }) => {
                         href={`/category/${item.name}`}
                       />
                     }
+                    onClick={() => {}}
                   />
                 ))}
             </>
           )
         }
+        onClick={() => setShowDetail(!showDetail)}
       />
 
       <hr />
-      <MenuItem name={<LinkItem name={"ติดต่อเรา"} href={"/contact"} />} />
+      <MenuItem
+        name={<LinkItem name={"ติดต่อเรา"} href={"/contact"} />}
+        onClick={() => {}}
+      />
     </Flex>
   );
 };
