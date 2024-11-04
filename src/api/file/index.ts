@@ -1,5 +1,4 @@
 import { SelectFile } from "@/db/schemas";
-import { blobToFile } from "@/types/file";
 import { APIResponse } from "@/types/response";
 import AxiosInstance from "@/utils/interceptors";
 
@@ -18,23 +17,28 @@ export const fetchImages = async (images: SelectFile[]) => {
     const blobData = await response.blob();
     const blobToFile = new File([blobData], image.file_name, {
       type: image.file_type,
-    });
-    const newBlobData: blobToFile = {
-      ...blobToFile,
-      index: "",
-      id: "",
-      status: "",
-      imageURL: "",
-      url: "",
-      file_url: "",
-      error: false,
-    };
-    newBlobData.status = "new";
-    newBlobData.url = URL.createObjectURL(blobToFile);
-    newBlobData.imageURL = URL.createObjectURL(blobToFile);
-    newBlobData.file_url = URL.createObjectURL(blobToFile);
-    newBlobData.id = Math.random().toString(36).slice(2);
-    return newBlobData;
+    }) as any;
+    // const newBlobData: blobToFile = {
+    //   ...blobToFile,
+    //   index: "",
+    //   id: "",
+    //   status: "",
+    //   imageURL: "",
+    //   url: "",
+    //   file_url: "",
+    //   error: false,
+    // };
+    // newBlobData.status = "new";
+    // newBlobData.url = URL.createObjectURL(blobToFile);
+    // newBlobData.imageURL = URL.createObjectURL(blobToFile);
+    // newBlobData.file_url = URL.createObjectURL(blobToFile);
+    // newBlobData.id = Math.random().toString(36).slice(2);
+    blobToFile.status = "new";
+    blobToFile.url = URL.createObjectURL(blobToFile);
+    blobToFile.imageURL = URL.createObjectURL(blobToFile);
+    blobToFile.file_url = URL.createObjectURL(blobToFile);
+    blobToFile.id = Math.random().toString(36).slice(2);
+    return blobToFile;
   });
 
   const newImages = await Promise.all(newImagesPromises);

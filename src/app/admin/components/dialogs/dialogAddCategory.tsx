@@ -151,14 +151,25 @@ const DialogAddCategory = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "แก้ไขหมวดหมู่สำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "แก้ไขหมวดหมู่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "แก้ไขหมวดไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -177,14 +188,26 @@ const DialogAddCategory = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "เพิ่มหมวดหมู่สำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "เพิ่มหมวดหมู่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "เพิ่มหมวดหมู่ไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
+
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);

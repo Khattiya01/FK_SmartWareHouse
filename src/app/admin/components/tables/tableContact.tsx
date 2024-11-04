@@ -12,6 +12,13 @@ import {
 import { SelectContact } from "@/db/schemas";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import dayjs from "dayjs";
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
 
 export function TableContact({
   rows,
@@ -49,7 +56,7 @@ export function TableContact({
               <TableCell className="font-medium">{item.address}</TableCell>
               <TableCell className="font-medium">{item.phone}</TableCell>
               <TableCell className="font-medium">
-                {item.start_day_bs_hour} - {item.end_day_bs_hour}
+                {dayjs(item.start_day_bs_hour).format("HH:mm")} - {dayjs(item.end_day_bs_hour).format("HH:mm")}
               </TableCell>
               <TableCell className="font-medium">
                 <ToggleAdmin
