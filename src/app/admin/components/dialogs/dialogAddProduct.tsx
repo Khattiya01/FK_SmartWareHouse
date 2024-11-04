@@ -360,8 +360,6 @@ const DialogAddProduct = ({
       );
       preData.map_image.push(responseFullmap_image_url[0]);
     }
-    console.log("preData", preData);
-
     setValue("category_id", data.category_id);
     setValue("name", data.name);
     setValue("description", data.description ?? "");
@@ -400,8 +398,6 @@ const DialogAddProduct = ({
         if (ListOption && ListOption?.length > 0) {
           setValue("category_id", ListOption[0].value);
         }
-        console.log("category", category);
-        console.log("ListOption", ListOption);
       });
     }
   }, [data, isOpen]);

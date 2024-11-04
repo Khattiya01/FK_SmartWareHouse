@@ -153,7 +153,7 @@ export function ManageFormContact() {
           <Box className=" w-full sm:max-w-[420px]">
             <InputFormManage
               name={"ค้นหา"}
-              placeholder="ค้นหาด้วย ชื่อ/อีเมล"
+              placeholder="ค้นหาด้วย ชื่อ หรือ อีเมล"
               register={{
                 onChange: (e) => {
                   setSearchText(e.target.value);
