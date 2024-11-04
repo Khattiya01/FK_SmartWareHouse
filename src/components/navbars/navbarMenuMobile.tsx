@@ -29,7 +29,7 @@ export const NavbarMenuMobile = (props: {
     <>
       <MenuToggle openMenu={openMenu} handleOpenMenu={handleOpenMenu} />
       <div
-        className={` shadow-xl  bg-main absolute top-[80px] transition-all duration-300 opacity-0 p-4 ${
+        className={` shadow-xl  bg-main absolute top-[48px] transition-all duration-300 opacity-0 p-4 ${
           openMenu ? "opacity-100 z-[51] w-[100vw]" : "opacity-0 z-0 w-[0]"
         }`}
       >

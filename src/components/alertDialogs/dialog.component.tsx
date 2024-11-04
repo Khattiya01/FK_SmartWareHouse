@@ -26,19 +26,25 @@ export function DialogComponent({
 }: DialogComponentProps) {
   return (
     <AlertDialog open={isOpen}>
-      <AlertDialogContent className={`${className} AlertDialogContent`}>
+      <AlertDialogContent
+        className={`${className} AlertDialogContent h-[100vh] sm:h-[90vh] `}
+      >
         <AlertDialogHeader>
           <AlertDialogTitle className="AlertDialogTitle">
             <div className=" text-2xl">{title}</div>
           </AlertDialogTitle>
-          <AlertDialogDescription className="AlertDialogDescription">{description}</AlertDialogDescription>
+          <AlertDialogDescription className="AlertDialogDescription">
+            {description}
+          </AlertDialogDescription>
         </AlertDialogHeader>
-        <div className="flex items-center">{content}</div>
-        <AlertDialogFooter>
-          {footer}
-          {/* <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
+        <div className="flex items-center  overflow-auto">{content}</div>
+        {footer && (
+          <AlertDialogFooter>
+            {footer}
+            {/* <AlertDialogCancel>ยกเลิก</AlertDialogCancel>
           <AlertDialogAction>Continue</AlertDialogAction> */}
-        </AlertDialogFooter>
+          </AlertDialogFooter>
+        )}
       </AlertDialogContent>
     </AlertDialog>
   );

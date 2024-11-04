@@ -187,9 +187,9 @@ const DialogAddUser = ({
           ) : (
             <form
               onSubmit={handleSubmit(onSubmitHandler)}
-              className="w-full text-xl"
+               className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
             >
-              <div className=" flex flex-col w-full max-h-[600px] pl-1 pr-1 overflow-y-auto ">
+              <div className=" flex flex-col w-full pl-1 pr-1 ">
                 <div className=" flex gap-6 flex-col ">
                   <InputFormManage
                     name={"ชื่อผู้ใช้งาน"}
@@ -228,7 +228,7 @@ const DialogAddUser = ({
                   />
                 </div>
               </div>
-              <div className="flex gap-2 w-full justify-end text-xl mt-4 ">
+              <div className="flex gap-2 w-full sm:justify-end justify-center text-xl mt-4 ">
                 <ButtonOutline
                   disable={isLoadingSubmit}
                   type="button"
