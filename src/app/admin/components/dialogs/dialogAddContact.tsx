@@ -169,11 +169,13 @@ const DialogAddContact = ({
     fd.append("tiktok_url", payload.tiktok_url);
     fd.append(
       "start_day_bs_hour",
-      dayjs(payload.start_day_bs_hour).format("HH:mm")
+      dayjs(payload.start_day_bs_hour).format()
+      // dayjs(payload.start_day_bs_hour).format("HH:mm")
     );
     fd.append(
       "end_day_bs_hour",
-      dayjs(payload.end_day_bs_hour).format("HH:mm")
+      dayjs(payload.end_day_bs_hour).format()
+      // dayjs(payload.end_day_bs_hour).format("HH:mm")
     );
 
     if (resbg_image?.result?.file_url) {
@@ -362,7 +364,6 @@ const DialogAddContact = ({
     }
   }, [data, isOpen]);
 
-  console.log(errors);
   return (
     <>
       <DialogComponent
@@ -427,6 +428,7 @@ const DialogAddContact = ({
                     msgError={errors.tel?.message}
                     type="number"
                     showLabel
+                    required
                   />
                   <InputFormManage
                     name={"เบอร์มือถือ"}
@@ -435,6 +437,7 @@ const DialogAddContact = ({
                     msgError={errors.phone?.message}
                     type="number"
                     showLabel
+                    required
                   />
                   <InputFormManage
                     name={"Link Facebook"}

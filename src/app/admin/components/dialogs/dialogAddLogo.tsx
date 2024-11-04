@@ -147,14 +147,26 @@ const DialogAddLogo = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "แก้ไขโลโก้สำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "แก้ไขโลโก้สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "แก้ไขโลโก้ไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
+
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -173,14 +185,26 @@ const DialogAddLogo = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "เพิ่มโลโก้สำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "เพิ่มโลโก้สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "เพิ่มโลโก้ไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
+
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);

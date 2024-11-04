@@ -202,14 +202,26 @@ const DialogHomeDetail = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "เพิ่มรายละเอียดหน้าแรกสำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "แก้ไขรายละเอียดหน้าแรกสำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "แก้ไขรายละเอียดหน้าแรกไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
+
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -228,14 +240,26 @@ const DialogHomeDetail = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "เพิ่มรายละเอียดหน้าแรกสำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "เพิ่มรายละเอียดหน้าแรกสำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "เพิ่มรายละเอียดหน้าแรกไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
+
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);

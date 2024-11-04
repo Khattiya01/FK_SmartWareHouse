@@ -208,14 +208,26 @@ const DialogAddProduct = ({
         .then((res) => {
           console.log(res?.message);
           setIsLoadingSubmit(false);
-          onSuccess();
-          showToast(
-            "เพิ่มผลิตภัณฑ์สำเร็จ",
-            "",
-            new Date(),
-            typeStatusTaost.success
-          );
           clearData();
+
+          if (res?.success) {
+            onSuccess();
+            showToast(
+              "เพิ่มผลิตภัณฑ์สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.success
+            );
+          } else {
+            onCancel();
+            showToast(
+              "เพิ่มผลิตภัณฑ์ไม่สำเร็จ",
+              "",
+              new Date(),
+              typeStatusTaost.error
+            );
+          }
+
         })
         .catch((err) => {
           console.error("Error create product:", err?.message);
@@ -239,15 +251,28 @@ const DialogAddProduct = ({
         .then((res) => {
           console.log(res?.success, res?.message);
           if (res?.success) {
+            console.log(res?.message);
             setIsLoadingSubmit(false);
-            onSuccess();
-            showToast(
-              "แก้ไขผลิตภัณฑ์สำเร็จ",
-              "",
-              new Date(),
-              typeStatusTaost.success
-            );
             clearData();
+  
+            if (res?.success) {
+              onSuccess();
+              showToast(
+                "แก้ไขผลิตภัณฑ์สำเร็จ",
+                "",
+                new Date(),
+                typeStatusTaost.success
+              );
+            } else {
+              onCancel();
+              showToast(
+                "แก้ไขผลิตภัณฑ์ไม่สำเร็จ",
+                "",
+                new Date(),
+                typeStatusTaost.error
+              );
+            }
+
           } else {
             setIsLoadingSubmit(false);
             onCancel();
