@@ -187,6 +187,7 @@ const CardImage = ({ imageURL }: { imageURL: string }) => {
   );
 };
 const CardLogo = ({ imageURL }: { imageURL: string }) => {
+  console.log("imageURL", imageURL)
   return (
     <Box
       style={{
@@ -196,7 +197,12 @@ const CardLogo = ({ imageURL }: { imageURL: string }) => {
       }}
       className=" relative w-[300px] h-[80px] "
     >
-      <Image src={imageURL} alt="logo" layout="fill" objectFit="cover" />
+      <Image
+        src={imageURL}
+        alt="logo"
+        layout="fill"
+        objectFit="cover"
+      />
     </Box>
   );
 };

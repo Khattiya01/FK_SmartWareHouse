@@ -23,7 +23,11 @@ const ContentContact = (props: ContentContactProps) => {
       className=" relative overflow-hidden p-4"
     >
       <Image
-        src={contact?.bg_image ?? "/images/city.png)"}
+        src={
+          contact?.bg_image
+            ? `/api/serve-file?filename=${contact?.bg_image}`
+            : "/images/city.png"
+        }
         alt="bg-contact"
         layout="fill"
         objectFit="cover"
@@ -94,7 +98,7 @@ const ContentContact = (props: ContentContactProps) => {
       </Flex>
       <Box className=" w-full h-[300px] max-w-desktop">
         <Image
-          src={contact?.map_image ?? "/images/map_company.png"}
+          src={contact?.map_image ?  `/api/serve-file?filename=${contact?.map_image}` : "/images/map_company.png"}
           alt="map_company"
           width={100}
           height={100}

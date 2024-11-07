@@ -16,7 +16,7 @@ const CategoryItem = (props: { name: string; src: string; href: string }) => {
       >
         <Box className="  relative  w-full h-[379.33px] max-h-full sm:max-h-[379.33px]">
           <Image
-            src={src}
+            src={`/api/serve-file?filename=${src}`}
             alt="d5"
             layout="fill"
             objectFit="cover"

@@ -18,7 +18,11 @@ const ContentContactUs = (props: {
       className=" relative"
     >
       <Image
-        src={imageURL ?? "/images/contact-us-flatlay.jpg"}
+        src={
+          imageURL
+            ? `/api/serve-file?filename=${imageURL}`
+            : "/images/contact-us-flatlay.jpg"
+        }
         alt="d5"
         width={100}
         height={100}
@@ -26,7 +30,9 @@ const ContentContactUs = (props: {
         className=" w-full h-full max-h-[525px] filter brightness-50"
       />
       <Flex className="  absolute " direction={"column"} align={"center"}>
-        <Text className=" sm:text-[42px] text-[24px] font-bold  text-white">ติดต่อเรา</Text>
+        <Text className=" sm:text-[42px] text-[24px] font-bold  text-white">
+          ติดต่อเรา
+        </Text>
         <Link
           href={line_url ?? "https://facebook.com"}
           target="_blank"

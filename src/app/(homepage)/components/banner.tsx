@@ -32,7 +32,7 @@ const Banner = ({ imagesURL }: { imagesURL: string[] | undefined }) => {
               <SwiperSlide key={url}>
                 <Box className=" relative w-full h-[270px] sm:h-[600px] max-h-[600px]">
                   <Image
-                    src={url}
+                    src={`/api/serve-file?filename=${url}`}
                     alt="banner"
                     // width={1000}
                     // height={1000}

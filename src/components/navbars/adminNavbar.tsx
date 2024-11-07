@@ -53,10 +53,10 @@ const AdminNavbar = async () => {
       >
         <Link href={"/"}>
           <Flex className="h-full" align={"center"}>
-            <Box className=" overflow-hidden sm:w-[200px] w-[64px]">
+            <Box>
               <Box className="relative w-[200px] h-[48px] ">
                 <Image
-                  src={logoURL}
+                  src={`/api/serve-file?filename=${logoURL}`}
                   alt="logo-main-website"
                   layout="fill"
                   objectFit="cover"

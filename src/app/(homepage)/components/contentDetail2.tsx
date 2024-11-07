@@ -15,7 +15,7 @@ const ContentDetail2 = (props: {
       >
         <Box className=" sm:w-1/2 w-full h-full max-h-[427px]">
           <Image
-            src={imageURL ?? "/images/d7.jpg"}
+            src={imageURL ? `/api/serve-file?filename=${imageURL}` : "/images/d7.jpg"}
             alt="d5"
             width={350}
             height={350}

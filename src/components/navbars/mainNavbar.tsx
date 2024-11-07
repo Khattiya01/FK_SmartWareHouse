@@ -22,7 +22,10 @@ const NavbarMenuItem = (props: { title: string; href: string }) => {
 };
 
 const NavbarMenuItemList = async () => {
-  const responseGetCategory = await getCategory({page: "1", pageSize: "100000"});
+  const responseGetCategory = await getCategory({
+    page: "1",
+    pageSize: "100000",
+  });
 
   const ListMenuNavbar = ({ title, href }: { title: string; href: string }) => {
     return (
@@ -73,12 +76,14 @@ const NavbarMenu = () => {
 
 const MainNavbar = async () => {
   const responseLogos = await getLogosIsActived();
-  const responseGetCategory = await getCategory({page: "1", pageSize: "100000"});
+  const responseGetCategory = await getCategory({
+    page: "1",
+    pageSize: "100000",
+  });
   const logoURL =
     responseLogos && responseLogos?.length > 0
-      ? responseLogos[0].image_url ?? "/images/logo_sr_estate2.jpg"
-      : "/images/logo_sr_estate2.jpg";
-
+      ? `/api/serve-file?filename=${responseLogos[0].image_url}`
+      : "/images/logo_sr_estate2.jpg"; // fallback to default logo
   return (
     <Flex className=" h-[48px]  relative bg-main" justify={"center"}>
       <Flex

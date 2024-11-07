@@ -27,7 +27,7 @@ const relativeUploadDir = `/uploads/${new Date(Date.now())
   })
   .replace(/\//g, "-")}`;
 
-const uploadDir = join(process.cwd(), "public", relativeUploadDir);
+const uploadDir = join(process.cwd(), ".", relativeUploadDir);
 
 const updateFolder = async () => {
   try {
@@ -141,7 +141,7 @@ export async function updateFileAction({
       const responseGetFilesByURL = await getFilesByUrl(file_url);
 
       if (responseGetFilesByURL && responseGetFilesByURL.length > 0) {
-        const filePath = join(process.cwd(), "public", file_url);
+        const filePath = join(process.cwd(), ".", file_url);
 
         await unlink(filePath);
         await editFiles({
@@ -189,7 +189,7 @@ export async function deleteFileAction({ file_url }: { file_url: string }) {
         return fileException.notFound();
       }
 
-      const filePath = join(process.cwd(), "public", file_url);
+      const filePath = join(process.cwd(), ".", file_url);
 
       await unlink(filePath);
 
@@ -197,7 +197,7 @@ export async function deleteFileAction({ file_url }: { file_url: string }) {
 
       const directoryPath = join(
         process.cwd(),
-        "public",
+        ".",
         file_url.split("/").slice(0, -1).join("/")
       );
 

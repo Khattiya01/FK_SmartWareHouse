@@ -17,7 +17,9 @@ const ContentProduct = (props: {
       <Text className=" text-[22px] font-bold">รายละเอียดประกาศ</Text>
       <div className=" grid grid-cols-3 gap-3">
         <Text className=" custom-pre col-span-3 sm:col-span-2">
-          {product.description && product?.description != null ? product?.description : "-"}
+          {product.description && product?.description != null
+            ? product?.description
+            : "-"}
         </Text>
         <Box className="col-span-3 sm:col-span-1">
           <Flex
@@ -35,7 +37,9 @@ const ContentProduct = (props: {
             />
             <ContactItem
               icon={<CiMobile3 size={"16px"} />}
-              desc={product?.phone && product?.phone != null ? product?.phone : "-"}
+              desc={
+                product?.phone && product?.phone != null ? product?.phone : "-"
+              }
             />
           </Flex>
         </Box>
@@ -43,7 +47,11 @@ const ContentProduct = (props: {
       <Text className=" text-[22px] font-bold">รูปแผนที่</Text>
       <Box className="relative w-full h-[300px]">
         <Image
-          src={product.map_image ?? "/images/map_company.png"}
+          src={
+            product.map_image
+              ? `/api/serve-file?filename=${product.map_image}`
+              : "/images/map_company.png"
+          }
           alt="map_company"
           layout="fill"
           objectFit="cover"

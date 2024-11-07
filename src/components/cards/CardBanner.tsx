@@ -14,7 +14,7 @@ const CardBanner = (props: { name: string; image: string | undefined }) => {
       className=" relative h-[270px] sm:h-[314px] max-h-[314px] overflow-hidden"
     >
       <Image
-        src={image ?? "/images/d11.jpeg"}
+        src={image ? `/api/serve-file?filename=${image}` : "/images/d11.jpeg"}
         alt="d5"
         layout="fill"
         objectFit="cover"

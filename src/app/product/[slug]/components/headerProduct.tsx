@@ -35,7 +35,11 @@ const HeaderProduct = (props: {
         className=" relative h-[280px] sm:h-[380px] overflow-hidden"
       >
         <Image
-          src={image_url ?? "/images/d11.jpeg"}
+          src={
+            image_url
+              ? `/api/serve-file?filename=${image_url}`
+              : "/images/d11.jpeg"
+          }
           alt="d5"
           layout="fill"
           objectFit="cover"

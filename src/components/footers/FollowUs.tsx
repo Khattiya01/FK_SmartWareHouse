@@ -49,7 +49,7 @@ const FollowUs = async ({
         <Flex className="h-full" align={"center"}>
           <Box className="relative w-[240px] h-[48px] ">
             <Image
-              src={logoURL}
+              src={`/api/serve-file?filename=${logoURL}`}
               alt="logo-main-website"
               layout="fill"
               objectFit="cover"

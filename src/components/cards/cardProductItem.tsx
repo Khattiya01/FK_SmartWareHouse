@@ -21,7 +21,11 @@ const CardProductItem = (props: { product: SelectProduct }) => {
       >
         <Box className="relative w-full h-[200px] ">
           <Image
-            src={product.main_image ?? "/images/d7.jpg"}
+            src={
+              product.main_image
+                ? `/api/serve-file?filename=${product.main_image}`
+                : "/images/d7.jpg"
+            }
             alt="d7.jpg"
             layout="fill"
             objectFit="cover"

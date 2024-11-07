@@ -64,6 +64,7 @@ export function ManageLogo() {
     if (activeLogoData) {
       handleCloseDialogDelete();
       setActiveLogoData(undefined);
+      console.log("activeLogoData", activeLogoData)
       await deleteLogoAction({
         id: activeLogoData.id,
         file_url: activeLogoData.image_url,

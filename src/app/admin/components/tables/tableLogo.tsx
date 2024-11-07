@@ -52,7 +52,7 @@ export function TableLogo({
                   className=" relative max-w-[320px] w-full h-[80px] "
                 >
                   <Image
-                    src={item.image_url}
+                    src={`/api/serve-file?filename=${item.image_url}`}
                     alt="logo"
                     layout="fill"
                     objectFit="cover"

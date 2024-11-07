@@ -12,8 +12,11 @@ export const fetchFileByURL = async (url: string) => {
 export const fetchImages = async (images: SelectFile[]) => {
   const newImagesPromises = images.map(async (image) => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${image.file_url}`
+      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/serve-file?filename=${image.file_url}`
     );
+    // const response = await fetch(
+    //   `${process.env.NEXT_PUBLIC_FRONTEND_URL}/${image.file_url}`
+    // );
     const blobData = await response.blob();
     const blobToFile = new File([blobData], image.file_name, {
       type: image.file_type,

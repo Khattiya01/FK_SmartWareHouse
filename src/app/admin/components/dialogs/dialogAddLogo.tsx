@@ -234,19 +234,12 @@ const DialogAddLogo = ({
 
   const fetchFileData = async (data: Selectlogo) => {
     setIsLoadingData(true);
-    const preData = {
-      id: data.id,
-      created_at: data.created_at,
-      updated_at: data.updated_at,
-    };
     const image_url = data.image_url;
     const responseImage_url = await fetchFileByURL(image_url);
     const responseFullImage_url = await fetchImages(responseImage_url.result.data);
     if (responseFullImage_url && responseFullImage_url?.length > 0) {
       setValue("image_url", responseFullImage_url);
     }
-
-    console.log("preData", preData);
     setIsLoadingData(false);
   };
 

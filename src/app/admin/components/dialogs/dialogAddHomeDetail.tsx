@@ -472,7 +472,6 @@ const DialogHomeDetail = ({
                               acceptOption={{
                                 "image/png": [".png"],
                                 "image/jpeg": [".jpeg"],
-                                "image/webp": [".webp"],
                               }}
                             />
                           </Box>
@@ -560,7 +559,6 @@ const DialogHomeDetail = ({
                               acceptOption={{
                                 "image/png": [".png"],
                                 "image/jpeg": [".jpeg"],
-                                "image/webp": [".webp"],
                               }}
                               multiple={false}
                             />

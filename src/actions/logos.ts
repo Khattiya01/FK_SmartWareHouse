@@ -19,6 +19,7 @@ import {
   getLogosIsActived,
 } from "@/services/logo";
 import { revalidatePath } from "next/cache";
+import { deleteFileAction } from "./files";
 
 export async function createLogoAction(formData: FormData) {
   try {
@@ -175,8 +176,12 @@ export async function deleteLogoAction({
       if (!(responseGetFilesByUrl && responseGetFilesByUrl.length > 0)) {
         return fileException.notFound();
       }
-
-      await deleteLogos(id);
+      const allFilesURL = file_url.split(",");
+      await deleteLogos(id).then(async () => {
+        for (const file of allFilesURL) {
+          await deleteFileAction({ file_url: file });
+        }
+      });
 
       revalidatePath("/admin");
       return {

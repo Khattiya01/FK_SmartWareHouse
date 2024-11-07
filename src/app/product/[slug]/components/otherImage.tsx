@@ -12,7 +12,7 @@ const OtherImage = (props: { otherImage: string[] | undefined }) => {
           otherImage.map((src, index) => (
             <div key={index} className="relative aspect-square">
               <Image
-                src={src}
+                src={`/api/serve-file?filename=${src}`}
                 alt={`Image ${index}`}
                 layout="fill"
                 objectFit="cover"
