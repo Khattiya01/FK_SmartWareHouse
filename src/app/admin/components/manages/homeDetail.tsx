@@ -122,8 +122,7 @@ export function ManageHomeDetail() {
     const formData = new FormData();
     formData.append("is_active", isActive ? "true" : "false");
     await updateIsActiveHomePageDetailAction({ formData, id })
-      .then((res) => {
-        console.log(res?.message);
+      .then(() => {
         refetchHomeDetail();
       })
       .catch((err) => {

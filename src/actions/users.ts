@@ -85,7 +85,6 @@ export async function updateUserAction({
     const username = formData.get("username")?.toString();
     const email = formData.get("email")?.toString();
     const role = formData.get("role")?.toString();
-    console.log("role", role);
     const validatedFields = updateUserSchema.safeParse({
       id,
       username,
@@ -93,7 +92,6 @@ export async function updateUserAction({
       role,
     });
 
-    console.log("validatedFields", validatedFields.error);
     if (!validatedFields.success) {
       return userException.updateFail();
     }

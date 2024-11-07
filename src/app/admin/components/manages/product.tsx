@@ -130,8 +130,7 @@ export function ManageProduct() {
     const formData = new FormData();
     formData.append("is_active", isActive ? "true" : "false");
     await updateIsActiveProductAction({ formData, id })
-      .then((res) => {
-        console.log(res?.message);
+      .then(() => {
         refetchProduct();
       })
       .catch((err) => {

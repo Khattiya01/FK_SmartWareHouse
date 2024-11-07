@@ -30,9 +30,7 @@ export async function POST(request: Request) {
         const userId = jwtPayload.userId;
         const hashedPassword = await hashPassword(password);
         await editPasswordUser({ password: hashedPassword, id: userId })
-          .then((res) => {
-            console.log("res", res);
-          })
+          .then(() => {})
           .catch((err) => {
             responseJson.status = 400;
             responseJson.message = err.message;

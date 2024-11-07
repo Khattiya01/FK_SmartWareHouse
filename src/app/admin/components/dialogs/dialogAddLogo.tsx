@@ -96,8 +96,6 @@ const DialogAddLogo = ({
       }
     }
 
-    console.log("isErrorFileSize", isErrorFileSize);
-    console.log("mockFiles", mockFiles);
     setIsLoadingUploadFile(false);
 
     if (isErrorFileSize) {
@@ -121,8 +119,6 @@ const DialogAddLogo = ({
   };
 
   const onSubmitHandler = async (payload: CreateLogoType) => {
-    console.log("payload", payload);
-
     const formData = new FormData();
 
     Array.from(payload.image_url).map((file) => {
@@ -145,7 +141,6 @@ const DialogAddLogo = ({
       }
       await updateLogoAction({ formData: fd, id: data.id })
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
 
@@ -183,7 +178,6 @@ const DialogAddLogo = ({
     if (dialogType === "create") {
       await createLogoAction(fd)
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
 

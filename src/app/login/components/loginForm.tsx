@@ -40,7 +40,7 @@ const LoginForm = () => {
     await signIn("credentials", {
       username: data.username,
       password: data.password,
-      callbackUrl: "/admin/manage-home-detail",
+      callbackUrl: "/admin/manage-product",
     })
       .then(() => {
         setIsLoadingLogin(false);

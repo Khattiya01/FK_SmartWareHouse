@@ -5,7 +5,6 @@ import Link from "next/link";
 
 const CardProductItem = (props: { product: SelectProduct }) => {
   const { product } = props;
-  console.log("product", product);
   return (
     <Link href={`/product/${product?.product_id}`}>
       <Flex

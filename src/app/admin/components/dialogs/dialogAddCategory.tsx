@@ -98,8 +98,6 @@ const DialogAddCategory = ({
       }
     }
 
-    console.log("isErrorFileSize", isErrorFileSize);
-    console.log("mockFiles", mockFiles);
     setIsLoadingUploadFile(false);
 
     if (isErrorFileSize) {
@@ -123,7 +121,6 @@ const DialogAddCategory = ({
   };
 
   const onSubmitHandler = async (payload: CreatCategoryType) => {
-    console.log("payload", payload);
 
     const formData = new FormData();
 
@@ -149,7 +146,6 @@ const DialogAddCategory = ({
       }
       await updateCategoryAction({ formData: fd, id: data.id })
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
 
@@ -186,7 +182,6 @@ const DialogAddCategory = ({
     if (dialogType === "create") {
       await createCategoryAction(fd)
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
 
@@ -257,7 +252,6 @@ const DialogAddCategory = ({
     const responseFullImage_url = await fetchImages(responseImage_url.result.data);
     preData.image_url.push(responseFullImage_url[0]);
 
-    console.log("preData", preData);
 
     setValue("name", data.name);
     setValue("abbreviation", data.abbreviation);

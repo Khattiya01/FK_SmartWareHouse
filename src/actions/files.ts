@@ -206,7 +206,6 @@ export async function deleteFileAction({ file_url }: { file_url: string }) {
       if (filesInDirectory.length === 0) {
         await rmdir(directoryPath);
       }
-      console.log("deleteFiles", file_url);
       revalidatePath("/admin");
       return {
         success: true,

@@ -68,7 +68,6 @@ export async function updatePrivacyAndPolicyAction({
       privacy_policy,
     });
 
-    console.log("validatedFields", validatedFields.error);
     if (!validatedFields.success) {
       return privacyAndPolicyException.updateFail();
     }

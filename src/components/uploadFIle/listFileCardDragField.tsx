@@ -61,7 +61,6 @@ const ListFileCardDragField = (props: ListFileCardFieldProps) => {
                   <Box
                     onClick={() => {
                       onClickDelete(file);
-                      console.log("delete file");
                     }}
                     style={{
                       position: "absolute",
@@ -187,7 +186,6 @@ const CardImage = ({ imageURL }: { imageURL: string }) => {
   );
 };
 const CardLogo = ({ imageURL }: { imageURL: string }) => {
-  console.log("imageURL", imageURL)
   return (
     <Box
       style={{

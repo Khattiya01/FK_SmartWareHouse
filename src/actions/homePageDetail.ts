@@ -43,12 +43,6 @@ export async function createHomePageDetailAction(formData: FormData) {
     if (!validatedFields.success) {
       return homePageDetailException.createError("The Image URL is incorrect.");
     }
-    console.log("content_01_title", content_01_title)
-    console.log("content_01_detail", content_01_detail)
-    console.log("content_02_detail", content_02_detail)
-    console.log("content_02_image_url", content_02_image_url)
-    console.log("banner_image_url", banner_image_url)
-    console.log("contact_image_url", contact_image_url)
     if (
       content_01_title &&
       content_01_detail &&
@@ -167,7 +161,6 @@ export async function updateIsActiveHomePageDetailAction({
       id,
       is_active: is_active === "true" ? true : false,
     });
-    console.log("validatedFields", validatedFields.error);
     if (!validatedFields.success) {
       return homePageDetailException.updateFail();
     }

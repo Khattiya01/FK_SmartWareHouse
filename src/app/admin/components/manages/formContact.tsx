@@ -124,7 +124,6 @@ export function ManageFormContact() {
         Title: item.title,
         Message: item.message,
       }));
-      console.log("dataExcel", dataExcel);
       ExportExcelFile({ data: dataExcel, fileName: "form-contact" });
     });
   };

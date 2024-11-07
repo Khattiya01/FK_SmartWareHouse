@@ -44,7 +44,7 @@ const TermContent = ({
           },
         }).then(() => {
           localStorage.setItem("term", "true");
-          router.push("/admin");
+          router.push("/admin/manage-product");
         });
         setIsLoading(false);
       })

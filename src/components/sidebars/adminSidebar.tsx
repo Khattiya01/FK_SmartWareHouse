@@ -1,3 +1,5 @@
+"use client"
+
 import { IoHomeOutline } from "react-icons/io5";
 import { SidebarItem } from "./sidebarItem";
 import { SidebarItemLogout } from "./sidebarItemLogout";
@@ -7,10 +9,13 @@ import { PiGooglePhotosLogo } from "react-icons/pi";
 import { BiCategory } from "react-icons/bi";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { MdOutlinePrivacyTip } from "react-icons/md";
+import { useSession } from "next-auth/react";
+import { ROLE } from "@/types/role";
 
 const AdminSidebar = () => {
   // states
-  const ListSidebarItems: {
+  const { data: session } = useSession();
+  let ListSidebarItems: {
     icon: JSX.Element;
     name: string;
     path: string;
@@ -57,6 +62,15 @@ const AdminSidebar = () => {
       path: `/admin/manage-privacy-policy`,
     },
   ];
+  if (session?.user.role !== ROLE[0]) {
+    ListSidebarItems = [
+      {
+        icon: <RiProductHuntLine style={{ width: "24px", height: "24px" }} />,
+        name: "จัดการผลิตภัณฑ์",
+        path: `/admin/manage-product`,
+      },
+    ];
+  }
 
   return (
     <section

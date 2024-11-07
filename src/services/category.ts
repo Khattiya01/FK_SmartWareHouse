@@ -24,8 +24,6 @@ export const getCategory = async ({
   const offset = (pageNumber - 1) * size;
 
   try {
-    console.log("test");
-    
     const categories = await db
       .select()
       .from(categoryTable)

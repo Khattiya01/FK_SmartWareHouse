@@ -103,8 +103,6 @@ const DialogAddContact = ({
       }
     }
 
-    console.log("isErrorFileSize", isErrorFileSize);
-    console.log("mockFiles", mockFiles);
     setIsLoadingUploadFile(false);
 
     if (isErrorFileSize) {
@@ -140,7 +138,6 @@ const DialogAddContact = ({
   };
 
   const onSubmitHandler = async (payload: CreateContactType) => {
-    console.log("payload", payload);
 
     const formData = new FormData();
     const formData2 = new FormData();
@@ -189,7 +186,6 @@ const DialogAddContact = ({
     if (dialogType === "edit" && data?.id) {
       await updateContactAction({ formData: fd, id: data.id })
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
 
@@ -226,7 +222,6 @@ const DialogAddContact = ({
     if (dialogType === "create") {
       await createContactAction(fd)
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
           if (res?.success) {
@@ -336,7 +331,6 @@ const DialogAddContact = ({
       preData.map_image.push(responseFullmap_image_url[0]);
     }
 
-    console.log("preData", preData);
 
     setValue("address", data.address ?? "");
     setValue("province", data.province ?? "");

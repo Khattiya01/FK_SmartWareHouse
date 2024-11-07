@@ -16,9 +16,13 @@ export default async function AdminManagePage({
 }: {
   params: { slug: string };
 }) {
-  await SecurePage({ role: ROLE.admin });
-  await CheckTermPagePage();
   const manageName = params.slug;
+  if (manageName === "manage-product") {
+    await SecurePage({});
+  } else {
+    await SecurePage({ role: ROLE.admin });
+  }
+  await CheckTermPagePage();
 
   return (
     <Flex width={"100%"} direction={"column"} gap={"4"} p={"4"}>

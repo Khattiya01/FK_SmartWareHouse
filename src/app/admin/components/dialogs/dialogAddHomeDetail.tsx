@@ -103,8 +103,6 @@ const DialogHomeDetail = ({
       }
     }
 
-    console.log("isErrorFileSize", isErrorFileSize);
-    console.log("mockFiles", mockFiles);
     setIsLoadingUploadFile(false);
 
     if (isErrorFileSize) {
@@ -152,7 +150,6 @@ const DialogHomeDetail = ({
   };
 
   const onSubmitHandler = async (payload: CreatHomePageDetailType) => {
-    console.log("payload", payload);
 
     const formData1 = new FormData();
     const formData2 = new FormData();
@@ -200,7 +197,6 @@ const DialogHomeDetail = ({
       }
       await updateHomePageDetailAction({ formData: fd, id: data.id })
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
 
@@ -238,7 +234,6 @@ const DialogHomeDetail = ({
     if (dialogType === "create") {
       await createHomePageDetailAction(fd)
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
 

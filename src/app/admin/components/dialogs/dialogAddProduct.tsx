@@ -107,8 +107,6 @@ const DialogAddProduct = ({
       }
     }
 
-    console.log("isErrorFileSize", isErrorFileSize);
-    console.log("mockFiles", mockFiles);
     setIsLoadingUploadFile(false);
 
     if (isErrorFileSize) {
@@ -155,7 +153,6 @@ const DialogAddProduct = ({
     setValue("others_image", newFile);
   };
   const onSubmitHandler = async (payload: CreatProductType) => {
-    console.log("payload", payload);
     const formData1 = new FormData();
     const formData3 = new FormData();
     const formData4 = new FormData();
@@ -206,7 +203,6 @@ const DialogAddProduct = ({
     if (dialogType === "create") {
       await createProductAction(fd)
         .then((res) => {
-          console.log(res?.message);
           setIsLoadingSubmit(false);
           clearData();
 
@@ -249,9 +245,7 @@ const DialogAddProduct = ({
       }
       await updateProductAction({ formData: fd, id: data.id })
         .then((res) => {
-          console.log(res?.success, res?.message);
           if (res?.success) {
-            console.log(res?.message);
             setIsLoadingSubmit(false);
             clearData();
   

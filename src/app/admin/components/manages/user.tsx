@@ -106,8 +106,7 @@ export function ManageUser() {
     const formData = new FormData();
     formData.append("is_active", isActive ? "true" : "false");
     await updateIsActiveUserAction({ formData, id })
-      .then((res) => {
-        console.log(res?.message);
+      .then(() => {
         refetchUser();
       })
       .catch((err) => {

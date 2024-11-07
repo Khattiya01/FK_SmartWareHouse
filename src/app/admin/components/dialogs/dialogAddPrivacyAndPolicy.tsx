@@ -56,7 +56,6 @@ const DialogAddPrivacyAndPolicy = ({
   });
 
   const onSubmitHandler = async (payload: InsertprivacyAndPolicy) => {
-    console.log("payload", payload);
     const fd = new FormData();
     fd.append("privacy_policy", payload.privacy_policy);
 
@@ -64,7 +63,6 @@ const DialogAddPrivacyAndPolicy = ({
     if (dialogType === "edit" && data?.id) {
       await updatePrivacyAndPolicyAction({ formData: fd, id: data.id })
         .then((res) => {
-          console.log(res?.message);
           if (res?.success) {
             setIsLoadingSubmit(false);
             onSuccess();
@@ -102,7 +100,6 @@ const DialogAddPrivacyAndPolicy = ({
     if (dialogType === "create") {
       await createPrivacyAndPolicyAction(fd)
         .then((res) => {
-          console.log(res?.message);
           if (res?.success) {
             setIsLoadingSubmit(false);
             onSuccess();
@@ -158,7 +155,6 @@ const DialogAddPrivacyAndPolicy = ({
       privacy_policy: data.privacy_policy,
     };
 
-    console.log("preData", preData);
 
     setValue("privacy_policy", preData.privacy_policy);
     setIsLoadingData(false);
@@ -169,8 +165,6 @@ const DialogAddPrivacyAndPolicy = ({
       fetchFileData(data);
     }
   }, [data, isOpen]);
-
-  console.log(errors);
 
   return (
     <>

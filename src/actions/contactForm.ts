@@ -29,8 +29,6 @@ export async function createContactFormAction(formData: FormData) {
       message: message,
     });
 
-    console.log("validatedFields", validatedFields);
-
     if (!validatedFields.success) {
       return contactFormException.misMatchData();
     }

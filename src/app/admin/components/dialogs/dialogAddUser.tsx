@@ -53,7 +53,6 @@ const DialogAddUser = ({
   });
 
   const onSubmitHandler = async (payload: CreateUserType) => {
-    console.log("payload", payload);
     const fd = new FormData();
     fd.append("username", payload.username);
     fd.append("password", payload.password);
@@ -64,7 +63,6 @@ const DialogAddUser = ({
     if (dialogType === "edit" && data?.id) {
       await updateUserAction({ formData: fd, id: data.id })
         .then((res) => {
-          console.log(res?.message);
           if (res?.success) {
             setIsLoadingSubmit(false);
             onSuccess();
@@ -102,7 +100,6 @@ const DialogAddUser = ({
     if (dialogType === "create") {
       await createUserAction(fd)
         .then((res) => {
-          console.log(res?.message);
           if (res?.success) {
             setIsLoadingSubmit(false);
             onSuccess();
@@ -160,7 +157,6 @@ const DialogAddUser = ({
       role: data.role,
     };
 
-    console.log("preData", preData);
 
     setValue("username", preData.username);
     setValue("email", preData.email);
@@ -172,8 +168,6 @@ const DialogAddUser = ({
       fetchFileData(data);
     }
   }, [data, isOpen]);
-
-  console.log(errors);
 
   return (
     <>

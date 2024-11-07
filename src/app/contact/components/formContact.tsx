@@ -24,7 +24,6 @@ const FormContact = () => {
   });
 
   const onSubmit = async (data: InsertContactForm) => {
-    console.log("data", data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("phone", data.phone);
@@ -32,7 +31,6 @@ const FormContact = () => {
     formData.append("lineId", data.lineId);
     formData.append("message", data.message);
     formData.append("email", data.email);
-    console.log("data", data);
     await createContactFormAction(formData)
       .then((res) => {
         if (res?.success) {

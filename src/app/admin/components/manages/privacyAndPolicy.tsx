@@ -109,8 +109,7 @@ export function ManagePrivacyAndPolicy() {
     const formData = new FormData();
     formData.append("is_active", isActive ? "true" : "false");
     await updateIsActivePrivacyAndPolicyAction({ formData, id })
-      .then((res) => {
-        console.log(res?.message);
+      .then(() => {
         refetchPrivacyAndPolicy();
       })
       .catch((err) => {

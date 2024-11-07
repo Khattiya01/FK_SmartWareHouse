@@ -55,8 +55,6 @@ export async function createContactAction(formData: FormData) {
     };
     const validatedFields = insertContactSchema.safeParse(payload);
 
-    console.log("validatedFields", validatedFields);
-
     if (!validatedFields.success) {
       return contactException.misMatchData();
     }
@@ -139,7 +137,6 @@ export async function updateContactAction({
     };
     const validatedFields = insertContactSchema.safeParse(payload);
 
-    console.log("validatedFields", validatedFields);
     if (!validatedFields.success) {
       return contactException.updateFail();
     }

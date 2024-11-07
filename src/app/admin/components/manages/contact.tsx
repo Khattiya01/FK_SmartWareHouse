@@ -110,8 +110,7 @@ export function ManageContact() {
     const formData = new FormData();
     formData.append("is_active", isActive ? "true" : "false");
     await updateIsActiveContactAction({ formData, id })
-      .then((res) => {
-        console.log(res?.message);
+      .then(() => {
         refetchContact();
       })
       .catch((err) => {

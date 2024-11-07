@@ -64,7 +64,6 @@ export function ManageLogo() {
     if (activeLogoData) {
       handleCloseDialogDelete();
       setActiveLogoData(undefined);
-      console.log("activeLogoData", activeLogoData)
       await deleteLogoAction({
         id: activeLogoData.id,
         file_url: activeLogoData.image_url,
@@ -103,8 +102,7 @@ export function ManageLogo() {
     const formData = new FormData();
     formData.append("is_active", isActive ? "true" : "false");
     await updateIsActiveLogoAction({ formData, id })
-      .then((res) => {
-        console.log(res?.message);
+      .then(() => {
         refetchLogo();
       })
       .catch((err) => {
