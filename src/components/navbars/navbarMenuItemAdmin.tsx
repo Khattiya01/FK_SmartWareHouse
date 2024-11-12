@@ -10,7 +10,10 @@ const NavbarMenuItemAdmin = (props: { title: string; href: string }) => {
   const { title, href } = props;
   const { data: session } = useSession();
 
-  if (session && session.user.role === ROLE[0]) {
+  if (
+    session &&
+    (session.user.role === ROLE[0] || session.user.role === ROLE[1])
+  ) {
     return (
       <Link href={href} className=" h-full">
         <Flex

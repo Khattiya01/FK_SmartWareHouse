@@ -38,7 +38,10 @@ export const NavbarMenuMobile = (props: {
       >
         <ListMenu
           category={category}
-          isAdmin={session && session.user.role === ROLE[0]}
+          isAdmin={
+            session &&
+            (session.user.role === ROLE[0] || session.user.role === ROLE[1])
+          }
         />
       </div>
     </>
