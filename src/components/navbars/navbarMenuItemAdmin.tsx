@@ -6,21 +6,20 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
-const NavbarMenuItemAdmin = (props: { title: string; href: string }) => {
-  const { title, href } = props;
+const NavbarMenuItemAdmin = () => {
   const { data: session } = useSession();
-
   if (
     session &&
     (session.user.role === ROLE[0] || session.user.role === ROLE[1])
   ) {
+    const pathName = session.user.role === ROLE[0] ? "/admin/manage-home-detail" : "/admin/manage-product";
     return (
-      <Link href={href} className=" h-full">
+      <Link href={pathName} className=" h-full">
         <Flex
           className=" cursor-pointer hover:text-blue-500 h-full px-2"
           align={"center"}
         >
-          <Text>{title}</Text>
+          <Text>ADMIN</Text>
         </Flex>
       </Link>
     );

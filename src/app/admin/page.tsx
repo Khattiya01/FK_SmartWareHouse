@@ -6,6 +6,6 @@ import { CheckTermPagePage } from "@/utils/check-term-page";
 export default async function Adminpage() {
   await SecurePage({ role: ROLE.admin });
   await CheckTermPagePage();
-  await redirect("/admin//manage-home-detail");
+  await redirect("/admin/manage-home-detail");
   return <></>;
 }

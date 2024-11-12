@@ -71,7 +71,7 @@ const NavbarMenu = () => {
       <NavbarMenuItem title={"หน้าแรก"} href={"/"} />
       <NavbarMenuItemList />
       <NavbarMenuItem title={"ติดต่อเรา"} href={"/contact"} />
-      <NavbarMenuItemAdmin title={"ADMIN"} href={"/admin"} />
+      <NavbarMenuItemAdmin  />
     </div>
   );
 };
