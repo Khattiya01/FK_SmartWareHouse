@@ -121,7 +121,6 @@ const DialogAddCategory = ({
   };
 
   const onSubmitHandler = async (payload: CreatCategoryType) => {
-
     const formData = new FormData();
 
     Array.from(payload.image_url).map((file) => {
@@ -140,16 +139,15 @@ const DialogAddCategory = ({
 
     setIsLoadingSubmit(true);
     if (dialogType === "edit" && data?.id) {
-      const All_file_url = data.image_url;
-      for (const file of All_file_url.split(",")) {
-        await deleteFileAction({ file_url: file });
-      }
       await updateCategoryAction({ formData: fd, id: data.id })
-        .then((res) => {
+        .then(async (res) => {
           setIsLoadingSubmit(false);
           clearData();
-
           if (res?.success) {
+            const All_file_url = data.image_url;
+            for (const file of All_file_url.split(",")) {
+              await deleteFileAction({ file_url: file });
+            }
             onSuccess();
             showToast(
               "แก้ไขหมวดหมู่สำเร็จ",
@@ -202,7 +200,6 @@ const DialogAddCategory = ({
               typeStatusTaost.error
             );
           }
-
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -249,9 +246,10 @@ const DialogAddCategory = ({
     };
     const image_url = data.image_url;
     const responseImage_url = await fetchFileByURL(image_url);
-    const responseFullImage_url = await fetchImages(responseImage_url.result.data);
+    const responseFullImage_url = await fetchImages(
+      responseImage_url.result.data
+    );
     preData.image_url.push(responseFullImage_url[0]);
-
 
     setValue("name", data.name);
     setValue("abbreviation", data.abbreviation);

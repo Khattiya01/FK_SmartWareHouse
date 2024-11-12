@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ButtonDefault from "@/components/buttons/buttonDefault";
-import { createFileAction } from "@/actions/files";
+import { createFileAction, deleteFileAction } from "@/actions/files";
 import { SelectContact } from "@/db/schemas";
 import { Box, Spinner, Text } from "@radix-ui/themes";
 import ButtonOutline from "@/components/buttons/buttonOutline";
@@ -138,7 +138,6 @@ const DialogAddContact = ({
   };
 
   const onSubmitHandler = async (payload: CreateContactType) => {
-
     const formData = new FormData();
     const formData2 = new FormData();
 
@@ -185,11 +184,15 @@ const DialogAddContact = ({
     setIsLoadingSubmit(true);
     if (dialogType === "edit" && data?.id) {
       await updateContactAction({ formData: fd, id: data.id })
-        .then((res) => {
+        .then(async (res) => {
           setIsLoadingSubmit(false);
           clearData();
 
           if (res?.success) {
+            const All_file_url = data.bg_image + "," + data.map_image;
+            for (const file of All_file_url.split(",")) {
+              await deleteFileAction({ file_url: file });
+            }
             onSuccess();
             showToast(
               "แก้ไขการติดต่อสำเร็จ",
@@ -331,7 +334,6 @@ const DialogAddContact = ({
       preData.map_image.push(responseFullmap_image_url[0]);
     }
 
-
     setValue("address", data.address ?? "");
     setValue("province", data.province ?? "");
     setValue("district", data.district ?? "");
@@ -370,7 +372,7 @@ const DialogAddContact = ({
           ) : (
             <form
               onSubmit={handleSubmit(onSubmitHandler)}
-                className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
+              className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
             >
               <div className=" flex flex-col w-full pl-1 pr-1  ">
                 <div className=" flex gap-6 flex-col ">

@@ -15,6 +15,7 @@ import {
 
 import { revalidatePath } from "next/cache";
 import { deleteFileAction } from "./files";
+import { getProductsByCategoryId } from "@/services/product";
 
 export async function createCategoryAction(formData: FormData) {
   try {
@@ -82,17 +83,25 @@ export async function updateCategoryAction({
 
     if (name && image_url && abbreviation) {
       const responseCategoryById = await getCategoryById(id);
+      const responseProductsByCategoryId = await getProductsByCategoryId(id);
 
       if (!responseCategoryById) {
         return categoryException.createError("ID not found");
       }
 
+      if (responseProductsByCategoryId && responseProductsByCategoryId?.length > 0 && abbreviation !== responseCategoryById.abbreviation) {
+        return categoryException.createError(
+          "This category is associated with existing products and cannot be updated."
+        );
+      }
+      
       const payload = {
         id: id,
         name: name,
         image_url: image_url,
         abbreviation: abbreviation,
       };
+
       await editCategory(payload);
 
       revalidatePath("/", "layout");
@@ -130,8 +139,15 @@ export async function deleteCategoryAction({
     }
 
     if (id) {
-      const allFilesURL = file_url.split(",");
+      const responseProductsByCategoryId = await getProductsByCategoryId(id);
 
+      if (responseProductsByCategoryId && responseProductsByCategoryId?.length > 0) {
+        return categoryException.createError(
+          "This category is associated with existing products and cannot be deleted."
+        );
+      }
+
+      const allFilesURL = file_url.split(",");
       await deleteCategory(id).then(async () => {
         for (const file of allFilesURL) {
           await deleteFileAction({ file_url: file });

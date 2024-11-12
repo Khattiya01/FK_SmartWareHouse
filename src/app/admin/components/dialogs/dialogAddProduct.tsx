@@ -223,7 +223,6 @@ const DialogAddProduct = ({
               typeStatusTaost.error
             );
           }
-
         })
         .catch((err) => {
           console.error("Error create product:", err?.message);
@@ -238,18 +237,22 @@ const DialogAddProduct = ({
     }
 
     if (dialogType === "edit" && data?.id) {
-      const All_file_url =
-        data.main_image + "," + data.map_image + "," + data.others_image;
-      for (const file of All_file_url.split(",")) {
-        await deleteFileAction({ file_url: file });
-      }
       await updateProductAction({ formData: fd, id: data.id })
-        .then((res) => {
+        .then(async (res) => {
           if (res?.success) {
             setIsLoadingSubmit(false);
             clearData();
-  
+
             if (res?.success) {
+              const All_file_url =
+                data.main_image +
+                "," +
+                data.map_image +
+                "," +
+                data.others_image;
+              for (const file of All_file_url.split(",")) {
+                await deleteFileAction({ file_url: file });
+              }
               onSuccess();
               showToast(
                 "แก้ไขผลิตภัณฑ์สำเร็จ",
@@ -266,7 +269,6 @@ const DialogAddProduct = ({
                 typeStatusTaost.error
               );
             }
-
           } else {
             setIsLoadingSubmit(false);
             onCancel();
@@ -308,25 +310,25 @@ const DialogAddProduct = ({
 
   const fetchFileData = async (data: SelectProduct) => {
     setIsLoadingData(true);
-    const preData : {
-      id: string,
-      created_at: Date | null,
-      updated_at: Date | null,
-      category_id: string,
-      name:string,
-      description: string | null,
-      price: string | null,
-      address: string | null,
-      province: string | null,
-      district: string | null,
-      sub_district: string | null,
-      postal_code: string | null,
-      tel: string | null,
-      phone: string | null,
-      remark: string | null,
-      main_image: blobToFile[],
-      map_image: blobToFile[],
-      others_image: blobToFile[],
+    const preData: {
+      id: string;
+      created_at: Date | null;
+      updated_at: Date | null;
+      category_id: string;
+      name: string;
+      description: string | null;
+      price: string | null;
+      address: string | null;
+      province: string | null;
+      district: string | null;
+      sub_district: string | null;
+      postal_code: string | null;
+      tel: string | null;
+      phone: string | null;
+      remark: string | null;
+      main_image: blobToFile[];
+      map_image: blobToFile[];
+      others_image: blobToFile[];
     } = {
       id: data.id,
       created_at: data.created_at,
@@ -403,7 +405,7 @@ const DialogAddProduct = ({
       if (data) {
         fetchFileData(data);
       }
-      fetchCategory({page: "1", pageSize: "100000"}).then((category) => {
+      fetchCategory({ page: "1", pageSize: "100000" }).then((category) => {
         const ListOption: SetStateAction<{ value: string; label: string }[]> =
           [];
         category.result.data?.map((item) => {
@@ -433,7 +435,7 @@ const DialogAddProduct = ({
           ) : (
             <form
               onSubmit={handleSubmit(onSubmitHandler)}
-               className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
+              className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
             >
               <div className=" flex flex-col w-full pl-1 pr-1 ">
                 <div className=" flex gap-6 flex-col ">

@@ -150,7 +150,6 @@ const DialogHomeDetail = ({
   };
 
   const onSubmitHandler = async (payload: CreatHomePageDetailType) => {
-
     const formData1 = new FormData();
     const formData2 = new FormData();
     const formData3 = new FormData();
@@ -186,21 +185,21 @@ const DialogHomeDetail = ({
     }
     setIsLoadingSubmit(true);
     if (dialogType === "edit" && data?.id) {
-      const All_file_url =
-        data.banner_image_url +
-        "," +
-        data.contact_image_url +
-        "," +
-        data.content_02_image_url;
-      for (const file of All_file_url.split(",")) {
-        await deleteFileAction({ file_url: file });
-      }
       await updateHomePageDetailAction({ formData: fd, id: data.id })
-        .then((res) => {
+        .then(async (res) => {
           setIsLoadingSubmit(false);
           clearData();
 
           if (res?.success) {
+            const All_file_url =
+              data.banner_image_url +
+              "," +
+              data.contact_image_url +
+              "," +
+              data.content_02_image_url;
+            for (const file of All_file_url.split(",")) {
+              await deleteFileAction({ file_url: file });
+            }
             onSuccess();
             showToast(
               "แก้ไขรายละเอียดหน้าแรกสำเร็จ",
@@ -217,7 +216,6 @@ const DialogHomeDetail = ({
               typeStatusTaost.error
             );
           }
-
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -254,7 +252,6 @@ const DialogHomeDetail = ({
               typeStatusTaost.error
             );
           }
-
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -375,7 +372,7 @@ const DialogHomeDetail = ({
           ) : (
             <form
               onSubmit={handleSubmit(onSubmitHandler)}
-               className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
+              className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
             >
               <div className=" flex flex-col w-full pl-1 pr-1  ">
                 <div className=" flex gap-6 flex-col ">

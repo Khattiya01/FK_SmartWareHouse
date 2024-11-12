@@ -135,16 +135,16 @@ const DialogAddLogo = ({
 
     setIsLoadingSubmit(true);
     if (dialogType === "edit" && data?.id) {
-      const All_file_url = data.image_url;
-      for (const file of All_file_url.split(",")) {
-        await deleteFileAction({ file_url: file });
-      }
       await updateLogoAction({ formData: fd, id: data.id })
-        .then((res) => {
+        .then(async (res) => {
           setIsLoadingSubmit(false);
           clearData();
 
           if (res?.success) {
+            const All_file_url = data.image_url;
+            for (const file of All_file_url.split(",")) {
+              await deleteFileAction({ file_url: file });
+            }
             onSuccess();
             showToast(
               "แก้ไขโลโก้สำเร็จ",
@@ -161,7 +161,6 @@ const DialogAddLogo = ({
               typeStatusTaost.error
             );
           }
-
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -198,7 +197,6 @@ const DialogAddLogo = ({
               typeStatusTaost.error
             );
           }
-
         })
         .catch((err) => {
           console.error("Error create logo:", err?.message);
@@ -230,7 +228,9 @@ const DialogAddLogo = ({
     setIsLoadingData(true);
     const image_url = data.image_url;
     const responseImage_url = await fetchFileByURL(image_url);
-    const responseFullImage_url = await fetchImages(responseImage_url.result.data);
+    const responseFullImage_url = await fetchImages(
+      responseImage_url.result.data
+    );
     if (responseFullImage_url && responseFullImage_url?.length > 0) {
       setValue("image_url", responseFullImage_url);
     }
@@ -255,7 +255,7 @@ const DialogAddLogo = ({
           ) : (
             <form
               onSubmit={handleSubmit(onSubmitHandler)}
-               className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
+              className="w-full text-xl sm:h-[calc(100vh-216px)] h-[calc(100vh-126px)] overflow-y-auto flex flex-col justify-between"
             >
               <div className=" flex flex-col w-full pl-1 pr-1 ">
                 <div className=" flex gap-6 flex-col ">
