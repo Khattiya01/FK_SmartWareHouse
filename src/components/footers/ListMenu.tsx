@@ -46,8 +46,11 @@ const LinkItem = ({ name, href }: { name: string; href: string }) => {
   );
 };
 
-export const ListMenu = (props: { category: SelectCategory[] }) => {
-  const { category } = props;
+export const ListMenu = (props: {
+  category: SelectCategory[];
+  isAdmin?: boolean | null;
+}) => {
+  const { category, isAdmin } = props;
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   return (
@@ -90,6 +93,15 @@ export const ListMenu = (props: { category: SelectCategory[] }) => {
         name={<LinkItem name={"ติดต่อเรา"} href={"/contact"} />}
         onClick={() => {}}
       />
+      {isAdmin && (
+        <>
+          <hr />
+          <MenuItem
+            name={<LinkItem name={"ADMIN"} href={"/admin"} />}
+            onClick={() => {}}
+          />
+        </>
+      )}
     </Flex>
   );
 };

@@ -60,7 +60,7 @@ export async function createHomePageDetailAction(formData: FormData) {
         contact_image_url: contact_image_url,
       });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "Create logo successfully",
@@ -229,7 +229,7 @@ export async function deleteHomePageDetailAction({
         }
       });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete home page detail successfully",

@@ -56,7 +56,7 @@ export async function createUserAction(formData: FormData) {
       };
       await addUsers(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "Create user successfully",
@@ -131,7 +131,7 @@ export async function updateUserAction({
       };
       await editUser(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "update user successfully",
@@ -198,7 +198,7 @@ export async function deleteUserAction({ id }: { id: string }) {
     if (id) {
       await deleteUser(id);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete user successfully",

@@ -18,6 +18,7 @@ const CardBanner = (props: { name: string; image: string | undefined }) => {
         alt="d5"
         layout="fill"
         objectFit="cover"
+        className=" brightness-75"
       />
       <Flex
         className="  absolute  cursor-pointer"

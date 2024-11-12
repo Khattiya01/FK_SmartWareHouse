@@ -18,7 +18,7 @@ const NavbarProfileInfo = async () => {
               size={"2"}
             />
           </Box>
-          <Text>Admin</Text>
+          <Text>ADMIN</Text>
           <FaCaretDown />
         </Flex>
       </HoverCard.Trigger>

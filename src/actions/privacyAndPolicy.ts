@@ -36,7 +36,7 @@ export async function createPrivacyAndPolicyAction(formData: FormData) {
       };
       await addPrivacyAndPolicy(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "Create privacy and policy successfully",
@@ -85,7 +85,7 @@ export async function updatePrivacyAndPolicyAction({
       };
       await editPrivacyAndPolicy(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "update privacy and policy successfully",
@@ -176,7 +176,7 @@ export async function deletePrivacyAndPolicyAction({ id }: { id: string }) {
     if (id) {
       await deletePrivacyAndPolicy(id);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete privacy and policy successfully",

@@ -36,7 +36,7 @@ export async function createLogoAction(formData: FormData) {
     if (image_url) {
       await addLogos({ image_url: image_url });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "Create logo successfully",
@@ -83,7 +83,7 @@ export async function updateLogoAction({
       };
       await editLogos(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "update logo successfully",
@@ -183,7 +183,7 @@ export async function deleteLogoAction({
         }
       });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete logo successfully",

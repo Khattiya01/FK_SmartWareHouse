@@ -6,6 +6,8 @@ import { IoClose } from "react-icons/io5";
 import { ListMenu } from "../footers/ListMenu";
 import useScreenSize from "@/hooks/useScreenSize";
 import { SelectCategoryIncludeProduct } from "@/db/schemas";
+import { useSession } from "next-auth/react";
+import { ROLE } from "@/types/role";
 
 export const NavbarMenuMobile = (props: {
   category: SelectCategoryIncludeProduct[];
@@ -14,6 +16,7 @@ export const NavbarMenuMobile = (props: {
   const [openMenu, setOpenMenu] = useState(false);
 
   const { width } = useScreenSize();
+  const { data: session } = useSession();
 
   const handleOpenMenu = () => {
     setOpenMenu(!openMenu);
@@ -33,7 +36,10 @@ export const NavbarMenuMobile = (props: {
           openMenu ? "opacity-100 z-[51] w-[100vw]" : "opacity-0 z-0 w-[0]"
         }`}
       >
-        <ListMenu category={category} />
+        <ListMenu
+          category={category}
+          isAdmin={session && session.user.role === ROLE[0]}
+        />
       </div>
     </>
   );

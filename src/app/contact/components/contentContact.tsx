@@ -8,6 +8,11 @@ import { FiPhone } from "react-icons/fi";
 import { CiMobile3, CiTimer } from "react-icons/ci";
 import { SelectContact } from "@/db/schemas";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 type ContentContactProps = {
   contact: SelectContact | undefined;
@@ -86,7 +91,11 @@ const ContentContact = (props: ContentContactProps) => {
         <Text className=" font-bold text-xl  text-white">วัน - เวลาทำการ</Text>
         <ContactItem
           icon={<CiTimer size={"16px"} />}
-          desc={`${contact?.start_day_bs_hour}-${contact?.end_day_bs_hour} น.`}
+          desc={`${dayjs(contact?.start_day_bs_hour).format(
+            "HH:mm"
+          )} - ${dayjs(contact?.end_day_bs_hour).format(
+            "HH:mm"
+          )} น.`}
         />
       </Flex>
       <Flex
@@ -98,7 +107,11 @@ const ContentContact = (props: ContentContactProps) => {
       </Flex>
       <Box className=" w-full h-[300px] max-w-desktop">
         <Image
-          src={contact?.map_image ?  `/api/serve-file?filename=${contact?.map_image}` : "/images/map_company.png"}
+          src={
+            contact?.map_image
+              ? `/api/serve-file?filename=${contact?.map_image}`
+              : "/images/map_company.png"
+          }
           alt="map_company"
           width={100}
           height={100}

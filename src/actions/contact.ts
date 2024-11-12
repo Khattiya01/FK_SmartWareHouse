@@ -78,7 +78,7 @@ export async function createContactAction(formData: FormData) {
     ) {
       await addContact(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "Create contact successfully",
@@ -184,7 +184,7 @@ export async function updateContactAction({
         postal_code: postal_code,
       });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "update contact successfully",
@@ -273,7 +273,7 @@ export async function deleteContactAction({
         }
       });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete contact successfully",

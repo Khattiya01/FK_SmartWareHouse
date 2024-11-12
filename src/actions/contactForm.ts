@@ -44,7 +44,7 @@ export async function createContactFormAction(formData: FormData) {
       };
       await addContactForm(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "Create contac formt successfully",
@@ -85,7 +85,7 @@ export async function updateProductAction({
       };
       await editLogos(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "update logo successfully",
@@ -113,7 +113,7 @@ export async function deleteContactFormAction({ id }: { id: string }) {
     if (id) {
       await deleteContactForm(id);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete contact form successfully",

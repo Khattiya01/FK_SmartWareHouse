@@ -152,7 +152,7 @@ export async function updateFileAction({
           file_size: files.size.toString(),
         });
 
-        revalidatePath("/admin");
+        revalidatePath("/", "layout");
         return {
           success: true,
           message: "update logo successfully",
@@ -206,7 +206,7 @@ export async function deleteFileAction({ file_url }: { file_url: string }) {
       if (filesInDirectory.length === 0) {
         await rmdir(directoryPath);
       }
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete file successfully",

@@ -6,6 +6,7 @@ import { FaAngleDown } from "react-icons/fa";
 import { NavbarMenuMobile } from "./navbarMenuMobile";
 import { getLogosIsActived } from "@/services/logo";
 import { getCategory } from "@/services/category";
+import NavbarMenuItemAdmin from "./navbarMenuItemAdmin";
 
 const NavbarMenuItem = (props: { title: string; href: string }) => {
   const { title, href } = props;
@@ -38,7 +39,7 @@ const NavbarMenuItemList = async () => {
     <HoverCard.Root>
       <HoverCard.Trigger>
         <Flex
-          className=" cursor-pointer hover:text-blue-500 w-[172px]"
+          className=" cursor-pointer hover:text-blue-500 w-[142px]"
           justify={"center"}
           align={"center"}
           gap={"2"}
@@ -48,7 +49,7 @@ const NavbarMenuItemList = async () => {
         </Flex>
       </HoverCard.Trigger>
       <HoverCard.Content maxWidth="300px">
-        <Flex gap={"2"} direction={"column"} width={"140px"}>
+        <Flex gap={"2"} direction={"column"} width={"110px"}>
           {responseGetCategory.data &&
             responseGetCategory.data?.length > 0 &&
             responseGetCategory.data?.map((item) => (
@@ -70,6 +71,7 @@ const NavbarMenu = () => {
       <NavbarMenuItem title={"หน้าแรก"} href={"/"} />
       <NavbarMenuItemList />
       <NavbarMenuItem title={"ติดต่อเรา"} href={"/contact"} />
+      <NavbarMenuItemAdmin title={"ADMIN"} href={"/admin"} />
     </div>
   );
 };
@@ -96,8 +98,8 @@ const MainNavbar = async () => {
       >
         <Link href={"/"}>
           <Flex className="h-full" align={"center"}>
-          <Box>
-          <Box className="relative w-[200px] h-[48px] ">
+            <Box>
+              <Box className="relative w-[200px] h-[48px] ">
                 <Image
                   src={logoURL}
                   alt="logo-main-website"

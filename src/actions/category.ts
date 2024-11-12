@@ -39,7 +39,7 @@ export async function createCategoryAction(formData: FormData) {
         abbreviation: abbreviation,
       });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "Create category successfully",
@@ -95,7 +95,7 @@ export async function updateCategoryAction({
       };
       await editCategory(payload);
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "update category successfully",
@@ -138,7 +138,7 @@ export async function deleteCategoryAction({
         }
       });
 
-      revalidatePath("/admin");
+      revalidatePath("/", "layout");
       return {
         success: true,
         message: "delete category successfully",
