@@ -53,7 +53,9 @@ export function TableProduct({
             rows.map((item) => (
               <TableRow key={item.id}>
                 <TableCell className="font-medium">{item.product_id}</TableCell>
-                <TableCell className="font-medium">{item.name}</TableCell>
+                <TableCell className="font-medium">
+                  <div className=" text-overflow-line-clamp-3">{item.name}</div>
+                </TableCell>
                 <TableCell className="font-medium">
                   {item?.category?.name}
                 </TableCell>
@@ -70,7 +72,6 @@ export function TableProduct({
                   }}
                 >
                   <ToggleAdmin
-                    disabled={item.is_active ? true : false}
                     checked={item.is_active ? true : false}
                     onCheckedChange={(c) => handleClickIsActive(c, item.id)}
                   />

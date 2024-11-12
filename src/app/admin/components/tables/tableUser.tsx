@@ -65,7 +65,6 @@ export function TableUser({
                   }}
                 >
                   <ToggleAdmin
-                    disabled={item.is_active ? true : false}
                     checked={item.is_active ? true : false}
                     onCheckedChange={(c) => handleClickIsActive(c, item.id)}
                   />
