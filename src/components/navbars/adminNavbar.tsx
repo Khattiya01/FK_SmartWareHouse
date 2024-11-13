@@ -1,35 +1,8 @@
 import { getLogosIsActived } from "@/services/logo";
-import { Avatar, Box, Flex, HoverCard, Link, Text } from "@radix-ui/themes";
+import { Box, Flex, Link } from "@radix-ui/themes";
 import Image from "next/image";
 import React from "react";
-import { FaCaretDown } from "react-icons/fa";
-import ListMenuNavbarProfile from "./listMenuNavbarProfile";
-
-const NavbarProfileInfo = async () => {
-  return (
-    <HoverCard.Root>
-      <HoverCard.Trigger>
-        <Flex className=" text-white mr-8" align={"center"} gap={"4"}>
-          <Box className=" relative">
-            <Box className=" w-3 h-3 rounded-full bg-green-600 absolute border-white border-2 bottom-0 right-0"></Box>
-            <Avatar
-              src="/images/avatar2.png"
-              fallback={"/images/avatar2.png"}
-              size={"2"}
-            />
-          </Box>
-          <Text>ADMIN</Text>
-          <FaCaretDown />
-        </Flex>
-      </HoverCard.Trigger>
-      <HoverCard.Content maxWidth="300px">
-        <Flex gap={"2"} direction={"column"} width={"160px"}>
-          <ListMenuNavbarProfile title={"ออกจากระบบ"} />
-        </Flex>
-      </HoverCard.Content>
-    </HoverCard.Root>
-  );
-};
+import NavbarProfileInfo from "./navbarProfileInfo";
 
 const AdminNavbar = async () => {
   const responseLogos = await getLogosIsActived();
