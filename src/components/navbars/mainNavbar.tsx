@@ -8,6 +8,11 @@ import { getLogosIsActived } from "@/services/logo";
 import { getCategory } from "@/services/category";
 import NavbarMenuItemAdmin from "./navbarMenuItemAdmin";
 
+import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import classNames from "classnames";
+import { CaretDownIcon } from "@radix-ui/react-icons";
+
+
 const NavbarMenuItem = (props: { title: string; href: string }) => {
   const { title, href } = props;
   return (
@@ -30,38 +35,72 @@ const NavbarMenuItemList = async () => {
 
   const ListMenuNavbar = ({ title, href }: { title: string; href: string }) => {
     return (
-      <Link href={href} className=" py-2 hover:text-blue-500 cursor-pointer">
+      <Link href={href} className=" py-2 hover:text-blue-500 text-black cursor-pointer">
         {title}
       </Link>
     );
   };
   return (
-    <HoverCard.Root>
-      <HoverCard.Trigger>
-        <Flex
-          className=" cursor-pointer hover:text-blue-500 w-[142px]"
-          justify={"center"}
-          align={"center"}
-          gap={"2"}
-        >
-          <Text>อสังหาริมทรัพย์</Text>
-          <FaAngleDown />
-        </Flex>
-      </HoverCard.Trigger>
-      <HoverCard.Content maxWidth="300px">
-        <Flex gap={"2"} direction={"column"} width={"110px"}>
-          {responseGetCategory.data &&
-            responseGetCategory.data?.length > 0 &&
-            responseGetCategory.data?.map((item) => (
-              <ListMenuNavbar
-                key={item.id}
-                title={item.name}
-                href={`/category/${item.name}`}
-              />
-            ))}
-        </Flex>
-      </HoverCard.Content>
-    </HoverCard.Root>
+    // <HoverCard.Root>
+    //   <HoverCard.Trigger>
+    //     <Flex
+    //       className=" cursor-pointer hover:text-blue-500 w-[142px]"
+    //       justify={"center"}
+    //       align={"center"}
+    //       gap={"2"}
+    //     >
+    //       <Text>อสังหาริมทรัพย์</Text>
+    //       <FaAngleDown />
+    //     </Flex>
+    //   </HoverCard.Trigger>
+    //   <HoverCard.Content maxWidth="300px">
+    //     <Flex gap={"2"} direction={"column"} width={"110px"}>
+    //       {responseGetCategory.data &&
+    //         responseGetCategory.data?.length > 0 &&
+    //         responseGetCategory.data?.map((item) => (
+    //           <ListMenuNavbar
+    //             key={item.id}
+    //             title={item.name}
+    //             href={`/category/${item.name}`}
+    //           />
+    //         ))}
+    //     </Flex>
+    //   </HoverCard.Content>
+    // </HoverCard.Root>
+    <NavigationMenu.Root className="relative z-10 ">
+      <NavigationMenu.List className="center m-0 flex list-none rounded-md">
+        <NavigationMenu.Item>
+          <NavigationMenu.Trigger className="group flex select-none items-center justify-between gap-0.5 rounded px-3 py-2 text-[15px] font-medium leading-none text-violet11 outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-violet7">
+            <Flex
+              className=" cursor-pointer hover:text-blue-500 w-[142px]"
+              justify={"center"}
+              align={"center"}
+              gap={"2"}
+            >
+              <Text>อสังหาริมทรัพย์</Text>
+              {/* <FaAngleDown /> */}
+            </Flex>
+            <CaretDownIcon
+              className="relative top-px text-violet10 transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180"
+              aria-hidden
+            />
+          </NavigationMenu.Trigger>
+          <NavigationMenu.Content className="absolute left-0 top-10 bg-white rounded-md py-3 px-3 w-[300px] max-w-[300px] data-[motion=from-end]:animate-enterFromRight data-[motion=from-start]:animate-enterFromLeft data-[motion=to-end]:animate-exitToRight data-[motion=to-start]:animate-exitToLeft sm:w-auto">
+            <Flex gap={"2"} direction={"column"} width={"160px"}>
+              {responseGetCategory.data &&
+                responseGetCategory.data?.length > 0 &&
+                responseGetCategory.data?.map((item) => (
+                  <ListMenuNavbar
+                    key={item.id}
+                    title={item.name}
+                    href={`/category/${item.name}`}
+                  />
+                ))}
+            </Flex>
+          </NavigationMenu.Content>
+        </NavigationMenu.Item>
+      </NavigationMenu.List>
+    </NavigationMenu.Root>
   );
 };
 
@@ -71,7 +110,7 @@ const NavbarMenu = () => {
       <NavbarMenuItem title={"หน้าแรก"} href={"/"} />
       <NavbarMenuItemList />
       <NavbarMenuItem title={"ติดต่อเรา"} href={"/contact"} />
-      <NavbarMenuItemAdmin  />
+      <NavbarMenuItemAdmin />
     </div>
   );
 };

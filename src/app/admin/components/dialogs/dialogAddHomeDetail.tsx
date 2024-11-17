@@ -167,6 +167,7 @@ const DialogHomeDetail = ({
     const rescontent_02_image_url = await createFileAction(formData3);
 
     const fd = new FormData();
+    fd.append("banner_title", payload.banner_title);
     fd.append("content_01_title", payload.content_01_title);
     fd.append("content_01_detail", payload.content_01_detail);
     fd.append("content_02_detail", payload.content_02_detail);
@@ -290,6 +291,7 @@ const DialogHomeDetail = ({
       content_02_image_url: blobToFile[];
       contact_image_url: blobToFile[];
       content_01_title: string;
+      banner_title: string;
       content_01_detail: string;
       content_02_detail: string;
     } = {
@@ -300,6 +302,7 @@ const DialogHomeDetail = ({
       banner_image_url: [],
       content_02_image_url: [],
       contact_image_url: [],
+      banner_title: data.banner_title,
       content_01_title: data.content_01_title,
       content_01_detail: data.content_01_detail,
       content_02_detail: data.content_02_detail,
@@ -344,6 +347,7 @@ const DialogHomeDetail = ({
 
     // Set the values after all data is fetched
     setValue("content_01_title", data.content_01_title);
+    setValue("banner_title", data.banner_title);
     setValue("content_01_detail", data.content_01_detail);
     setValue("content_02_detail", data.content_02_detail);
     setValue("banner_image_url", preData.banner_image_url);
@@ -397,6 +401,14 @@ const DialogHomeDetail = ({
                     placeholder="รายละเอียดเนื้อหาที่ 2"
                     register={{ ...register("content_02_detail") }}
                     msgError={errors.content_02_detail?.message}
+                    showLabel
+                    required
+                  />
+                  <InputFormManage
+                    name={"รายละเอียด Banner"}
+                    placeholder="รายละเอียด Banner"
+                    register={{ ...register("banner_title") }}
+                    msgError={errors.banner_title?.message}
                     showLabel
                     required
                   />
@@ -676,7 +688,7 @@ const DialogHomeDetail = ({
                 <ButtonDefault
                   type="submit"
                   width="140px"
-                  onClick={() => {}}
+                  onClick={() => { }}
                   isLoading={isLoadingSubmit}
                 >
                   <Text className=" text-base ">

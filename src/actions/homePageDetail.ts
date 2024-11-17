@@ -23,6 +23,7 @@ import { deleteFileAction } from "./files";
 export async function createHomePageDetailAction(formData: FormData) {
   try {
     const content_01_title = formData.get("content_01_title")?.toString();
+    const banner_title = formData.get("banner_title")?.toString();
     const content_01_detail = formData.get("content_01_detail")?.toString();
     const content_02_detail = formData.get("content_02_detail")?.toString();
     const content_02_image_url = formData
@@ -30,8 +31,8 @@ export async function createHomePageDetailAction(formData: FormData) {
       ?.toString();
     const banner_image_url = formData.get("banner_image_url")?.toString();
     const contact_image_url = formData.get("contact_image_url")?.toString();
-
     const validatedFields = insertHomePageDetailSchema.safeParse({
+      banner_title: banner_title,
       content_01_title: content_01_title,
       content_01_detail: content_01_detail,
       content_02_detail: content_02_detail,
@@ -39,12 +40,12 @@ export async function createHomePageDetailAction(formData: FormData) {
       banner_image_url: banner_image_url,
       contact_image_url: contact_image_url,
     });
-
     if (!validatedFields.success) {
       return homePageDetailException.createError("The Image URL is incorrect.");
     }
     if (
       content_01_title &&
+      banner_title &&
       content_01_detail &&
       content_02_detail &&
       content_02_image_url &&
@@ -53,6 +54,7 @@ export async function createHomePageDetailAction(formData: FormData) {
     ) {
       await addHomePageDetail({
         banner_image_url: banner_image_url,
+        banner_title: banner_title,
         content_01_title: content_01_title,
         content_01_detail: content_01_detail,
         content_02_image_url: content_02_image_url,
@@ -63,7 +65,7 @@ export async function createHomePageDetailAction(formData: FormData) {
       revalidatePath("/", "layout");
       return {
         success: true,
-        message: "Create logo successfully",
+        message: "Create home detail successfully",
         result: null,
       };
     } else {
@@ -85,6 +87,7 @@ export async function updateHomePageDetailAction({
 }) {
   try {
     const content_01_title = formData.get("content_01_title")?.toString();
+    const banner_title = formData.get("banner_title")?.toString();
     const content_01_detail = formData.get("content_01_detail")?.toString();
     const content_02_detail = formData.get("content_02_detail")?.toString();
     const content_02_image_url = formData
@@ -97,6 +100,7 @@ export async function updateHomePageDetailAction({
       id: id,
       content_01_title: content_01_title,
       content_01_detail: content_01_detail,
+      banner_title: banner_title,
       content_02_detail: content_02_detail,
       content_02_image_url: content_02_image_url,
       banner_image_url: banner_image_url,
@@ -109,6 +113,7 @@ export async function updateHomePageDetailAction({
     if (
       id &&
       content_01_title &&
+      banner_title &&
       content_01_detail &&
       content_02_detail &&
       content_02_image_url &&
@@ -125,6 +130,7 @@ export async function updateHomePageDetailAction({
         id: id,
         banner_image_url: banner_image_url,
         content_01_title: content_01_title,
+        banner_title: banner_title,
         content_01_detail: content_01_detail,
         content_02_image_url: content_02_image_url,
         content_02_detail: content_02_detail,
@@ -134,7 +140,7 @@ export async function updateHomePageDetailAction({
       revalidatePath("/", "layout");
       return {
         success: true,
-        message: "update logo successfully",
+        message: "update home detail successfully",
         result: null,
       };
     } else {

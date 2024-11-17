@@ -6,6 +6,7 @@ import { z } from "zod";
 export const homePageDetailTable = pgTable("home_page_detail", {
   id: uuid("id").default(uuidv4()).primaryKey(),
   banner_image_url: text("banner_image_url").notNull(),
+  banner_title: text("banner_title").notNull(),
   content_01_title: text("content_01_title").notNull(),
   content_01_detail: text("content_01_detail").notNull(),
   content_02_image_url: text("content_02_image_url").notNull(),
@@ -27,6 +28,7 @@ export type DeleteHomePageDetail = {
 export type UpdateHomePageDetail = {
   id: string;
   banner_image_url?: string;
+  banner_title?: string;
   content_01_title?: string;
   content_01_detail?: string;
   content_02_image_url?: string;
@@ -43,12 +45,12 @@ export const insertHomePageDetailSchema = createInsertSchema(
     banner_image_url: z
       .string()
       .min(1, { message: "Banne image url is required" }),
+    banner_title: z
+      .string()
+      .min(1, { message: "Banner title is required" }),
     content_01_title: z
       .string()
       .min(1, { message: "Content title is required" }),
-    content_01_detail: z
-      .string()
-      .min(1, { message: "Content detail is required" }),
     content_02_image_url: z
       .string()
       .min(1, { message: "Content 2 image url is required" }),
@@ -67,6 +69,7 @@ export const updateHomePageDetailSchema = createInsertSchema(
   {
     id: z.string().min(1, { message: "ID is required" }),
     banner_image_url: z.string().optional(),
+    banner_title: z.string().optional(),
     content_01_title: z.string().optional(),
     content_01_detail: z.string().optional(),
     content_02_image_url: z.string().optional(),
@@ -81,6 +84,7 @@ export const updateIsActiveHomePageDetailSchema = createInsertSchema(
   {
     id: z.string().min(1, { message: "ID is required" }),
     banner_image_url: z.string().optional(),
+    banner_title: z.string().optional(),
     content_01_title: z.string().optional(),
     content_01_detail: z.string().optional(),
     content_02_image_url: z.string().optional(),
@@ -94,6 +98,7 @@ export const deleteHomePageDetailSchema = createInsertSchema(
   homePageDetailTable,
   {
     id: z.string().min(1, { message: "is required" }),
+    banner_title: z.string().optional(),
     content_01_title: z.string().optional(),
     content_01_detail: z.string().optional(),
     content_02_image_url: z.string().optional(),

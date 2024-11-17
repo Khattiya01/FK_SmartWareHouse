@@ -16,7 +16,14 @@ import { loginSchema } from "@/schemas/auth";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 
-const LoginForm = () => {
+type LoginFormProps = {
+  logoURL: string
+}
+const LoginForm = (props: LoginFormProps) => {
+
+  const { logoURL } = props;
+  console.log("logo", logoURL);
+
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
 
   const searchParams = useSearchParams();
@@ -62,13 +69,15 @@ const LoginForm = () => {
         }}
         className=" bg-[#00337d] max-w-[406px] sm:mt-[80px] mt-[40px] rounded-lg text-white p-4"
       >
-        <Image
-          src={"/images/logo_sr_estate2.jpg"}
-          alt="branding_axons_logo"
-          width={270}
-          height={120}
-          className=" mt-8"
-        />
+        <Box className="relative w-[200px] h-[48px] ">
+          <Image
+            src={logoURL}
+            alt="logo-main-website"
+            layout="fill"
+            objectFit="cover"
+            className="hover:cursor-pointer hover:opacity-60 opacity-100 transition ease-in-out duration-300 "
+          />
+        </Box>
         <Text
           style={{
             fontSize: "20px",
@@ -158,7 +167,7 @@ const LoginForm = () => {
             {isLoadingLogin && <Spinner />}
             <Text>เข้าสู่ระบบ</Text>
           </button>
-          
+
         </Box>
       </form>
       <Box

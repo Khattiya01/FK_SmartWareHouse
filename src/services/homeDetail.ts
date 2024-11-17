@@ -63,6 +63,7 @@ export const addHomePageDetail = async (data: InsertHomePageDetail) => {
   await db.insert(homePageDetailTable).values({
     id: uuidv4(),
     banner_image_url: data.banner_image_url,
+    banner_title: data.banner_title,
     content_01_title: data.content_01_title,
     content_01_detail: data.content_01_detail,
     content_02_image_url: data.content_02_image_url,
@@ -77,6 +78,7 @@ export const editHomePageDetail = async (data: UpdateHomePageDetail) => {
     .set({
       id: data.id,
       banner_image_url: data.banner_image_url,
+      banner_title: data.banner_title,
       content_01_title: data.content_01_title,
       content_01_detail: data.content_01_detail,
       content_02_image_url: data.content_02_image_url,

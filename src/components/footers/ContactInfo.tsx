@@ -13,7 +13,7 @@ export const ContactItem = (props: {
 }) => {
   const { desc, icon } = props;
   return (
-    <Flex gap="2" width={"100%"}>
+    <Flex gap="3" width={"100%"}>
       <Box width={"14px"} height={"14px"} minWidth={"14px"}>
         {icon}
       </Box>

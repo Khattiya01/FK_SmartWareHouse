@@ -54,6 +54,7 @@ const ContentContact = (props: ContentContactProps) => {
         width={"100%"}
         direction={"column"}
         className=" max-w-[500px] text-white "
+        gap={"2"}
       >
         <Text className=" font-bold text-xl  text-white">สถานที่ตั้ง</Text>
         <ContactItem
@@ -68,6 +69,7 @@ const ContentContact = (props: ContentContactProps) => {
         width={"100%"}
         direction={"column"}
         className=" max-w-[500px] text-white"
+        gap={"2"}
       >
         <Text className=" font-bold text-xl  text-white">
           ติดต่อสอบถามข้อมูล
@@ -86,7 +88,7 @@ const ContentContact = (props: ContentContactProps) => {
       <Flex
         width={"100%"}
         direction={"column"}
-        className=" max-w-[500px] text-white"
+        className=" max-w-[500px] text-white" gap={"2"}
       >
         <Text className=" font-bold text-xl  text-white">วัน - เวลาทำการ</Text>
         <ContactItem
