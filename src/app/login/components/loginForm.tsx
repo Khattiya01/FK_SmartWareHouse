@@ -22,8 +22,6 @@ type LoginFormProps = {
 const LoginForm = (props: LoginFormProps) => {
 
   const { logoURL } = props;
-  console.log("logo", logoURL);
-
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
 
   const searchParams = useSearchParams();
