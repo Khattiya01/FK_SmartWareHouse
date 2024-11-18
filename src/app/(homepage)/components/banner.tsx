@@ -11,7 +11,15 @@ import { Autoplay } from "swiper/modules";
 import Image from "next/image";
 import { Box, Flex, Text } from "@radix-ui/themes";
 
-const Banner = ({ imagesURL, bannerTitle }: { imagesURL: string[] | undefined, bannerTitle: string | undefined }) => {
+const Banner = ({
+  imagesURL,
+  bannerTitle,
+  bannerSunTitle,
+}: {
+  imagesURL: string[] | undefined;
+  bannerTitle: string | undefined;
+  bannerSunTitle: string | undefined;
+}) => {
   return (
     <Flex justify={"center"} align={"center"} className=" relative">
       <Box className=" w-full h-full max-h-[500px] overflow-hidden">
@@ -40,7 +48,7 @@ const Banner = ({ imagesURL, bannerTitle }: { imagesURL: string[] | undefined, b
                     layout="fill"
                     objectFit="cover"
                     className="  brightness-75 "
-                  // className=" w-full h-full brightness-75 "
+                    // className=" w-full h-full brightness-75 "
                   />
                 </Box>
               </SwiperSlide>
@@ -54,12 +62,12 @@ const Banner = ({ imagesURL, bannerTitle }: { imagesURL: string[] | undefined, b
         <Text className=" text-white text-[21px] sm:text-[42px] font-bold ">
           SMART WAREHOUSE
         </Text> */}
-        <Text className=" text-white text-[48px] sm:text-[115px] font-bold text-center">
+        <Text className=" text-white text-[42px] sm:text-[90px] font-bold text-center">
           {bannerTitle}
         </Text>
-        {/* <Text className=" text-white text-[21px] sm:text-[42px] font-bold ">
-          SMART WAREHOUSE
-        </Text> */}
+        <Text className=" text-white text-[20px] sm:text-[38px] font-bold ">
+          {bannerSunTitle}
+        </Text>
       </Flex>
     </Flex>
   );

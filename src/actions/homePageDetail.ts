@@ -24,6 +24,7 @@ export async function createHomePageDetailAction(formData: FormData) {
   try {
     const content_01_title = formData.get("content_01_title")?.toString();
     const banner_title = formData.get("banner_title")?.toString();
+    const banner_subtitle = formData.get("banner_subtitle")?.toString();
     const content_01_detail = formData.get("content_01_detail")?.toString();
     const content_02_detail = formData.get("content_02_detail")?.toString();
     const content_02_image_url = formData
@@ -34,6 +35,7 @@ export async function createHomePageDetailAction(formData: FormData) {
     const validatedFields = insertHomePageDetailSchema.safeParse({
       banner_title: banner_title,
       content_01_title: content_01_title,
+      banner_subtitle: banner_subtitle,
       content_01_detail: content_01_detail,
       content_02_detail: content_02_detail,
       content_02_image_url: content_02_image_url,
@@ -46,6 +48,7 @@ export async function createHomePageDetailAction(formData: FormData) {
     if (
       content_01_title &&
       banner_title &&
+      banner_subtitle &&
       content_01_detail &&
       content_02_detail &&
       content_02_image_url &&
@@ -55,6 +58,7 @@ export async function createHomePageDetailAction(formData: FormData) {
       await addHomePageDetail({
         banner_image_url: banner_image_url,
         banner_title: banner_title,
+        banner_subtitle: banner_subtitle,
         content_01_title: content_01_title,
         content_01_detail: content_01_detail,
         content_02_image_url: content_02_image_url,
@@ -88,6 +92,7 @@ export async function updateHomePageDetailAction({
   try {
     const content_01_title = formData.get("content_01_title")?.toString();
     const banner_title = formData.get("banner_title")?.toString();
+    const banner_subtitle = formData.get("banner_subtitle")?.toString();
     const content_01_detail = formData.get("content_01_detail")?.toString();
     const content_02_detail = formData.get("content_02_detail")?.toString();
     const content_02_image_url = formData
@@ -101,6 +106,7 @@ export async function updateHomePageDetailAction({
       content_01_title: content_01_title,
       content_01_detail: content_01_detail,
       banner_title: banner_title,
+      banner_subtitle: banner_subtitle,
       content_02_detail: content_02_detail,
       content_02_image_url: content_02_image_url,
       banner_image_url: banner_image_url,
@@ -131,6 +137,7 @@ export async function updateHomePageDetailAction({
         banner_image_url: banner_image_url,
         content_01_title: content_01_title,
         banner_title: banner_title,
+        banner_subtitle: banner_subtitle ?? "",
         content_01_detail: content_01_detail,
         content_02_image_url: content_02_image_url,
         content_02_detail: content_02_detail,

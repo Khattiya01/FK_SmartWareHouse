@@ -168,6 +168,9 @@ const DialogHomeDetail = ({
 
     const fd = new FormData();
     fd.append("banner_title", payload.banner_title);
+    if (payload.banner_subtitle) {
+      fd.append("banner_subtitle", payload?.banner_subtitle);
+    }
     fd.append("content_01_title", payload.content_01_title);
     fd.append("content_01_detail", payload.content_01_detail);
     fd.append("content_02_detail", payload.content_02_detail);
@@ -291,6 +294,7 @@ const DialogHomeDetail = ({
       content_02_image_url: blobToFile[];
       contact_image_url: blobToFile[];
       content_01_title: string;
+      banner_subtitle: string;
       banner_title: string;
       content_01_detail: string;
       content_02_detail: string;
@@ -303,6 +307,7 @@ const DialogHomeDetail = ({
       content_02_image_url: [],
       contact_image_url: [],
       banner_title: data.banner_title,
+      banner_subtitle: data.banner_subtitle,
       content_01_title: data.content_01_title,
       content_01_detail: data.content_01_detail,
       content_02_detail: data.content_02_detail,
@@ -348,6 +353,7 @@ const DialogHomeDetail = ({
     // Set the values after all data is fetched
     setValue("content_01_title", data.content_01_title);
     setValue("banner_title", data.banner_title);
+    setValue("banner_subtitle", data.banner_subtitle);
     setValue("content_01_detail", data.content_01_detail);
     setValue("content_02_detail", data.content_02_detail);
     setValue("banner_image_url", preData.banner_image_url);
@@ -405,12 +411,19 @@ const DialogHomeDetail = ({
                     required
                   />
                   <InputFormManage
-                    name={"รายละเอียด Banner"}
-                    placeholder="รายละเอียด Banner"
+                    name={"รายละเอียดหัวข้อ Banner"}
+                    placeholder="รายละเอียดหัวข้อ Banner"
                     register={{ ...register("banner_title") }}
                     msgError={errors.banner_title?.message}
                     showLabel
                     required
+                  />
+                  <InputFormManage
+                    name={"รายละเอียดหัวข้อย่อย Banner"}
+                    placeholder="รายละเอียดหัวข้อย่อย Banner"
+                    register={{ ...register("banner_subtitle") }}
+                    msgError={errors.banner_subtitle?.message}
+                    showLabel
                   />
 
                   <Box
@@ -688,7 +701,7 @@ const DialogHomeDetail = ({
                 <ButtonDefault
                   type="submit"
                   width="140px"
-                  onClick={() => { }}
+                  onClick={() => {}}
                   isLoading={isLoadingSubmit}
                 >
                   <Text className=" text-base ">

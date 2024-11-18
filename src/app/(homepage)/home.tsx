@@ -19,6 +19,7 @@ export default async function Homepage() {
     <MainLayout>
       <Banner
         bannerTitle={responseGetHomeDetailIsActive?.banner_title}
+        bannerSunTitle={responseGetHomeDetailIsActive?.banner_subtitle}
         imagesURL={
           responseGetHomeDetailIsActive?.banner_image_url.split(",") ?? [
             "/images/d12.jpg",

@@ -1,6 +1,6 @@
 {
-  "id": "9cc10c68-0736-4cee-823b-6ee2ad52f1f6",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "985bf828-180f-4004-96e3-839e48a356d4",
+  "prevId": "9cc10c68-0736-4cee-823b-6ee2ad52f1f6",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -13,7 +13,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'d877e82c-fac9-4be8-ac93-7a035d641970'"
+          "default": "'95dfa58c-2927-44d4-9cc1-1a91ced6dcdf'"
         },
         "username": {
           "name": "username",
@@ -96,7 +96,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'bc970544-2257-4e06-bcd5-2199ccfd30be'"
+          "default": "'0e172ae7-cffe-41fd-9685-74e68490622d'"
         },
         "file_url": {
           "name": "file_url",
@@ -150,7 +150,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'3d541d37-72a7-4a49-ac4d-0c6528eedeb2'"
+          "default": "'6f4a2d56-378e-45e7-b5d5-3334178d430e'"
         },
         "image_url": {
           "name": "image_url",
@@ -193,7 +193,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'2296758f-770f-4893-baf9-138944f30cf5'"
+          "default": "'8cd68053-a040-4f51-b794-c7fd230a8bda'"
         },
         "banner_image_url": {
           "name": "banner_image_url",
@@ -273,7 +273,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'369c80a7-8dad-4fa8-ac10-7ecb864b31e4'"
+          "default": "'40f829e7-5944-4b33-b24e-5ac5bea1e0cb'"
         },
         "product_id": {
           "name": "product_id",
@@ -420,7 +420,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'c1f9c288-5942-4bb5-a327-618502332df1'"
+          "default": "'ae4a5c78-00b2-48f7-87b9-cac89019ee90'"
         },
         "image_url": {
           "name": "image_url",
@@ -483,7 +483,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'a94781dc-90a4-4bb3-b59d-6a79f437c766'"
+          "default": "'8a2001e7-1642-4efb-8e72-4c7204fdd9cc'"
         },
         "address": {
           "name": "address",
@@ -610,7 +610,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'94fd5360-a3a0-44bb-9d80-f91d28862f36'"
+          "default": "'730ee41b-467a-4936-bcd8-1c5a1d3496a6'"
         },
         "name": {
           "name": "name",
@@ -676,7 +676,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'cb2ea4b6-70a7-496c-a431-8267cfaed729'"
+          "default": "'3ab47f8b-938d-478c-a55a-dc1dc6cc0be6'"
         },
         "privacy_policy": {
           "name": "privacy_policy",

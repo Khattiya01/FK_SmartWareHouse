@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" uuid PRIMARY KEY DEFAULT '31a50447-2316-4313-873f-99c991e4d9d9' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT 'd877e82c-fac9-4be8-ac93-7a035d641970' NOT NULL,
 	"username" varchar NOT NULL,
 	"email" varchar NOT NULL,
 	"password" varchar NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "files" (
-	"id" uuid PRIMARY KEY DEFAULT '10476eaf-c115-40cd-b43f-80748e623c30' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT 'bc970544-2257-4e06-bcd5-2199ccfd30be' NOT NULL,
 	"file_url" text NOT NULL,
 	"file_name" text NOT NULL,
 	"file_type" varchar NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS "files" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "logos" (
-	"id" uuid PRIMARY KEY DEFAULT 'acccb799-df84-4732-ad65-461f0a8e9efd' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT '3d541d37-72a7-4a49-ac4d-0c6528eedeb2' NOT NULL,
 	"image_url" text NOT NULL,
 	"is_active" boolean DEFAULT false,
 	"created_at" timestamp DEFAULT now(),
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS "logos" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "home_page_detail" (
-	"id" uuid PRIMARY KEY DEFAULT '85742e2e-455d-4e26-b67c-22b23fb7b280' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT '2296758f-770f-4893-baf9-138944f30cf5' NOT NULL,
 	"banner_image_url" text NOT NULL,
 	"banner_title" text NOT NULL,
 	"content_01_title" text NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS "home_page_detail" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "products" (
-	"id" uuid PRIMARY KEY DEFAULT 'f460a3ea-debc-4dbe-92f1-6c255bcc182d' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT '369c80a7-8dad-4fa8-ac10-7ecb864b31e4' NOT NULL,
 	"product_id" varchar,
 	"category_id" uuid NOT NULL,
 	"name" varchar NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS "products" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "category" (
-	"id" uuid PRIMARY KEY DEFAULT 'f8fbcc38-3eaa-4ea4-9c3a-3a7eca7ec405' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT 'c1f9c288-5942-4bb5-a327-618502332df1' NOT NULL,
 	"image_url" text NOT NULL,
 	"name" varchar NOT NULL,
 	"abbreviation" varchar NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS "category" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "contact" (
-	"id" uuid PRIMARY KEY DEFAULT 'd8059d5f-49e2-48d8-8d1f-a57a1a973add' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT 'a94781dc-90a4-4bb3-b59d-6a79f437c766' NOT NULL,
 	"address" varchar,
 	"province" varchar,
 	"district" varchar,
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS "contact" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "contact_form" (
-	"id" uuid PRIMARY KEY DEFAULT '51c81901-b277-4dad-83b1-95b96e002abf' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT '94fd5360-a3a0-44bb-9d80-f91d28862f36' NOT NULL,
 	"name" varchar NOT NULL,
 	"email" varchar NOT NULL,
 	"phone" varchar NOT NULL,
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS "contact_form" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "privacy_policy" (
-	"id" uuid PRIMARY KEY DEFAULT 'ec4f3e0c-26b8-4392-8afc-151d49af969f' NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT 'cb2ea4b6-70a7-496c-a431-8267cfaed729' NOT NULL,
 	"privacy_policy" varchar NOT NULL,
 	"is_active" boolean DEFAULT false,
 	"created_at" timestamp DEFAULT now(),

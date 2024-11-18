@@ -3,6 +3,7 @@ import { blobToFile } from "../file";
 export type CreatHomePageDetailType = {
   content_01_title: string;
   banner_title: string;
+  banner_subtitle?: string;
   content_01_detail: string;
   content_02_detail: string;
   content_02_image_url: blobToFile[];

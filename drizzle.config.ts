@@ -1,3 +1,4 @@
+import { env } from '@/config/env';
 import { config } from 'dotenv';
 import { defineConfig } from 'drizzle-kit';
 
@@ -8,6 +9,6 @@ export default defineConfig({
   out: './migrations',
   dialect: 'postgresql',
   dbCredentials: {
-    url: process.env.NEXT_POSTGRES_URL!,
+    url: env.POSTGRES_URL!,
   },
 });
