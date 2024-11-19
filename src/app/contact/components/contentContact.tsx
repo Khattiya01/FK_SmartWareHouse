@@ -88,16 +88,17 @@ const ContentContact = (props: ContentContactProps) => {
       <Flex
         width={"100%"}
         direction={"column"}
-        className=" max-w-[500px] text-white" gap={"2"}
+        className=" max-w-[500px] text-white"
+        gap={"2"}
       >
         <Text className=" font-bold text-xl  text-white">วัน - เวลาทำการ</Text>
         <ContactItem
           icon={<CiTimer size={"16px"} />}
-          desc={`${dayjs(contact?.start_day_bs_hour).format(
-            "HH:mm"
-          )} - ${dayjs(contact?.end_day_bs_hour).format(
-            "HH:mm"
-          )} น.`}
+          desc={`${dayjs
+            .utc(contact?.start_day_bs_hour)
+            .format("HH:mm")} - ${dayjs
+            .utc(contact?.end_day_bs_hour)
+            .format("HH:mm")} น.`}
         />
       </Flex>
       <Flex
