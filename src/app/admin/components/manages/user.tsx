@@ -15,10 +15,13 @@ import DialogAddUser from "../dialogs/dialogAddUser";
 import { deleteUserAction, updateIsActiveUserAction } from "@/actions/users";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { useSearchParams } from "next/navigation";
+import DialogResetPassword from "../dialogs/dialogResetPassword";
 
 export function ManageUser() {
   // states
-  const [openDialogCreateHomeDetail, setOpenDialogCreateHomeDetail] =
+  const [openDialogCreateUser, setOpenDialogCreateUser] =
+    useState<boolean>(false);
+  const [openDialogResetPassword, setOpenDialogResetPassword] =
     useState<boolean>(false);
   const [activeUserData, setActiveUserData] = useState<SelectUser | undefined>(
     undefined
@@ -40,24 +43,40 @@ export function ManageUser() {
 
   // functions
 
-  const onSuccessDailogHomeDetail = () => {
+  const onSuccessDailogUser = () => {
     refetchUser();
-    setOpenDialogCreateHomeDetail(false);
+    setOpenDialogCreateUser(false);
     setActiveUserData(undefined);
   };
 
-  const onCancelDailogHomeDetail = () => {
-    setOpenDialogCreateHomeDetail(false);
+  const onCancelDailogUser = () => {
+    setOpenDialogCreateUser(false);
     setActiveUserData(undefined);
   };
 
   const handleOpenDailogCreate = () => {
-    setOpenDialogCreateHomeDetail(true);
+    setOpenDialogCreateUser(true);
   };
 
   const handleOpenDailogEdit = (data: SelectUser) => {
     setActiveUserData(data);
-    setOpenDialogCreateHomeDetail(true);
+    setOpenDialogCreateUser(true);
+  };
+
+  const handleClickResetPassword = (data: SelectUser) => {
+    setActiveUserData(data);
+    setOpenDialogResetPassword(true);
+  };
+
+  const onCancelDailogResetPassword = () => {
+    setOpenDialogResetPassword(false);
+    setActiveUserData(undefined);
+  };
+
+  const onSuccessDailogResetPassword = () => {
+    refetchUser();
+    setOpenDialogResetPassword(false);
+    setActiveUserData(undefined);
   };
 
   const handleSubmitDelete = async () => {
@@ -139,6 +158,7 @@ export function ManageUser() {
               handleClickEdit={handleOpenDailogEdit}
               handleOpenDialogDelete={handleOpenDialogDelete}
               handleClickIsActive={handleClickIsActive}
+              handleClickResetPassword={handleClickResetPassword}
             />
 
             {dataUser?.result.data && dataUser?.result.data?.length <= 0 ? (
@@ -161,9 +181,16 @@ export function ManageUser() {
         <DialogAddUser
           dialogType={activeUserData ? "edit" : "create"}
           data={activeUserData}
-          onSuccess={onSuccessDailogHomeDetail}
-          onCancel={onCancelDailogHomeDetail}
-          isOpen={openDialogCreateHomeDetail}
+          onSuccess={onSuccessDailogUser}
+          onCancel={onCancelDailogUser}
+          isOpen={openDialogCreateUser}
+        />
+
+        <DialogResetPassword
+          data={activeUserData}
+          onSuccess={onSuccessDailogResetPassword}
+          onCancel={onCancelDailogResetPassword}
+          isOpen={openDialogResetPassword}
         />
 
         <DialogDelete

@@ -144,13 +144,13 @@ const LoginForm = (props: LoginFormProps) => {
             value={watch("password")}
             errorMessage={errors.password?.message}
           />
-          <Box className=" text-end">
+          {/* <Box className=" text-end">
             <Link href={"/forgot-password"}>
               <Text className=" text-sm ">ลืมรหัสผ่านของคุณ?</Text>
             </Link>
-          </Box>
+          </Box> */}
 
-          <Box className="">
+          <Box className=" mt-2">
             <Link href={"/"} className=" flex gap-2 items-center">
               <FaAngleLeft size={"12px"} />
               <Text className=" text-sm">กลับไปที่ เว็บไซต์หลักของคุณ</Text>

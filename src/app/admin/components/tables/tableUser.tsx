@@ -12,6 +12,7 @@ import {
 import { SelectUser } from "@/db/schemas";
 import { ROLE } from "@/types/role";
 import { Badge } from "@radix-ui/themes";
+import { FaKey } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
@@ -20,11 +21,13 @@ export function TableUser({
   handleClickEdit,
   handleOpenDialogDelete,
   handleClickIsActive,
+  handleClickResetPassword,
 }: {
   rows: SelectUser[] | undefined;
   handleClickEdit: (item: SelectUser) => void;
   handleOpenDialogDelete: (item: SelectUser) => void;
   handleClickIsActive: (item: boolean, id: string) => void;
+  handleClickResetPassword: (item: SelectUser) => void;
 }) {
   return (
     <div className="w-full overflow-x-auto">
@@ -67,6 +70,17 @@ export function TableUser({
                   <ToggleAdmin
                     checked={item.is_active ? true : false}
                     onCheckedChange={(c) => handleClickIsActive(c, item.id)}
+                  />
+                  <FaKey
+                    onClick={() => {
+                      handleClickResetPassword(item);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      color: "#838b9b",
+                      width: "18px",
+                      height: "18px",
+                    }}
                   />
                   <MdModeEdit
                     onClick={() => {

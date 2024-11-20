@@ -1,11 +1,11 @@
 import { editPasswordUser } from "@/services/users";
 import { APIResponse } from "@/types/response";
 import { hashPassword } from "@/utils/hashPassword";
-import { verify } from "jsonwebtoken";
 
 export async function POST(request: Request) {
   const formData = await request.formData();
   const password = formData.get("password")?.toString();
+  const userId = formData.get("userId")?.toString();
   const responseJson: APIResponse<[]> = {
     status: 200,
     message: "OK",
@@ -16,29 +16,33 @@ export async function POST(request: Request) {
   };
 
   try {
-    const token = request.headers.get("Authorization")?.split(" ")[1];
-    if (password && token) {
-      const jwtPayload = verify(token, process.env.JWT_SECRET ?? "") as {
-        userId: string;
-        iat: number;
-        type: string;
-      };
-      if (jwtPayload.type !== "reset-password") {
-        responseJson.status = 400;
-        responseJson.message = "token is invalid";
-      } else {
-        const userId = jwtPayload.userId;
-        const hashedPassword = await hashPassword(password);
-        await editPasswordUser({ password: hashedPassword, id: userId })
-          .then(() => {})
-          .catch((err) => {
-            responseJson.status = 400;
-            responseJson.message = err.message;
-          });
-      }
-    } else {
-      responseJson.status = 400;
-      responseJson.message = "password is not specified";
+    // const token = request.headers.get("Authorization")?.split(" ")[1];
+    // if (password && token) {
+    //   const jwtPayload = verify(token, process.env.JWT_SECRET ?? "") as {
+    //     userId: string;
+    //     iat: number;
+    //     type: string;
+    //   };
+    //   const userId = jwtPayload.userId;
+    //   const hashedPassword = await hashPassword(password);
+    //   await editPasswordUser({ password: hashedPassword, id: userId })
+    //     .then(() => {})
+    //     .catch((err) => {
+    //       responseJson.status = 400;
+    //       responseJson.message = err.message;
+    //     });
+    // } else {
+    //   responseJson.status = 400;
+    //   responseJson.message = "password is not specified";
+    // }
+    if (password && userId) {
+      const hashedPassword = await hashPassword(password);
+      await editPasswordUser({ password: hashedPassword, id: userId })
+        .then(() => {})
+        .catch((err) => {
+          responseJson.status = 400;
+          responseJson.message = err.message;
+        });
     }
   } catch {
     responseJson.status = 400;
