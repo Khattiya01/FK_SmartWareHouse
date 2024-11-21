@@ -62,7 +62,7 @@ export async function createFileAction(formData: FormData) {
 
         const buffer = Buffer.from(await file.arrayBuffer());
 
-        updateFolder();
+        await updateFolder();
 
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
         const filename = `${decodeString(file.name).replace(
@@ -126,7 +126,7 @@ export async function updateFileAction({
 
   const buffer = Buffer.from(await files.arrayBuffer());
 
-  updateFolder();
+  await updateFolder();
 
   try {
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
