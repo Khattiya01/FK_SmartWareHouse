@@ -14,8 +14,8 @@ const FollowUs = async ({
   const responseLogos = await getLogosIsActived();
   const logoURL =
     responseLogos && responseLogos?.length > 0
-      ? responseLogos[0].image_url ?? "/images/logo_sr_estate2.jpg"
-      : "/images/logo_sr_estate2.jpg";
+      ? responseLogos[0].image_url ?? "logo_sr_estate2.webp"
+      : "logo_sr_estate2.webp";
 
   return (
     <Flex gap={"4"} direction={"column"} align={"center"}>

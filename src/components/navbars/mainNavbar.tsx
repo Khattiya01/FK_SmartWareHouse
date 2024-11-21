@@ -1,17 +1,14 @@
-import { Box, Flex, HoverCard, Text } from "@radix-ui/themes";
+import { Box, Flex, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { FaAngleDown } from "react-icons/fa";
 import { NavbarMenuMobile } from "./navbarMenuMobile";
 import { getLogosIsActived } from "@/services/logo";
 import { getCategory } from "@/services/category";
 import NavbarMenuItemAdmin from "./navbarMenuItemAdmin";
 
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import classNames from "classnames";
 import { CaretDownIcon } from "@radix-ui/react-icons";
-
 
 const NavbarMenuItem = (props: { title: string; href: string }) => {
   const { title, href } = props;
@@ -35,38 +32,15 @@ const NavbarMenuItemList = async () => {
 
   const ListMenuNavbar = ({ title, href }: { title: string; href: string }) => {
     return (
-      <Link href={href} className=" py-2 hover:text-blue-500 text-black cursor-pointer">
+      <Link
+        href={href}
+        className=" py-2 hover:text-blue-500 text-black cursor-pointer"
+      >
         {title}
       </Link>
     );
   };
   return (
-    // <HoverCard.Root>
-    //   <HoverCard.Trigger>
-    //     <Flex
-    //       className=" cursor-pointer hover:text-blue-500 w-[142px]"
-    //       justify={"center"}
-    //       align={"center"}
-    //       gap={"2"}
-    //     >
-    //       <Text>อสังหาริมทรัพย์</Text>
-    //       <FaAngleDown />
-    //     </Flex>
-    //   </HoverCard.Trigger>
-    //   <HoverCard.Content maxWidth="300px">
-    //     <Flex gap={"2"} direction={"column"} width={"110px"}>
-    //       {responseGetCategory.data &&
-    //         responseGetCategory.data?.length > 0 &&
-    //         responseGetCategory.data?.map((item) => (
-    //           <ListMenuNavbar
-    //             key={item.id}
-    //             title={item.name}
-    //             href={`/category/${item.name}`}
-    //           />
-    //         ))}
-    //     </Flex>
-    //   </HoverCard.Content>
-    // </HoverCard.Root>
     <NavigationMenu.Root className="relative z-10 ">
       <NavigationMenu.List className="center m-0 flex list-none rounded-md">
         <NavigationMenu.Item>
@@ -124,7 +98,7 @@ const MainNavbar = async () => {
   const logoURL =
     responseLogos && responseLogos?.length > 0
       ? `/api/serve-file?filename=${responseLogos[0].image_url}`
-      : "/images/logo_sr_estate2.jpg"; // fallback to default logo
+      : "logo_sr_estate2.webp"; // fallback to default logo
   return (
     <Flex className=" h-[48px]  relative bg-main" justify={"center"}>
       <Flex

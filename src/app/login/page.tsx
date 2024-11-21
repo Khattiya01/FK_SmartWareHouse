@@ -11,8 +11,8 @@ export default async function LoginPage() {
   const logoURL =
     responseLogos && responseLogos?.length > 0
       ? `/api/serve-file?filename=${responseLogos[0].image_url}`
-      : "/images/logo_sr_estate2.jpg"; // fallback to default logo
-  console.log("res", responseLogos);
+      : "logo_sr_estate2.webp"; // fallback to default logo
+
 
 
   return (

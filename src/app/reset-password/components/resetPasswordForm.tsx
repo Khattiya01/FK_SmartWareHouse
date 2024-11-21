@@ -70,7 +70,7 @@ const ResetPasswordForm = () => {
         className=" bg-[#00337d] max-w-[406px] sm:mt-[80px] mt-[40px] rounded-lg text-white p-4"
       >
         <Image
-          src={"/images/logo_sr_estate2.jpg"}
+          src={"logo_sr_estate2.webp"}
           alt="branding_axons_logo"
           width={270}
           height={120}
