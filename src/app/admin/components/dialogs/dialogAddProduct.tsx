@@ -199,7 +199,7 @@ const DialogAddProduct = ({
     if (resothers_image?.result?.file_url) {
       fd.append("others_image", resothers_image.result?.file_url);
     }
-
+    setIsLoadingSubmit(true);
     if (dialogType === "create") {
       await createProductAction(fd)
         .then((res) => {
