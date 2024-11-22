@@ -5,6 +5,7 @@ import { NextRequest } from "next/server";
 import { APIResponse } from "@/types/response";
 import mime from "mime-types";
 
+// export const dynamic = 'force-static';
 
 export async function GET(request: NextRequest) {
   const filename = request.nextUrl.searchParams.get("filename");
@@ -64,6 +65,7 @@ export async function GET(request: NextRequest) {
     status: responseJson.status,
     headers: {
       "Content-Type": "application/octet-stream", // fallback if there's an issue
+      "Cache-Control": "public, max-age=31536000, immutable",
     },
   });
 }
