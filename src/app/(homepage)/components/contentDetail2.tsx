@@ -8,18 +8,23 @@ const ContentDetail2 = (props: {
 }) => {
   const { detail, imageURL } = props;
   return (
-    <Flex className=" bg-slate-100 " p={"4"} justify={"center"} >
+    <Flex className=" bg-slate-100 " p={"4"} justify={"center"}>
       <Flex
         className="max-w-desktop w-full"
         direction={{ initial: "column", sm: "row" }}
       >
         <Box className=" sm:w-1/2 w-full h-full max-h-[427px]">
           <Image
-            src={imageURL ? `/api/serve-file?filename=${imageURL}` : "/images/d7.jpg"}
+            src={
+              imageURL
+                ? `/api/serve-file?filename=${imageURL}`
+                : "/images/d7.jpg"
+            }
             alt="d5"
             width={350}
             height={350}
             sizes="100vw"
+            priority
             className="w-full h-full "
           />
         </Box>

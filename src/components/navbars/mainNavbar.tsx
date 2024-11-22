@@ -118,6 +118,7 @@ const MainNavbar = async () => {
                   alt="logo-main-website"
                   layout="fill"
                   objectFit="cover"
+                  priority
                   className="hover:cursor-pointer hover:opacity-60 opacity-100 transition ease-in-out duration-300 "
                 />
               </Box>

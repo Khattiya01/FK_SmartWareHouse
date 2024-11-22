@@ -20,6 +20,7 @@ const CategoryItem = (props: { name: string; src: string; href: string }) => {
             alt="d5"
             layout="fill"
             objectFit="cover"
+            priority
             className="filter brightness-50 hover:brightness-75 cursor-pointer transition-all duration-300"
           />
         </Box>

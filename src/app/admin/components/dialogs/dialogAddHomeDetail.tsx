@@ -22,6 +22,7 @@ import { DialogComponent } from "@/components/alertDialogs/dialog.component";
 import AlertDialogComponent from "@/components/alertDialogs/alertDialog";
 import { fetchFileByURL, fetchImages } from "@/api/file";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
+import { ImageUploadCompression } from "@/utils/ImageUploadCompression";
 
 type DialogHomeDetailProps = {
   dialogType?: "create" | "edit";
@@ -79,7 +80,12 @@ const DialogHomeDetail = ({
     setIsLoadingUploadFile(true);
 
     for (const file of uploadFiles) {
-      const blobToFile: blobToFile = Object.assign(file, {
+      const fileCompress = await ImageUploadCompression(file);
+      const NewFile = new File([fileCompress], fileCompress.name, {
+        type: fileCompress?.type,
+      });
+
+      const blobToFile: blobToFile = Object.assign(NewFile, {
         index: Math.random().toString(36).slice(2),
         id: Math.random().toString(36).slice(2),
         status: "new",
@@ -98,7 +104,7 @@ const DialogHomeDetail = ({
         blobToFile.error = true;
         mockFiles.push(blobToFile);
       } else {
-        blobToFile.imageURL = URL.createObjectURL(file);
+        blobToFile.imageURL = URL.createObjectURL(blobToFile);
         mockFiles.push(blobToFile);
       }
     }
@@ -109,6 +115,8 @@ const DialogHomeDetail = ({
       setOpenAlertFileSize(true);
       return [];
     } else {
+      console.log("uploadFiles", uploadFiles)
+      console.log("mockFiles", mockFiles)
       return [...currentFile, ...mockFiles];
     }
   };

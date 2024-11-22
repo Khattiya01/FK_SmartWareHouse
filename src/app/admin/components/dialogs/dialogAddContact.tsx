@@ -21,6 +21,7 @@ import { CreateContact } from "@/schemas/createContact";
 import { createContactAction, updateContactAction } from "@/actions/contact";
 import dayjs from "dayjs";
 import InputTimeHM from "../inputTimeHM";
+import { ImageUploadCompression } from "@/utils/ImageUploadCompression";
 
 type DialogAddContactProps = {
   dialogType?: "create" | "edit";
@@ -79,7 +80,12 @@ const DialogAddContact = ({
     setIsLoadingUploadFile(true);
 
     for (const file of uploadFiles) {
-      const blobToFile: blobToFile = Object.assign(file, {
+      const fileCompress = await ImageUploadCompression(file);
+      const NewFile = new File([fileCompress], fileCompress.name, {
+        type: fileCompress?.type,
+      });
+
+      const blobToFile: blobToFile = Object.assign(NewFile, {
         index: Math.random().toString(36).slice(2),
         id: Math.random().toString(36).slice(2),
         status: "new",

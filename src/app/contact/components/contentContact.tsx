@@ -36,6 +36,7 @@ const ContentContact = (props: ContentContactProps) => {
         alt="bg-contact"
         layout="fill"
         objectFit="cover"
+        priority
         className=" absolute z-[-1]"
       />
       <Text className=" text-6xl font-bold  text-white mt-[94px] mb-6">
@@ -119,6 +120,7 @@ const ContentContact = (props: ContentContactProps) => {
           width={100}
           height={100}
           sizes="100%"
+          priority
           className=" w-full h-full"
         />
       </Box>

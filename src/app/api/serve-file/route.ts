@@ -48,6 +48,7 @@ export async function GET(request: NextRequest) {
         status: responseJson.status,
         headers: {
           "Content-Type": mimeType || "application/octet-stream",  // ใช้ mime type ที่ได้, ถ้าไม่พบใช้ application/octet-stream
+          "Cache-Control": "public, max-age=31536000, immutable",
         },
       });
     } catch {

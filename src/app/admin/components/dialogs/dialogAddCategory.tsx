@@ -19,6 +19,7 @@ import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { CreatCategoryType } from "@/types/requests/createCategory";
 import { CreateCategory } from "@/schemas/createCategory";
 import { createCategoryAction, updateCategoryAction } from "@/actions/category";
+import { ImageUploadCompression } from "@/utils/ImageUploadCompression";
 
 type DialogAddCategoryProps = {
   dialogType?: "create" | "edit";
@@ -74,7 +75,12 @@ const DialogAddCategory = ({
     setIsLoadingUploadFile(true);
 
     for (const file of uploadFiles) {
-      const blobToFile: blobToFile = Object.assign(file, {
+      const fileCompress = await ImageUploadCompression(file);
+      const NewFile = new File([fileCompress], fileCompress.name, {
+        type: fileCompress?.type,
+      });
+
+      const blobToFile: blobToFile = Object.assign(NewFile, {
         index: Math.random().toString(36).slice(2),
         id: Math.random().toString(36).slice(2),
         status: "new",

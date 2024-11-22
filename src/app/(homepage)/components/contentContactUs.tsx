@@ -27,6 +27,7 @@ const ContentContactUs = (props: {
         width={100}
         height={100}
         sizes="100%"
+        priority
         className=" w-full h-full max-h-[525px] filter brightness-50"
       />
       <Flex className="  absolute " direction={"column"} align={"center"}>

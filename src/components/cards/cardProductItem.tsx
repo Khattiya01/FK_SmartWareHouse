@@ -28,6 +28,7 @@ const CardProductItem = (props: { product: SelectProduct }) => {
             alt="d7.jpg"
             layout="fill"
             objectFit="cover"
+            priority
             className="cursor-pointer hover:scale-105 transform duration-300"
           />
         </Box>

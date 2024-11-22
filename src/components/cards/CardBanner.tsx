@@ -18,6 +18,7 @@ const CardBanner = (props: { name: string; image: string | undefined }) => {
         alt="d5"
         layout="fill"
         objectFit="cover"
+        priority
         className=" brightness-75"
       />
       <Flex
@@ -25,7 +26,9 @@ const CardBanner = (props: { name: string; image: string | undefined }) => {
         direction={"column"}
         align={"center"}
       >
-        <Text className=" text-4xl sm:text-6xl font-bold  text-white">{name}</Text>
+        <Text className=" text-4xl sm:text-6xl font-bold  text-white">
+          {name}
+        </Text>
       </Flex>
     </Flex>
   );

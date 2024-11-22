@@ -48,6 +48,7 @@ const Banner = ({
                     layout="fill"
                     objectFit="cover"
                     className="  brightness-75 "
+                    priority
                     // className=" w-full h-full brightness-75 "
                   />
                 </Box>

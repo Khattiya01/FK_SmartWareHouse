@@ -22,6 +22,7 @@ import { createProductAction, updateProductAction } from "@/actions/products";
 import SelectComponents from "@/components/selects/selectComponents";
 import { fetchCategory } from "@/api/manage/manage-category";
 import InputTextareaFormManage from "@/components/inputs/inputTextareaFormManage ";
+import { ImageUploadCompression } from "@/utils/ImageUploadCompression";
 
 type DialogAddProductProps = {
   dialogType?: "create" | "edit";
@@ -83,7 +84,12 @@ const DialogAddProduct = ({
     setIsLoadingUploadFile(true);
 
     for (const file of uploadFiles) {
-      const blobToFile: blobToFile = Object.assign(file, {
+      const fileCompress = await ImageUploadCompression(file);
+      const NewFile = new File([fileCompress], fileCompress.name, {
+        type: fileCompress?.type,
+      });
+
+      const blobToFile: blobToFile = Object.assign(NewFile, {
         index: Math.random().toString(36).slice(2),
         id: Math.random().toString(36).slice(2),
         status: "new",

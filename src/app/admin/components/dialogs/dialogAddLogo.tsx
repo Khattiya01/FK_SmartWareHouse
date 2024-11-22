@@ -18,6 +18,7 @@ import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { CreateLogoType } from "@/types/requests/createLogo";
 import { CreateLogo } from "@/schemas/createLogo";
 import { createLogoAction, updateLogoAction } from "@/actions/logos";
+import { ImageUploadCompression } from "@/utils/ImageUploadCompression";
 
 type DialogAddLogoProps = {
   dialogType?: "create" | "edit";
@@ -72,7 +73,12 @@ const DialogAddLogo = ({
     setIsLoadingUploadFile(true);
 
     for (const file of uploadFiles) {
-      const blobToFile: blobToFile = Object.assign(file, {
+      const fileCompress = await ImageUploadCompression(file);
+      const NewFile = new File([fileCompress], fileCompress.name, {
+        type: fileCompress?.type,
+      });
+
+      const blobToFile: blobToFile = Object.assign(NewFile, {
         index: Math.random().toString(36).slice(2),
         id: Math.random().toString(36).slice(2),
         status: "new",
