@@ -5,8 +5,6 @@ import { NextRequest } from "next/server";
 import { APIResponse } from "@/types/response";
 import mime from "mime-types";
 
-// export const dynamic = 'force-static';
-
 export async function GET(request: NextRequest) {
   const filename = request.nextUrl.searchParams.get("filename");
   const statAsync = promisify(stat);

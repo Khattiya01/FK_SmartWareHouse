@@ -1,5 +1,5 @@
 {
-  "id": "9cc10c68-0736-4cee-823b-6ee2ad52f1f6",
+  "id": "d7d54e03-41b1-4fe0-ab39-7655967ab946",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -13,7 +13,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'d877e82c-fac9-4be8-ac93-7a035d641970'"
+          "default": "'0160f017-a8e5-45da-8b66-d304ea6cff59'"
         },
         "username": {
           "name": "username",
@@ -96,7 +96,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'bc970544-2257-4e06-bcd5-2199ccfd30be'"
+          "default": "'7484fb13-951b-4273-a5d1-01d2292492e7'"
         },
         "file_url": {
           "name": "file_url",
@@ -150,7 +150,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'3d541d37-72a7-4a49-ac4d-0c6528eedeb2'"
+          "default": "'c5b730d6-9ffe-4726-a055-9c01f75a6030'"
         },
         "image_url": {
           "name": "image_url",
@@ -193,7 +193,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'2296758f-770f-4893-baf9-138944f30cf5'"
+          "default": "'ce50eb3b-718b-4ac5-a820-3a4f4a6b190a'"
         },
         "banner_image_url": {
           "name": "banner_image_url",
@@ -203,6 +203,12 @@
         },
         "banner_title": {
           "name": "banner_title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "banner_subtitle": {
+          "name": "banner_subtitle",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -273,7 +279,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'369c80a7-8dad-4fa8-ac10-7ecb864b31e4'"
+          "default": "'7f26f04a-b566-4535-8c52-0d25af394289'"
         },
         "product_id": {
           "name": "product_id",
@@ -283,6 +289,12 @@
         },
         "category_id": {
           "name": "category_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "typeProduct_id": {
+          "name": "typeProduct_id",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -406,6 +418,19 @@
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
+        },
+        "products_typeProduct_id_type_product_id_fk": {
+          "name": "products_typeProduct_id_type_product_id_fk",
+          "tableFrom": "products",
+          "tableTo": "type_product",
+          "columnsFrom": [
+            "typeProduct_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
@@ -420,7 +445,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'c1f9c288-5942-4bb5-a327-618502332df1'"
+          "default": "'a05346a5-a4dd-4ebb-9c04-5167bce4bb3c'"
         },
         "image_url": {
           "name": "image_url",
@@ -483,7 +508,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'a94781dc-90a4-4bb3-b59d-6a79f437c766'"
+          "default": "'f047b6e4-9611-45b9-9517-80454519dc5d'"
         },
         "address": {
           "name": "address",
@@ -610,7 +635,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'94fd5360-a3a0-44bb-9d80-f91d28862f36'"
+          "default": "'f294066f-4755-43ac-960a-22f61f48383f'"
         },
         "name": {
           "name": "name",
@@ -676,7 +701,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'cb2ea4b6-70a7-496c-a431-8267cfaed729'"
+          "default": "'802d8a56-ebc6-4857-b0bb-a46bd4a684dc'"
         },
         "privacy_policy": {
           "name": "privacy_policy",
@@ -709,6 +734,50 @@
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
+    },
+    "public.type_product": {
+      "name": "type_product",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "'1c0794eb-3ebf-426d-88a5-56cbe4ff9128'"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "type_product_name_unique": {
+          "name": "type_product_name_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "name"
+          ]
+        }
+      }
     }
   },
   "enums": {},

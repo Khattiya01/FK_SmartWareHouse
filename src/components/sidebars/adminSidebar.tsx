@@ -8,7 +8,7 @@ import { FaWpforms } from "react-icons/fa";
 import { PiGooglePhotosLogo } from "react-icons/pi";
 import { BiCategory } from "react-icons/bi";
 import { HiOutlineUsers } from "react-icons/hi2";
-import { MdOutlinePrivacyTip } from "react-icons/md";
+import { MdOutlineCategory, MdOutlinePrivacyTip } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import { ROLE } from "@/types/role";
 
@@ -35,6 +35,11 @@ const AdminSidebar = () => {
       icon: <BiCategory style={{ width: "24px", height: "24px" }} />,
       name: "จัดการหมวดหมู่",
       path: `/admin/manage-category`,
+    },
+    {
+      icon: <MdOutlineCategory  style={{ width: "24px", height: "24px" }} />,
+      name: "จัดการชนิดผลิตภัณฑ์",
+      path: `/admin/manage-type-product`,
     },
     {
       icon: <RiProductHuntLine style={{ width: "24px", height: "24px" }} />,

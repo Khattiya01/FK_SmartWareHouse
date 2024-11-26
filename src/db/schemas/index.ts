@@ -7,3 +7,4 @@ export * from "./category";
 export * from "./contact";
 export * from "./contactForm";
 export * from "./privacyandpolicy";
+export * from "./typeProduct";

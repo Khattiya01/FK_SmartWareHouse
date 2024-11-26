@@ -12,6 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { categoryTable } from "./category";
 import { relations } from "drizzle-orm";
+import { typeProductTable } from "./typeProduct";
 
 export const productsTable = pgTable("products", {
   id: uuid("id").default(uuidv4()).primaryKey(),
@@ -19,6 +20,9 @@ export const productsTable = pgTable("products", {
   category_id: uuid("category_id")
     .notNull()
     .references(() => categoryTable.id, { onDelete: "cascade" }),
+  typeProduct_id: uuid("typeProduct_id")
+    .notNull()
+    .references(() => typeProductTable.id),
   name: varchar("name").notNull(),
   description: text("description"),
   price: decimal("price", { precision: 10, scale: 2 }),
@@ -43,6 +47,10 @@ export const productRelations = relations(productsTable, ({ one }) => ({
     fields: [productsTable.category_id],
     references: [categoryTable.id],
   }),
+  typeProduct: one(typeProductTable, {
+    fields: [productsTable.typeProduct_id],
+    references: [typeProductTable.id],
+  }),
 }));
 
 export type InsertProduct = typeof productsTable.$inferInsert;
@@ -60,6 +68,7 @@ export type UpdateProduct = {
   id: string;
   product_id?: string;
   category_id?: string;
+  typeProduct_id?: string;
   name?: string;
   description?: string;
   price?: string;
@@ -79,6 +88,7 @@ export type UpdateProduct = {
 
 export const insertProductSchema = createInsertSchema(productsTable, {
   category_id: z.string().min(1, { message: "Category ID is required" }),
+  typeProduct_id: z.string().min(1, { message: "Type Product ID is required" }),
   name: z.string().min(1, { message: "Product name is required" }),
   description: z.string().min(1, { message: "Description is required" }),
   price: z.string().min(1, { message: "price is required" }),
@@ -100,9 +110,10 @@ export const insertProductSchema = createInsertSchema(productsTable, {
 export const updateProductSchema = createInsertSchema(productsTable, {
   id: z.string().min(1, { message: "Category ID is required" }),
   category_id: z.string().min(1, { message: "Category ID is required" }),
+  typeProduct_id: z.string().min(1, { message: "Type Product ID is required" }),
   name: z.string().min(1, { message: "Product name is required" }),
   description: z.string().min(1, { message: "Description is required" }),
-  price:  z.string().min(1, { message: "price is required" }),
+  price: z.string().min(1, { message: "price is required" }),
   main_image: z.string().min(1, { message: "Main Image is required" }),
   map_image: z.string().min(1, { message: "Map Image is required" }),
   others_image: z.string().min(1, { message: "Others Image is required" }),
@@ -121,6 +132,7 @@ export const updateProductSchema = createInsertSchema(productsTable, {
 export const updatIsActiveProductSchema = createInsertSchema(productsTable, {
   id: z.string().min(1, { message: "Category ID is required" }),
   category_id: z.string().optional(),
+  typeProduct_id: z.string().optional(),
   name: z.string().optional(),
   description: z.string().optional(),
   price: z.number().optional(),
@@ -142,6 +154,7 @@ export const updatIsActiveProductSchema = createInsertSchema(productsTable, {
 export const deleteProductSchema = createInsertSchema(productsTable, {
   id: z.string().min(1, { message: "Category ID is required" }),
   category_id: z.string().optional(),
+  typeProduct_id: z.string().optional(),
   name: z.string().optional(),
   description: z.string().optional(),
   price: z.number().optional(),

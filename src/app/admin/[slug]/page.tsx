@@ -10,6 +10,7 @@ import { ManageContact } from "../components/manages/contact";
 import { ManageUser } from "../components/manages/user";
 import { ManagePrivacyAndPolicy } from "../components/manages/privacyAndPolicy";
 import { CheckTermPagePage } from "@/utils/check-term-page";
+import { ManageTypeProduct } from "../components/manages/typeProduct";
 
 export default async function AdminManagePage({
   params,
@@ -29,6 +30,7 @@ export default async function AdminManagePage({
       {manageName === "manage-home-detail" && <ManageHomeDetail />}
       {manageName === "manage-logo" && <ManageLogo />}
       {manageName === "manage-category" && <ManageCategory />}
+      {manageName === "manage-type-product" && <ManageTypeProduct />}
       {manageName === "manage-product" && <ManageProduct />}
       {manageName === "manage-contact" && <ManageContact />}
       {manageName === "manage-form-contact" && <ManageFormContact />}

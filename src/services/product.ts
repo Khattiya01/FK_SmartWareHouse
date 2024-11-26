@@ -4,6 +4,7 @@ import {
   categoryTable,
   InsertProduct,
   productsTable,
+  typeProductTable,
   UpdateProduct,
 } from "@/db/schemas";
 import { v4 as uuidv4 } from "uuid";
@@ -166,6 +167,26 @@ export const getProductsByCategoryId = async (id: string) => {
   }
 };
 
+export const getProductsByTypeProductId = async (id: string) => {
+  try {
+    const data = await db
+      .select({
+        ...getTableColumns(productsTable),
+        type_product: {
+          id: typeProductTable.id,
+          name: typeProductTable.name,
+        },
+      })
+      .from(productsTable)
+      .where(eq(productsTable.typeProduct_id, id))
+      .leftJoin(typeProductTable, eq(productsTable.typeProduct_id, typeProductTable.id));
+    return data;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    throw new Error("Could not fetch hproducts");
+  }
+};
+
 export const getProductsByCategoryIdIsActive = async (id: string) => {
   try {
     const data = await db
@@ -297,6 +318,7 @@ export const addProducts = async (data: InsertProduct) => {
   await db.insert(productsTable).values({
     id: uuidv4(),
     category_id: data.category_id,
+    typeProduct_id: data.typeProduct_id,
     name: data.name,
     description: data.description,
     price: data.price,
@@ -321,6 +343,7 @@ export const editProduct = async (data: UpdateProduct) => {
     .set({
       id: data.id,
       category_id: data.category_id,
+      typeProduct_id: data.typeProduct_id,
       name: data.name,
       description: data.description,
       price: data.price,
