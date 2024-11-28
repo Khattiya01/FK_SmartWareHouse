@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { SelectProductIncludeCategory } from "@/db/schemas";
+import { SelectProductIncludeCategoryAndTypeProduct } from "@/db/schemas";
 import { MdModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 
@@ -19,9 +19,11 @@ export function TableProduct({
   handleOpenDialogDelete,
   handleClickIsActive,
 }: {
-  rows: SelectProductIncludeCategory[] | undefined;
-  handleClickEdit: (item: SelectProductIncludeCategory) => void;
-  handleOpenDialogDelete: (item: SelectProductIncludeCategory) => void;
+  rows: SelectProductIncludeCategoryAndTypeProduct[] | undefined;
+  handleClickEdit: (item: SelectProductIncludeCategoryAndTypeProduct) => void;
+  handleOpenDialogDelete: (
+    item: SelectProductIncludeCategoryAndTypeProduct
+  ) => void;
   handleClickIsActive: (item: boolean, id: string) => void;
 }) {
   return (
@@ -29,11 +31,14 @@ export function TableProduct({
       <Table className=" min-w-[900px]">
         <TableHeader>
           <TableRow className=" bg-main hover:bg-main ">
-            <TableHead className="text-white font-bold text-base w-72">
+            <TableHead className="text-white font-bold text-base w-40">
               รหัสผลิตภัณฑ์
             </TableHead>
             <TableHead className="text-white font-bold text-base w-52 ">
               ชื่อผลิตภัณฑ์
+            </TableHead>
+            <TableHead className="text-white font-bold text-base w-52 ">
+              ชนิดผลิตภัณฑ์
             </TableHead>
             <TableHead className="text-white font-bold text-base w-44">
               หมวดหมู่
@@ -55,6 +60,9 @@ export function TableProduct({
                 <TableCell className="font-medium">{item.product_id}</TableCell>
                 <TableCell className="font-medium">
                   <div className=" text-overflow-line-clamp-3">{item.name}</div>
+                </TableCell>
+                <TableCell className="font-medium">
+                  {item.typeProduct?.name}
                 </TableCell>
                 <TableCell className="font-medium">
                   {item?.category?.name}

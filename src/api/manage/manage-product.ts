@@ -1,4 +1,4 @@
-import { SelectProductIncludeCategory } from "@/db/schemas";
+import { SelectProductIncludeCategoryAndTypeProduct } from "@/db/schemas";
 import { APIResponse } from "@/types/response";
 import AxiosInstance from "@/utils/interceptors";
 
@@ -14,7 +14,7 @@ export const fetchProduct = async ({
   category: string;
 }) => {
   const response = await AxiosInstance.get<
-    APIResponse<SelectProductIncludeCategory[]>
+    APIResponse<SelectProductIncludeCategoryAndTypeProduct[]>
   >(
     `/api/manage/product?page=${page}&pageSize=${pageSize}&searchText=${searchText}&category=${category}`
   );

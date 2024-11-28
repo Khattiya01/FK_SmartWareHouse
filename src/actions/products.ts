@@ -22,6 +22,7 @@ import { getCategoryById } from "@/services/category";
 export async function createProductAction(formData: FormData) {
   try {
     const category_id = formData.get("category_id")?.toString();
+    const typeProduct_id = formData.get("typeProduct_id")?.toString();
     const name = formData.get("name")?.toString();
     const description = formData.get("description")?.toString();
     const price = formData.get("price")?.toString();
@@ -41,6 +42,7 @@ export async function createProductAction(formData: FormData) {
 
     const validatedFields = insertProductSchema.safeParse({
       category_id: category_id,
+      typeProduct_id: typeProduct_id,
       name: name,
       description: description,
       price: price,
@@ -64,6 +66,7 @@ export async function createProductAction(formData: FormData) {
 
     if (
       category_id &&
+      typeProduct_id &&
       name &&
       description &&
       price &&
@@ -92,6 +95,7 @@ export async function createProductAction(formData: FormData) {
 
         await addProducts({
           category_id: category_id,
+          typeProduct_id: typeProduct_id,
           name: name,
           description: description,
           price: price,
@@ -137,6 +141,7 @@ export async function updateProductAction({
 }) {
   try {
     const category_id = formData.get("category_id")?.toString();
+    const typeProduct_id = formData.get("typeProduct_id")?.toString();
     const name = formData.get("name")?.toString();
     const description = formData.get("description")?.toString();
     const price = formData.get("price")?.toString();
@@ -157,6 +162,7 @@ export async function updateProductAction({
     const validatedFields = updateProductSchema.safeParse({
       id: id,
       category_id: category_id,
+      typeProduct_id: typeProduct_id,
       name: name,
       description: description,
       price: price,
@@ -181,6 +187,7 @@ export async function updateProductAction({
     if (
       id &&
       category_id &&
+      typeProduct_id &&
       name &&
       description &&
       price &&
@@ -223,6 +230,7 @@ export async function updateProductAction({
         await editProduct({
           id: id,
           category_id: category_id,
+          typeProduct_id: typeProduct_id,
           name: name,
           description: description,
           price: price,

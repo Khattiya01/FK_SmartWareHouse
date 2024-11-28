@@ -23,7 +23,7 @@ export function TableTypeProduct({
 }) {
   return (
     <div className="w-full overflow-x-auto">
-      <Table className=" min-w-[900px]">
+      <Table className=" ">
         <TableHeader>
           <TableRow className=" bg-main hover:bg-main ">
             <TableHead className="text-white font-bold text-base">

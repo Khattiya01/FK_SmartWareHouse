@@ -23,6 +23,7 @@ import SelectComponents from "@/components/selects/selectComponents";
 import { fetchCategory } from "@/api/manage/manage-category";
 import InputTextareaFormManage from "@/components/inputs/inputTextareaFormManage ";
 import { ImageUploadCompression } from "@/utils/ImageUploadCompression";
+import { fetchTypeProduct } from "@/api/manage/manage-typeProduct";
 
 type DialogAddProductProps = {
   dialogType?: "create" | "edit";
@@ -54,6 +55,9 @@ const DialogAddProduct = ({
   const [fileDelete, setFileDelete] = useState<blobToFile[]>([]);
 
   const [optionCategory, setOptionCategory] = useState<
+    { value: string; label: string }[]
+  >([]);
+  const [optionTypeProduct, setOptionTypeProduct] = useState<
     { value: string; label: string }[]
   >([]);
 
@@ -178,6 +182,7 @@ const DialogAddProduct = ({
 
     const fd = new FormData();
     fd.append("category_id", payload.category_id);
+    fd.append("typeProduct_id", payload.typeProduct_id);
     fd.append("name", payload.name);
     fd.append("description", payload.description);
     fd.append("price", payload.price);
@@ -321,6 +326,7 @@ const DialogAddProduct = ({
       created_at: Date | null;
       updated_at: Date | null;
       category_id: string;
+      typeProduct_id: string;
       name: string;
       description: string | null;
       price: string | null;
@@ -340,6 +346,7 @@ const DialogAddProduct = ({
       created_at: data.created_at,
       updated_at: data.updated_at,
       category_id: data.category_id,
+      typeProduct_id: data.typeProduct_id,
       name: data.name,
       description: data.description,
       price: data.price,
@@ -388,6 +395,7 @@ const DialogAddProduct = ({
       preData.map_image.push(responseFullmap_image_url[0]);
     }
     setValue("category_id", data.category_id);
+    setValue("typeProduct_id", data.typeProduct_id);
     setValue("name", data.name);
     setValue("description", data.description ?? "");
     setValue("price", data.price ?? "");
@@ -426,6 +434,23 @@ const DialogAddProduct = ({
           setValue("category_id", ListOption[0].value);
         }
       });
+      fetchTypeProduct({ page: "1", pageSize: "100000" }).then(
+        (typeProduct) => {
+          const ListOption: SetStateAction<{ value: string; label: string }[]> =
+            [];
+          typeProduct.result.data?.map((item) => {
+            const option = {
+              value: item.id,
+              label: item.name,
+            };
+            ListOption.push(option);
+          });
+          setOptionTypeProduct(ListOption);
+          if (ListOption && ListOption?.length > 0) {
+            setValue("typeProduct_id", ListOption[0].value);
+          }
+        }
+      );
     }
   }, [data, isOpen]);
 
@@ -452,6 +477,16 @@ const DialogAddProduct = ({
                     msgError={errors.name?.message}
                     showLabel
                     required
+                  />
+                  <SelectComponents
+                    option={optionTypeProduct}
+                    defaultValue={
+                      watch("typeProduct_id") ?? optionTypeProduct[0]?.value ?? ""
+                    }
+                    onValueChange={(value) => setValue("typeProduct_id", value)}
+                    name={"ชนิดผลิตภัณฑ์"}
+                    required
+                    showLabel
                   />
                   <SelectComponents
                     option={optionCategory}

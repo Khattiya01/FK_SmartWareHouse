@@ -8,13 +8,13 @@ import { Box, Text } from "@radix-ui/themes";
 import ButtonDefault from "@/components/buttons/buttonDefault";
 import { IoMdAdd } from "react-icons/io";
 import { SelectTypeProduct } from "@/db/schemas";
-import DialogAddCategory from "../dialogs/dialogAddCategory";
 import BoxNotDataTableAdmin from "@/components/boxNotData/boxNotDataTableAdmin";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 import { useSearchParams } from "next/navigation";
 import { useTypeProduct } from "@/app/hooks/useTypeProduct";
 import { deleteTypeProductAction } from "@/actions/typeProduct";
 import { TableTypeProduct } from "../tables/tableTypeProduct";
+import DialogAddTypeProduct from "../dialogs/dialogAddTypeProduct";
 
 export function ManageTypeProduct() {
   // states
@@ -146,13 +146,13 @@ export function ManageTypeProduct() {
           <BoxLoadingData height="300px" />
         )}
 
-        {/* <DialogAddCategory
+        <DialogAddTypeProduct
           dialogType={activeTypeProductData ? "edit" : "create"}
           data={activeTypeProductData}
           onSuccess={onSuccessDailogTypeProduct}
           onCancel={onCancelDailogTypeProduct}
           isOpen={openDialogCreateTypeProduct}
-        /> */}
+        />
 
         <DialogDelete
           handleClose={handleCloseDialogDelete}

@@ -6,9 +6,17 @@ import FollowUs from "./FollowUs";
 import ContactInfo from "./ContactInfo";
 import { getCategory } from "@/services/category";
 import { getContactIsActive } from "@/services/contact";
+import { getTypeProduct } from "@/services/typeProduct";
 
 const MainFooter = async () => {
-  const responseGetCategory = await getCategory({page: "1", pageSize: "100000"});
+  const responseGetTypeProduct = await getTypeProduct({
+    page: " 1",
+    pageSize: "10",
+  });
+  const responseGetCategory = await getCategory({
+    page: "1",
+    pageSize: "100000",
+  });
   const contact = await getContactIsActive();
 
   return (
@@ -23,10 +31,13 @@ const MainFooter = async () => {
           gap={"6"}
         >
           <Flex gap={"4"} direction={"column"} justify={"between"}>
-            <ListMenu category={responseGetCategory.data}/>
+            <ListMenu
+              category={responseGetCategory.data}
+              typeProduct={responseGetTypeProduct.data}
+            />
           </Flex>
-          <ContactInfo contact={contact}/>
-          <FollowUs contact={contact}/>
+          <ContactInfo contact={contact} />
+          <FollowUs contact={contact} />
         </Grid>
       </Flex>
       <Flex
@@ -35,7 +46,9 @@ const MainFooter = async () => {
         pb={"2"}
         className=" bg-[#f5f5f7] text-black"
       >
-        <Text className=" sm:text-sm text-[12px]">© Copyright 2024 by FK-SWH.com</Text>
+        <Text className=" sm:text-sm text-[12px]">
+          © Copyright 2024 by FK-SWH.com
+        </Text>
       </Flex>
     </Flex>
   );

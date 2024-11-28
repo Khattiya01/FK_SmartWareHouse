@@ -34,9 +34,17 @@ export const getProducts = async ({
           id: categoryTable.id,
           name: categoryTable.name,
         },
+        typeProduct: {
+          id: typeProductTable.id,
+          name: typeProductTable.name,
+        },
       })
       .from(productsTable)
-      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id));
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id))
+      .leftJoin(
+        typeProductTable,
+        eq(productsTable.typeProduct_id, typeProductTable.id)
+      );
     if (category != "") {
       if (searchText != "") {
         query.where(
@@ -71,7 +79,8 @@ export const getProducts = async ({
     const totalQuery = db
       .select({ count: count() })
       .from(productsTable)
-      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id)); // Join with category table
+      .leftJoin(categoryTable, eq(productsTable.category_id, categoryTable.id)) // Join with category table
+      .leftJoin(typeProductTable, eq(productsTable.typeProduct_id, typeProductTable.id)); // Join with category table
 
     if (category != "") {
       if (searchText != "") {
@@ -179,7 +188,10 @@ export const getProductsByTypeProductId = async (id: string) => {
       })
       .from(productsTable)
       .where(eq(productsTable.typeProduct_id, id))
-      .leftJoin(typeProductTable, eq(productsTable.typeProduct_id, typeProductTable.id));
+      .leftJoin(
+        typeProductTable,
+        eq(productsTable.typeProduct_id, typeProductTable.id)
+      );
     return data;
   } catch (error) {
     console.error("Error fetching products:", error);

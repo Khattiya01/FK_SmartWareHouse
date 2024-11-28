@@ -2,6 +2,7 @@ import { blobToFile } from "../file";
 
 export type CreatProductType = {
   category_id: string;
+  typeProduct_id: string;
   name: string;
   description: string;
   price: string;

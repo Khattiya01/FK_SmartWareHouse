@@ -1,6 +1,6 @@
 "use client";
 
-import { SelectCategory } from "@/db/schemas";
+import { SelectCategory, SelectTypeProductIncludeProduct } from "@/db/schemas";
 import { Box, Flex, Link, Text } from "@radix-ui/themes";
 import { ReactNode, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
@@ -8,32 +8,25 @@ import { FaAngleDown } from "react-icons/fa";
 const MenuItem = (props: {
   name: ReactNode;
   iconRight?: ReactNode;
-  onMouseEnter?: React.MouseEventHandler<HTMLDivElement>;
-  onMouseLeave?: React.MouseEventHandler<HTMLDivElement>;
   otherListMenuItems?: ReactNode;
-  onClick: () => void;
 }) => {
-  const {
-    name,
-    iconRight,
-    onMouseEnter,
-    onMouseLeave,
-    otherListMenuItems,
-    onClick,
-  } = props;
+  const { name, iconRight, otherListMenuItems } = props;
+
+  const [showDetail, setShowDetail] = useState<boolean>(false);
 
   return (
     <Flex
       direction={"column"}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onClick={onClick}
+      onMouseEnter={() => setShowDetail(true)}
+      onMouseLeave={() => setShowDetail(false)}
+      onClick={() => setShowDetail(!showDetail)}
     >
       <Flex className=" cursor-pointer" justify={"between"} align={"center"}>
         <Box className=" py-2 text-white hover:text-blue-500 ">{name}</Box>
         {iconRight}
       </Flex>
-      {otherListMenuItems}
+
+      {showDetail && <div className=" pl-2">{otherListMenuItems}</div>}
     </Flex>
   );
 };
@@ -48,27 +41,25 @@ const LinkItem = ({ name, href }: { name: string; href: string }) => {
 
 export const ListMenu = (props: {
   category: SelectCategory[];
+  typeProduct: SelectTypeProductIncludeProduct[];
   isAdmin?: boolean | null;
 }) => {
-  const { category, isAdmin } = props;
-  const [showDetail, setShowDetail] = useState<boolean>(false);
+  const { category, isAdmin, typeProduct } = props;
 
   return (
     <Flex direction={"column"}>
-      <MenuItem
-        name={<LinkItem name={"หน้าแรก"} href={"/"} />}
-        onClick={() => {}}
-      />
+      <MenuItem name={<LinkItem name={"หน้าแรก"} href={"/"} />} />
       <hr />
-      <MenuItem
-        name={"อสังหาริมทรัพย์"}
-        iconRight={<FaAngleDown className=" text-white" />}
-        onMouseEnter={() => setShowDetail(true)}
-        onMouseLeave={() => setShowDetail(false)}
-        otherListMenuItems={
-          showDetail && (
-            <>
-              {category &&
+      {typeProduct &&
+        typeProduct?.length > 0 &&
+        typeProduct.map((item) => (
+          <>
+            <MenuItem
+              key={item.id}
+              name={item.name}
+              iconRight={<FaAngleDown className=" text-white" />}
+              otherListMenuItems={
+                category &&
                 category?.length > 0 &&
                 category?.map((item) => (
                   <MenuItem
@@ -79,27 +70,36 @@ export const ListMenu = (props: {
                         href={`/category/${item.name}`}
                       />
                     }
-                    onClick={() => {}}
                   />
-                ))}
-            </>
-          )
+                ))
+              }
+            />
+            <hr />
+          </>
+        ))}
+      <MenuItem
+        name={"อสังหาริมทรัพย์"}
+        iconRight={<FaAngleDown className=" text-white" />}
+        otherListMenuItems={
+          category &&
+          category?.length > 0 &&
+          category?.map((item) => (
+            <MenuItem
+              key={item.id}
+              name={
+                <LinkItem name={item.name} href={`/category/${item.name}`} />
+              }
+            />
+          ))
         }
-        onClick={() => setShowDetail(!showDetail)}
       />
 
       <hr />
-      <MenuItem
-        name={<LinkItem name={"ติดต่อเรา"} href={"/contact"} />}
-        onClick={() => {}}
-      />
+      <MenuItem name={<LinkItem name={"ติดต่อเรา"} href={"/contact"} />} />
       {isAdmin && (
         <>
           <hr />
-          <MenuItem
-            name={<LinkItem name={"ADMIN"} href={"/admin"} />}
-            onClick={() => {}}
-          />
+          <MenuItem name={<LinkItem name={"ADMIN"} href={"/admin"} />} />
         </>
       )}
     </Flex>

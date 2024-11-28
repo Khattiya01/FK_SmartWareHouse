@@ -3,6 +3,7 @@ import { z, ZodType } from "zod";
 
 export const CreateProduct: ZodType<CreatProductType> = z.object({
   category_id: z.string().min(1, { message: "Category id is required" }),
+  typeProduct_id: z.string().min(1, { message: "Type Product id is required" }),
   name: z.string().min(1, { message: "Product name is required" }),
   description: z.string().min(1, { message: "description is required" }),
   price: z.string().min(1, { message: "price is required" }),

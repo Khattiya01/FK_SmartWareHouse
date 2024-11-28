@@ -61,6 +61,17 @@ export interface SelectProductIncludeCategory extends SelectProduct {
     name: string;
   } | null;
 }
+export interface SelectProductIncludeCategoryAndTypeProduct
+  extends SelectProduct {
+  category: {
+    id: string;
+    name: string;
+  } | null;
+  typeProduct: {
+    id: string;
+    name: string;
+  } | null;
+}
 export type DeleteProduct = {
   id: string;
 };
