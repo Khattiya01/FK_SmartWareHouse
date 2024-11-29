@@ -100,7 +100,7 @@ const NavbarMenu = async () => {
                 <ListMenuNavbar
                   key={category.id}
                   title={category.name}
-                  href={`/category/${category.name}`}
+                  href={`/type-product/${typeProduct.name}?category=${category.name}`}
                 />
               );
             })

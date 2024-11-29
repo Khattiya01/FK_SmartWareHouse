@@ -9,11 +9,14 @@ import ContentDetail2 from "./components/contentDetail2";
 import { getHomeDetailIsActive } from "@/services/homeDetail";
 import { getCategoryIsActive } from "@/services/category";
 import { getContactIsActive } from "@/services/contact";
+import { getProductsIsactive } from "@/services/product";
 
 export default async function Homepage() {
   const responseGetHomeDetailIsActive = await getHomeDetailIsActive();
   const responseGetCategory = await getCategoryIsActive();
   const contact = await getContactIsActive();
+
+  const responseProducts = await getProductsIsactive();
 
   return (
     <MainLayout>
@@ -34,7 +37,10 @@ export default async function Homepage() {
         imageURL={responseGetHomeDetailIsActive?.content_02_image_url}
         detail={responseGetHomeDetailIsActive?.content_02_detail}
       />
-      <ContentProduct category={responseGetCategory} />
+      <ContentProduct
+        category={responseGetCategory}
+        products={responseProducts}
+      />
       <ContentCategory category={responseGetCategory} />
       <ContentContactUs
         imageURL={responseGetHomeDetailIsActive?.contact_image_url}

@@ -64,6 +64,7 @@ export default async function ProductPage({
           image_url={product.main_image}
           product_id={product.product_id}
           categoryName={product.category?.name}
+          typeProductName={product.typeProduct?.name}
         />
         <OtherImage otherImage={product.others_image?.split(",")} />
         <ContentProduct product={product} otherProducts={otherProducts} />

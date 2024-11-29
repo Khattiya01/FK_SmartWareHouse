@@ -8,8 +8,16 @@ const HeaderProduct = (props: {
   image_url: string | null;
   product_id: string | null;
   categoryName: string | undefined;
+  typeProductName: string | undefined;
 }) => {
-  const { name, address, image_url, product_id, categoryName } = props;
+  const {
+    name,
+    address,
+    image_url,
+    product_id,
+    categoryName,
+    typeProductName,
+  } = props;
   return (
     <Flex direction={"column"} width={"100%"} gap={"4"}>
       <Flex direction={"column"} gap={"2"}>
@@ -22,9 +30,16 @@ const HeaderProduct = (props: {
         <Box>
           <Text>{address ?? "-"}</Text>
         </Box>
-        <Box>
-          <Text className=" text-blue-600 font-medium">{categoryName}</Text>
-        </Box>
+        <Flex gap={"4"}>
+          <Box className=" bg-blue-100 px-2 py-1 rounded-md">
+            <Text className=" text-blue-600 font-medium">
+              {typeProductName}
+            </Text>
+          </Box>
+          <Box className=" bg-blue-100 px-2 py-1 rounded-md">
+            <Text className=" text-blue-600 font-medium ">{categoryName}</Text>
+          </Box>
+        </Flex>
       </Flex>
       <Flex
         direction={"column"}

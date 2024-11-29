@@ -1,12 +1,16 @@
 import { Box, Flex, Tabs } from "@radix-ui/themes";
 import React from "react";
 import ProductDetail from "./productDetail";
-import { SelectCategoryIncludeProduct } from "@/db/schemas";
+import {
+  SelectCategoryIncludeProduct,
+  SelectProductIncludeCategoryAndTypeProduct,
+} from "@/db/schemas";
 
 const ContentProduct = (props: {
   category: SelectCategoryIncludeProduct[];
+  products: SelectProductIncludeCategoryAndTypeProduct[];
 }) => {
-  const { category } = props;
+  const { category, products } = props;
   let defaultCategory = "";
   if (category && category?.length > 0) {
     defaultCategory = category[0].name;
@@ -41,7 +45,9 @@ const ContentProduct = (props: {
                 className="TabsContent"
                 value={item.name}
               >
-                <ProductDetail products={item.products} />
+                <ProductDetail
+                  products={products.filter((p) => p.category_id === item.id)}
+                />
               </Tabs.Content>
             ))}
         </Box>

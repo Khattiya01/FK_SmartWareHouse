@@ -52,11 +52,11 @@ export const ListMenu = (props: {
       <hr />
       {typeProduct &&
         typeProduct?.length > 0 &&
-        typeProduct.map((item) => (
+        typeProduct.map((typeProduct) => (
           <>
             <MenuItem
-              key={item.id}
-              name={item.name}
+              key={typeProduct.id}
+              name={typeProduct.name}
               iconRight={<FaAngleDown className=" text-white" />}
               otherListMenuItems={
                 category &&
@@ -67,7 +67,7 @@ export const ListMenu = (props: {
                     name={
                       <LinkItem
                         name={item.name}
-                        href={`/category/${item.name}`}
+                        href={`/type-product/${typeProduct.name}?category=${item.name}`}
                       />
                     }
                   />

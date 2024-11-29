@@ -1,6 +1,9 @@
 import ProductDetail from "@/app/(homepage)/components/productDetail";
 import { ContactItem } from "@/components/footers/ContactInfo";
-import { SelectProductIncludeCategory } from "@/db/schemas";
+import {
+  SelectProductIncludeCategory,
+  SelectProductIncludeCategoryAndTypeProduct,
+} from "@/db/schemas";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import React from "react";
@@ -9,7 +12,7 @@ import { FiPhone } from "react-icons/fi";
 
 const ContentProduct = (props: {
   product: SelectProductIncludeCategory;
-  otherProducts: SelectProductIncludeCategory[];
+  otherProducts: SelectProductIncludeCategoryAndTypeProduct[];
 }) => {
   const { product, otherProducts } = props;
   return (

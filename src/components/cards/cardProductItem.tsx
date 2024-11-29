@@ -1,9 +1,11 @@
-import { SelectProduct } from "@/db/schemas";
+import { SelectProductIncludeCategoryAndTypeProduct } from "@/db/schemas";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import Link from "next/link";
 
-const CardProductItem = (props: { product: SelectProduct }) => {
+const CardProductItem = (props: {
+  product: SelectProductIncludeCategoryAndTypeProduct;
+}) => {
   const { product } = props;
   return (
     <Link href={`/product/${product?.product_id}`}>
@@ -43,9 +45,9 @@ const CardProductItem = (props: { product: SelectProduct }) => {
         </Box> */}
 
         <Flex direction={"column"} gap={"2"} p={"4"}>
-          {/* <Text className=" text-blue-600 font-medium cursor-pointer">
-            {product.category?.name}
-          </Text> */}
+          <Text className=" text-blue-600 font-medium cursor-pointer">
+            {product.typeProduct?.name}
+          </Text>
           <Text className=" font-medium cursor-pointer h-12 text-overflow-line-clamp-2">
             {product.name ?? "-"}
           </Text>
