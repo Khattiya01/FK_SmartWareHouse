@@ -5,14 +5,18 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 import { ListMenu } from "../footers/ListMenu";
 import useScreenSize from "@/hooks/useScreenSize";
-import { SelectCategoryIncludeProduct } from "@/db/schemas";
+import {
+  SelectCategoryIncludeProduct,
+  SelectTypeProductIncludeProduct,
+} from "@/db/schemas";
 import { useSession } from "next-auth/react";
 import { ROLE } from "@/types/role";
 
 export const NavbarMenuMobile = (props: {
   category: SelectCategoryIncludeProduct[];
+  typeProduct: SelectTypeProductIncludeProduct[];
 }) => {
-  const { category } = props;
+  const { category, typeProduct } = props;
   const [openMenu, setOpenMenu] = useState(false);
 
   const { width } = useScreenSize();
@@ -38,6 +42,7 @@ export const NavbarMenuMobile = (props: {
       >
         <ListMenu
           category={category}
+          typeProduct={typeProduct}
           isAdmin={
             session &&
             (session.user.role === ROLE[0] || session.user.role === ROLE[1])

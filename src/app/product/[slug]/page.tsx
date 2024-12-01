@@ -15,7 +15,7 @@ export async function generateStaticParams() {
   const product = await getProductsIsactive();
 
   return product.map((item) => ({
-    id: item.product_id,
+    slug: item.product_id,
   }));
 }
 

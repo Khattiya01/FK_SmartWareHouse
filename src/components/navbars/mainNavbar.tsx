@@ -46,7 +46,7 @@ const NavbarMenuItemList = async ({
   width?: string;
 }) => {
   return (
-    <NavigationMenu.Root className="relative z-10 ">
+    <NavigationMenu.Root className="relative z-[100] ">
       <NavigationMenu.List className="center m-0 flex list-none rounded-md">
         <NavigationMenu.Item>
           <NavigationMenu.Trigger className="group flex select-none items-center justify-between gap-0.5 rounded px-3 py-2 text-[15px] font-medium leading-none text-violet11 outline-none hover:bg-violet3 focus:shadow-[0_0_0_2px] focus:shadow-violet7">
@@ -131,6 +131,10 @@ const NavbarMenu = async () => {
 
 const MainNavbar = async () => {
   const responseLogos = await getLogosIsActived();
+  const responseGetTypeProduct = await getTypeProduct({
+    page: " 1",
+    pageSize: "10",
+  });
   const responseGetCategory = await getCategory({
     page: "1",
     pageSize: "100000",
@@ -170,7 +174,10 @@ const MainNavbar = async () => {
         {/* desktop menu */}
         <NavbarMenu />
         {/* mobile menu */}
-        <NavbarMenuMobile category={responseGetCategory.data} />
+        <NavbarMenuMobile
+          category={responseGetCategory.data}
+          typeProduct={responseGetTypeProduct.data}
+        />
       </Flex>
     </Flex>
   );

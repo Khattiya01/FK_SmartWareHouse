@@ -7,7 +7,7 @@ import Providers from "./provider";
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | FK WareHouse",
+    template: "%s - FK WareHouse",
     default: "FK WareHouse",
   },
   description:
