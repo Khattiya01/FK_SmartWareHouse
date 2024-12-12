@@ -71,7 +71,7 @@ export function ManageTypeProduct() {
           if (res?.success) {
             refetchTypeProduct();
             showToast(
-              "ลบผลิตภัณฑ์สำเร็จ",
+              "ลบชนิดผลิตภัณฑ์สำเร็จ",
               "",
               new Date(),
               typeStatusTaost.success
@@ -79,7 +79,7 @@ export function ManageTypeProduct() {
           } else {
             console.error("Error delete delete type product:", res?.message);
             showToast(
-              "ลบผลิตภัณฑ์ไม่สำเร็จ",
+              "ลบชนิดผลิตภัณฑ์ไม่สำเร็จ",
               "",
               new Date(),
               typeStatusTaost.error

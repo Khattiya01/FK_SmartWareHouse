@@ -1,7 +1,7 @@
 "use client";
 
 import { SelectCategory, SelectTypeProductIncludeProduct } from "@/db/schemas";
-import { Box, Flex, Link, Text } from "@radix-ui/themes";
+import { Box, Flex, Link } from "@radix-ui/themes";
 import { ReactNode, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
 
@@ -22,7 +22,9 @@ const MenuItem = (props: {
       onClick={() => setShowDetail(!showDetail)}
     >
       <Flex className=" cursor-pointer" justify={"between"} align={"center"}>
-        <Box className=" py-2 text-white hover:text-blue-500 ">{name}</Box>
+        <Box className="w-full py-2 text-white hover:text-blue-500 ">
+          {name}
+        </Box>
         {iconRight}
       </Flex>
 
@@ -34,7 +36,7 @@ const MenuItem = (props: {
 const LinkItem = ({ name, href }: { name: string; href: string }) => {
   return (
     <Link style={{ textDecoration: "none" }} href={href}>
-      <Text className="  text-white hover:text-blue-500">{name} </Text>
+      <Box className="w-full text-white hover:text-blue-500">{name}</Box>
     </Link>
   );
 };
@@ -50,7 +52,7 @@ export const ListMenu = (props: {
     <Flex direction={"column"}>
       <MenuItem name={<LinkItem name={"หน้าแรก"} href={"/"} />} />
       <hr />
-      {typeProduct &&
+      {/* {typeProduct &&
         typeProduct?.length > 0 &&
         typeProduct.map((typeProduct) => (
           <>
@@ -76,18 +78,38 @@ export const ListMenu = (props: {
             />
             <hr />
           </>
-        ))}
+        ))} */}
       <MenuItem
         name={"อสังหาริมทรัพย์"}
         iconRight={<FaAngleDown className=" text-white" />}
         otherListMenuItems={
           category &&
           category?.length > 0 &&
-          category?.map((item) => (
+          category?.map((c) => (
+            // <MenuItem
+            //   key={item.id}
+            //   name={
+            //     <LinkItem name={item.name} href={`/category/${item.name}`} />
+            //   }
+            // />
             <MenuItem
-              key={item.id}
-              name={
-                <LinkItem name={item.name} href={`/category/${item.name}`} />
+              key={c.id}
+              name={c.name}
+              iconRight={<FaAngleDown className=" text-white" />}
+              otherListMenuItems={
+                typeProduct &&
+                typeProduct?.length > 0 &&
+                typeProduct?.map((t) => (
+                  <MenuItem
+                    key={t.id}
+                    name={
+                      <LinkItem
+                        name={t.name}
+                        href={`/type-product/${t.name}?category=${c.name}`}
+                      />
+                    }
+                  />
+                ))
               }
             />
           ))

@@ -10,6 +10,22 @@ import NavbarMenuItemAdmin from "./navbarMenuItemAdmin";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { CaretDownIcon } from "@radix-ui/react-icons";
 import { getTypeProduct } from "@/services/typeProduct";
+import { NavbarListMenuItems } from "./navbarListMenuItems";
+
+const LinkItem = ({ name, href }: { name: string; href: string }) => {
+  return (
+    <Link
+      style={{
+        textDecoration: "none",
+        width: "100%",
+        backgroundColor: "red",
+      }}
+      href={href}
+    >
+      <Box className=" -full text-black hover:text-blue-500">{name}</Box>
+    </Link>
+  );
+};
 
 const NavbarMenuItem = (props: { title: string; href: string }) => {
   const { title, href } = props;
@@ -25,16 +41,16 @@ const NavbarMenuItem = (props: { title: string; href: string }) => {
   );
 };
 
-const ListMenuNavbar = ({ title, href }: { title: string; href: string }) => {
-  return (
-    <Link
-      href={href}
-      className=" py-2 hover:text-blue-500 text-black cursor-pointer"
-    >
-      {title}
-    </Link>
-  );
-};
+// const ListMenuNavbar = ({ title, href }: { title: string; href: string }) => {
+//   return (
+//     <Link
+//       href={href}
+//       className=" py-2 hover:text-blue-500 text-black cursor-pointer"
+//     >
+//       {title}
+//     </Link>
+//   );
+// };
 
 const NavbarMenuItemList = async ({
   title,
@@ -65,7 +81,7 @@ const NavbarMenuItemList = async ({
             />
           </NavigationMenu.Trigger>
           <NavigationMenu.Content className="absolute left-0 top-10 bg-white rounded-md py-3 px-3 w-[300px] max-w-[300px] data-[motion=from-end]:animate-enterFromRight data-[motion=from-start]:animate-enterFromLeft data-[motion=to-end]:animate-exitToRight data-[motion=to-start]:animate-exitToLeft sm:w-auto">
-            <Flex gap={"2"} direction={"column"} width={"160px"}>
+            <Flex gap={"0"} direction={"column"} width={"160px"}>
               {content}
             </Flex>
           </NavigationMenu.Content>
@@ -88,7 +104,7 @@ const NavbarMenu = async () => {
   return (
     <div className="sm:flex hidden items-center mr-8 text-white">
       <NavbarMenuItem title={"หน้าแรก"} href={"/"} />
-      {responseGetTypeProduct.data?.map((typeProduct) => (
+      {/* {responseGetTypeProduct.data?.map((typeProduct) => (
         <NavbarMenuItemList
           key={typeProduct.id}
           title={typeProduct.name}
@@ -107,18 +123,59 @@ const NavbarMenu = async () => {
           }
           width="auto"
         />
-      ))}
+      ))} */}
       <NavbarMenuItemList
         title={"อสังหาริมทรัพย์"}
         content={
           responseGetCategory.data &&
           responseGetCategory.data?.length > 0 &&
-          responseGetCategory.data?.map((item) => (
-            <ListMenuNavbar
-              key={item.id}
-              title={item.name}
-              href={`/category/${item.name}`}
+          responseGetCategory.data?.map((category) => (
+            <NavbarListMenuItems
+              key={category.id}
+              name={category.name}
+              iconRight={
+                <CaretDownIcon
+                  className="text-black transition-transform duration-[250] ease-in group-data-[state=open]:-rotate-180"
+                  aria-hidden
+                />
+              }
+              otherListMenuItems={
+                responseGetTypeProduct.data &&
+                responseGetTypeProduct.data?.length > 0 &&
+                responseGetTypeProduct.data?.map((typeProduct) => (
+                  <NavbarListMenuItems
+                    key={typeProduct.id}
+                    name={
+                      <LinkItem
+                        name={typeProduct.name}
+                        href={`/type-product/${typeProduct.name}?category=${category.name}`}
+                      />
+                    }
+                  />
+                ))
+              }
             />
+            // <NavbarMenuItemList
+            //   key={category.id}
+            //   title={category.name}
+            //   content={
+            //     responseGetTypeProduct.data &&
+            //     responseGetTypeProduct.data?.length > 0 &&
+            //     responseGetTypeProduct.data?.map((typeProduct) => (
+            //       <ListMenuNavbar
+            //         key={typeProduct.id}
+            //         title={typeProduct.name}
+            //         href={`/type-product/${typeProduct.name}?category=${category.name}`}
+            //       />
+            //     ))
+            //   }
+            //   width="auto"
+            // />
+            // <ListMenuNavbar
+            //   key={item.id}
+            //   title={item.name}
+            //   href={`/category/${item.name}`}
+            // />
           ))
         }
         width="auto"
