@@ -19,8 +19,8 @@ export const NavbarListMenuItems = (props: {
   return (
     <Flex
       direction={"column"}
-      // onMouseEnter={() => setShowDetail(true)}
-      // onMouseLeave={() => setShowDetail(false)}
+      onMouseEnter={() => setShowDetail(true)}
+      onMouseLeave={() => setShowDetail(false)}
     >
       <Flex justify={"between"} align={"center"}>
         <Box

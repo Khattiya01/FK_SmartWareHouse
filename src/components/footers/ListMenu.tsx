@@ -17,16 +17,20 @@ const MenuItem = (props: {
   return (
     <Flex
       direction={"column"}
-      // onMouseEnter={() => setShowDetail(true)}
-      // onMouseLeave={() => setShowDetail(false)}
+      onMouseEnter={() => setShowDetail(true)}
+      onMouseLeave={() => setShowDetail(false)}
       // onClick={() => setShowDetail(!showDetail)}
     >
       <Flex
         className=" text-white hover:text-blue-500"
         justify={"between"}
         align={"center"}
+        // onMouseEnter={() => setShowDetail(true)}
+        // onMouseLeave={() => setShowDetail(false)}
       >
-        <Box className="py-2  ">{name}</Box>
+        <Box className="py-2  " onClick={() => setShowDetail(!showDetail)}>
+          {name}
+        </Box>
         <Box
           onClick={() => setShowDetail(!showDetail)}
           className=" cursor-pointer"
