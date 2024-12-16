@@ -21,11 +21,18 @@ const MenuItem = (props: {
       // onMouseLeave={() => setShowDetail(false)}
       // onClick={() => setShowDetail(!showDetail)}
     >
-      <Flex className=" text-white hover:text-blue-500" justify={"between"} align={"center"}>
-        <Box className="w-full py-2  ">
-          {name}
+      <Flex
+        className=" text-white hover:text-blue-500"
+        justify={"between"}
+        align={"center"}
+      >
+        <Box className="py-2  ">{name}</Box>
+        <Box
+          onClick={() => setShowDetail(!showDetail)}
+          className=" cursor-pointer"
+        >
+          {iconRight}
         </Box>
-        <Box onClick={() => setShowDetail(!showDetail)} className=" cursor-pointer">{iconRight}</Box>
       </Flex>
 
       {showDetail && <div className=" pl-2">{otherListMenuItems}</div>}
@@ -94,7 +101,8 @@ export const ListMenu = (props: {
             // />
             <MenuItem
               key={c.id}
-              name={c.name}
+              name={<LinkItem name={c.name} href={`/category/${c.name}`} />}
+              // name={c.name}
               iconRight={<FaAngleDown className=" text-white" />}
               otherListMenuItems={
                 typeProduct &&

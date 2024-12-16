@@ -115,8 +115,8 @@ const DialogHomeDetail = ({
       setOpenAlertFileSize(true);
       return [];
     } else {
-      console.log("uploadFiles", uploadFiles)
-      console.log("mockFiles", mockFiles)
+      console.log("uploadFiles", uploadFiles);
+      console.log("mockFiles", mockFiles);
       return [...currentFile, ...mockFiles];
     }
   };
@@ -199,10 +199,11 @@ const DialogHomeDetail = ({
     if (dialogType === "edit" && data?.id) {
       await updateHomePageDetailAction({ formData: fd, id: data.id })
         .then(async (res) => {
-          setIsLoadingSubmit(false);
           clearData();
 
           if (res?.success) {
+            onSuccess();
+
             const All_file_url =
               data.banner_image_url +
               "," +
@@ -212,7 +213,8 @@ const DialogHomeDetail = ({
             for (const file of All_file_url.split(",")) {
               await deleteFileAction({ file_url: file });
             }
-            onSuccess();
+            setIsLoadingSubmit(false);
+
             showToast(
               "แก้ไขรายละเอียดหน้าแรกสำเร็จ",
               "",

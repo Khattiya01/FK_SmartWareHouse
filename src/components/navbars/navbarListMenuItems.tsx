@@ -21,17 +21,26 @@ export const NavbarListMenuItems = (props: {
       direction={"column"}
       // onMouseEnter={() => setShowDetail(true)}
       // onMouseLeave={() => setShowDetail(false)}
-      onClick={() => {
-        if (href) {
-          router.push(href);
-        }
-      }}
     >
-      <Flex className=" cursor-pointer" justify={"between"} align={"center"}>
-        <Box className=" py-2 text-black hover:text-blue-500 w-full ">
+      <Flex justify={"between"} align={"center"}>
+        <Box
+          className=" py-2 text-black hover:text-blue-500 cursor-pointer"
+          onClick={() => {
+            if (href) {
+              router.push(href);
+            }
+          }}
+        >
           {name}
         </Box>
-        <Box onClick={() => setShowDetail(!showDetail)}>{iconRight}</Box>
+        {iconRight && (
+          <Box
+            onClick={() => setShowDetail(!showDetail)}
+            className=" cursor-pointer w-4 h-4 align-middle text-center"
+          >
+            {iconRight}
+          </Box>
+        )}
       </Flex>
 
       {showDetail && <div className=" pl-2">{otherListMenuItems}</div>}

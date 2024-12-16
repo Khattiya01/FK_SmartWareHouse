@@ -143,15 +143,17 @@ const DialogAddLogo = ({
     if (dialogType === "edit" && data?.id) {
       await updateLogoAction({ formData: fd, id: data.id })
         .then(async (res) => {
-          setIsLoadingSubmit(false);
           clearData();
 
           if (res?.success) {
+            onSuccess();
+
             const All_file_url = data.image_url;
             for (const file of All_file_url.split(",")) {
               await deleteFileAction({ file_url: file });
             }
-            onSuccess();
+            setIsLoadingSubmit(false);
+
             showToast(
               "แก้ไขโลโก้สำเร็จ",
               "",

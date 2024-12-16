@@ -191,15 +191,17 @@ const DialogAddContact = ({
     if (dialogType === "edit" && data?.id) {
       await updateContactAction({ formData: fd, id: data.id })
         .then(async (res) => {
-          setIsLoadingSubmit(false);
           clearData();
 
           if (res?.success) {
+            onSuccess();
+
             const All_file_url = data.bg_image + "," + data.map_image;
             for (const file of All_file_url.split(",")) {
               await deleteFileAction({ file_url: file });
             }
-            onSuccess();
+            setIsLoadingSubmit(false);
+
             showToast(
               "แก้ไขการติดต่อสำเร็จ",
               "",

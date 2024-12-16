@@ -1,5 +1,5 @@
 {
-  "id": "d7d54e03-41b1-4fe0-ab39-7655967ab946",
+  "id": "5d3ad226-7f1c-4349-bfce-70fdd56d539b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -13,7 +13,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'0160f017-a8e5-45da-8b66-d304ea6cff59'"
+          "default": "'20408545-35f6-4f6d-bca1-66c1856c79df'"
         },
         "username": {
           "name": "username",
@@ -96,7 +96,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'7484fb13-951b-4273-a5d1-01d2292492e7'"
+          "default": "'4f1336e4-05bf-4bf3-a8cd-a7a3fc17e7fc'"
         },
         "file_url": {
           "name": "file_url",
@@ -150,7 +150,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'c5b730d6-9ffe-4726-a055-9c01f75a6030'"
+          "default": "'2c41bc92-f262-4917-b86f-89d23f69b0a5'"
         },
         "image_url": {
           "name": "image_url",
@@ -193,7 +193,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'ce50eb3b-718b-4ac5-a820-3a4f4a6b190a'"
+          "default": "'7604ab26-12f1-49d7-ba0b-7cefb1eae4fd'"
         },
         "banner_image_url": {
           "name": "banner_image_url",
@@ -279,7 +279,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'7f26f04a-b566-4535-8c52-0d25af394289'"
+          "default": "'e46687fc-0794-4bc5-8a24-62a2e91a0179'"
         },
         "product_id": {
           "name": "product_id",
@@ -297,7 +297,7 @@
           "name": "typeProduct_id",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "name": {
           "name": "name",
@@ -445,7 +445,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'a05346a5-a4dd-4ebb-9c04-5167bce4bb3c'"
+          "default": "'77b6dc7a-b130-4b48-8b56-9349139ecd6a'"
         },
         "image_url": {
           "name": "image_url",
@@ -508,7 +508,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'f047b6e4-9611-45b9-9517-80454519dc5d'"
+          "default": "'758737da-b7a4-45ac-9e42-c90bf93f31da'"
         },
         "address": {
           "name": "address",
@@ -635,7 +635,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'f294066f-4755-43ac-960a-22f61f48383f'"
+          "default": "'d00cad5d-89d2-41af-9fa0-6c76f6c84b54'"
         },
         "name": {
           "name": "name",
@@ -701,7 +701,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'802d8a56-ebc6-4857-b0bb-a46bd4a684dc'"
+          "default": "'970132d1-383c-4bb0-90ee-f2a7efc6b224'"
         },
         "privacy_policy": {
           "name": "privacy_policy",
@@ -744,7 +744,7 @@
           "type": "uuid",
           "primaryKey": true,
           "notNull": true,
-          "default": "'1c0794eb-3ebf-426d-88a5-56cbe4ff9128'"
+          "default": "'208a48dd-24ee-450b-a1b6-f4eb564a13ec'"
         },
         "name": {
           "name": "name",

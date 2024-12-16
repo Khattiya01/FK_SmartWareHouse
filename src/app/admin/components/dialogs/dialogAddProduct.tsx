@@ -251,10 +251,11 @@ const DialogAddProduct = ({
       await updateProductAction({ formData: fd, id: data.id })
         .then(async (res) => {
           if (res?.success) {
-            setIsLoadingSubmit(false);
             clearData();
 
             if (res?.success) {
+              onSuccess();
+
               const All_file_url =
                 data.main_image +
                 "," +
@@ -264,7 +265,8 @@ const DialogAddProduct = ({
               for (const file of All_file_url.split(",")) {
                 await deleteFileAction({ file_url: file });
               }
-              onSuccess();
+              setIsLoadingSubmit(false);
+
               showToast(
                 "แก้ไขผลิตภัณฑ์สำเร็จ",
                 "",
@@ -346,7 +348,7 @@ const DialogAddProduct = ({
       created_at: data.created_at,
       updated_at: data.updated_at,
       category_id: data.category_id,
-      typeProduct_id: data.typeProduct_id,
+      typeProduct_id: data.typeProduct_id ?? "",
       name: data.name,
       description: data.description,
       price: data.price,
@@ -395,7 +397,7 @@ const DialogAddProduct = ({
       preData.map_image.push(responseFullmap_image_url[0]);
     }
     setValue("category_id", data.category_id);
-    setValue("typeProduct_id", data.typeProduct_id);
+    setValue("typeProduct_id", data.typeProduct_id ?? "");
     setValue("name", data.name);
     setValue("description", data.description ?? "");
     setValue("price", data.price ?? "");
@@ -481,7 +483,9 @@ const DialogAddProduct = ({
                   <SelectComponents
                     option={optionTypeProduct}
                     defaultValue={
-                      watch("typeProduct_id") ?? optionTypeProduct[0]?.value ?? ""
+                      watch("typeProduct_id") ??
+                      optionTypeProduct[0]?.value ??
+                      ""
                     }
                     onValueChange={(value) => setValue("typeProduct_id", value)}
                     name={"ชนิดผลิตภัณฑ์"}
