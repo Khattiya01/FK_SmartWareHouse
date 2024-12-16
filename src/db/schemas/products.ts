@@ -21,7 +21,6 @@ export const productsTable = pgTable("products", {
     .notNull()
     .references(() => categoryTable.id, { onDelete: "cascade" }),
   typeProduct_id: uuid("typeProduct_id")
-    .notNull()
     .references(() => typeProductTable.id),
   name: varchar("name").notNull(),
   description: text("description"),
