@@ -17,15 +17,15 @@ const MenuItem = (props: {
   return (
     <Flex
       direction={"column"}
-      onMouseEnter={() => setShowDetail(true)}
-      onMouseLeave={() => setShowDetail(false)}
-      onClick={() => setShowDetail(!showDetail)}
+      // onMouseEnter={() => setShowDetail(true)}
+      // onMouseLeave={() => setShowDetail(false)}
+      // onClick={() => setShowDetail(!showDetail)}
     >
-      <Flex className=" cursor-pointer" justify={"between"} align={"center"}>
-        <Box className="w-full py-2 text-white hover:text-blue-500 ">
+      <Flex className=" text-white hover:text-blue-500" justify={"between"} align={"center"}>
+        <Box className="w-full py-2  ">
           {name}
         </Box>
-        {iconRight}
+        <Box onClick={() => setShowDetail(!showDetail)} className=" cursor-pointer">{iconRight}</Box>
       </Flex>
 
       {showDetail && <div className=" pl-2">{otherListMenuItems}</div>}

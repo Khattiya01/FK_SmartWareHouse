@@ -139,6 +139,7 @@ const NavbarMenu = async () => {
                   aria-hidden
                 />
               }
+              href={`/category/${category.name}`}
               otherListMenuItems={
                 responseGetTypeProduct.data &&
                 responseGetTypeProduct.data?.length > 0 &&
