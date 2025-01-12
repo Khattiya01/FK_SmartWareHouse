@@ -23,6 +23,7 @@ import AlertDialogComponent from "@/components/alertDialogs/alertDialog";
 import { fetchFileByURL, fetchImages } from "@/api/file";
 import { BoxLoadingData } from "@/components/boxLoading/BoxLoadingData";
 import { ImageUploadCompression } from "@/utils/ImageUploadCompression";
+import InputTextareaFormManage from "@/components/inputs/inputTextareaFormManage ";
 
 type DialogHomeDetailProps = {
   dialogType?: "create" | "edit";
@@ -412,7 +413,15 @@ const DialogHomeDetail = ({
                     showLabel
                     required
                   />
-                  <InputFormManage
+                  {/* <InputFormManage
+                    name={"รายละเอียดเนื้อหาที่ 2"}
+                    placeholder="รายละเอียดเนื้อหาที่ 2"
+                    register={{ ...register("content_02_detail") }}
+                    msgError={errors.content_02_detail?.message}
+                    showLabel
+                    required
+                  /> */}
+                  <InputTextareaFormManage
                     name={"รายละเอียดเนื้อหาที่ 2"}
                     placeholder="รายละเอียดเนื้อหาที่ 2"
                     register={{ ...register("content_02_detail") }}

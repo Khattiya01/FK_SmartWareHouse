@@ -28,7 +28,7 @@ const ContentDetail2 = (props: {
             className="w-full h-full "
           />
         </Box>
-        <Text className="  sm:w-1/2 w-full pl-2 max-sm:pt-2">
+        <Text className="  sm:w-1/2 w-full pl-2 max-sm:pt-2 custom-pre">
           {detail ??
             "FIRSTKAS SMARTWAREHOUSE ขาย-ให้เช่าที่ดิน อสังหาริมทรัย์ ทำเลดี ใกล้ย่านธุรกิจสำคัญ หลากหลายทำเล ในพื้นที่จังหวัดสงขลา- นนทบุรี ทั้ง ที่ดินสำหรับการลงทุน ที่ดินเพื่อสร้างที่อยู่อาศัย อพาร์ทเม้นท์ โกดัง อสังหาริมทรัพย์ที่ต่อยอดธุรกิจได้ทันที"}
         </Text>
