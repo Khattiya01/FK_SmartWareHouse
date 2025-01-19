@@ -1,6 +1,6 @@
 "use client";
 
-import { SelectCategory, SelectTypeProductIncludeProduct } from "@/db/schemas";
+import { SelectCategory } from "@/db/schemas";
 import { Box, Flex, Link } from "@radix-ui/themes";
 import { ReactNode, useState } from "react";
 import { FaAngleDown } from "react-icons/fa";
@@ -54,7 +54,12 @@ const LinkItem = ({ name, href }: { name: string; href: string }) => {
 
 export const ListMenu = (props: {
   category: SelectCategory[];
-  typeProduct: SelectTypeProductIncludeProduct[];
+  typeProduct: {
+    id: string;
+    name: string;
+    created_at: Date | null;
+    updated_at: Date | null;
+  }[];
   isAdmin?: boolean | null;
 }) => {
   const { category, isAdmin, typeProduct } = props;

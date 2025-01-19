@@ -9,7 +9,7 @@ import NavbarMenuItemAdmin from "./navbarMenuItemAdmin";
 
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { CaretDownIcon } from "@radix-ui/react-icons";
-import { getTypeProduct } from "@/services/typeProduct";
+import { getAllTypeProduct, getTypeProduct } from "@/services/typeProduct";
 import { NavbarListMenuItems } from "./navbarListMenuItems";
 
 const LinkItem = ({ name, href }: { name: string; href: string }) => {
@@ -92,10 +92,7 @@ const NavbarMenuItemList = async ({
 };
 
 const NavbarMenu = async () => {
-  const responseGetTypeProduct = await getTypeProduct({
-    page: "1",
-    pageSize: "10",
-  });
+  const responseGetTypeProduct = await getAllTypeProduct();
   const responseGetCategory = await getCategory({
     page: "1",
     pageSize: "100000",
@@ -141,9 +138,9 @@ const NavbarMenu = async () => {
               }
               href={`/category/${category.name}`}
               otherListMenuItems={
-                responseGetTypeProduct.data &&
-                responseGetTypeProduct.data?.length > 0 &&
-                responseGetTypeProduct.data?.map((typeProduct) => (
+                responseGetTypeProduct &&
+                responseGetTypeProduct?.length > 0 &&
+                responseGetTypeProduct?.map((typeProduct) => (
                   <NavbarListMenuItems
                     key={typeProduct.id}
                     name={

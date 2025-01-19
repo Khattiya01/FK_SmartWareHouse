@@ -75,6 +75,20 @@ export const getTypeProduct = async ({
   }
 };
 
+export const getAllTypeProduct = async () => {
+  try {
+    const typeProducts = await db
+      .select()
+      .from(typeProductTable)
+      .orderBy(desc(typeProductTable.created_at));
+
+    return typeProducts;
+  } catch (error) {
+    console.error("Error fetching type product:", error);
+    throw new Error("Could not fetch type product");
+  }
+};
+
 export const getTypeProductIsActive = async () => {
   try {
     const typeProducts = await db

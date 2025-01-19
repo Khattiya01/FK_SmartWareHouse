@@ -6,13 +6,10 @@ import FollowUs from "./FollowUs";
 import ContactInfo from "./ContactInfo";
 import { getCategory } from "@/services/category";
 import { getContactIsActive } from "@/services/contact";
-import { getTypeProduct } from "@/services/typeProduct";
+import { getAllTypeProduct } from "@/services/typeProduct";
 
 const MainFooter = async () => {
-  const responseGetTypeProduct = await getTypeProduct({
-    page: "1",
-    pageSize: "10",
-  });
+  const responseGetTypeProduct = await getAllTypeProduct();
   const responseGetCategory = await getCategory({
     page: "1",
     pageSize: "100000",
@@ -33,7 +30,7 @@ const MainFooter = async () => {
           <Flex gap={"4"} direction={"column"} justify={"between"}>
             <ListMenu
               category={responseGetCategory.data}
-              typeProduct={responseGetTypeProduct.data}
+              typeProduct={responseGetTypeProduct}
             />
           </Flex>
           <ContactInfo contact={contact} />
