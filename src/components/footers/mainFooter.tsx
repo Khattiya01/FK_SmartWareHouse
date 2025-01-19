@@ -10,7 +10,7 @@ import { getTypeProduct } from "@/services/typeProduct";
 
 const MainFooter = async () => {
   const responseGetTypeProduct = await getTypeProduct({
-    page: " 1",
+    page: "1",
     pageSize: "10",
   });
   const responseGetCategory = await getCategory({

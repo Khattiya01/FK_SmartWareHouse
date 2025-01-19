@@ -93,7 +93,7 @@ const NavbarMenuItemList = async ({
 
 const NavbarMenu = async () => {
   const responseGetTypeProduct = await getTypeProduct({
-    page: " 1",
+    page: "1",
     pageSize: "10",
   });
   const responseGetCategory = await getCategory({
@@ -190,7 +190,7 @@ const NavbarMenu = async () => {
 const MainNavbar = async () => {
   const responseLogos = await getLogosIsActived();
   const responseGetTypeProduct = await getTypeProduct({
-    page: " 1",
+    page: "1",
     pageSize: "10",
   });
   const responseGetCategory = await getCategory({
