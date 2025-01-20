@@ -24,7 +24,7 @@ export const productsTable = pgTable("products", {
     .references(() => typeProductTable.id),
   name: varchar("name").notNull(),
   description: text("description"),
-  price: decimal("price", { precision: 10, scale: 2 }),
+  price: decimal("price", { precision: 14, scale: 2 }),
   main_image: text("main_image"),
   map_image: text("map_image"),
   others_image: text("others_image"),
