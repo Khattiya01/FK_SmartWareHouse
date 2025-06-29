@@ -33,7 +33,7 @@ const ListFileCardDragField = (props: ListFileCardFieldProps) => {
               <Box
                 key={file?.id}
                 style={{ position: "relative" }}
-                className=" sm:hidden block"
+                className=" block"
               >
                 <motion.span
                   layout="position"
